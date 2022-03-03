@@ -1,6 +1,6 @@
 (function () {
-    var width = 500;
-    height = 500;
+    var width = 800;
+    height = 600;
 
     let bubbles = null;
     let labels = null;
@@ -65,7 +65,7 @@
             .attr("stroke", "black")
             .attr("stroke-width", "2")
             .attr("r", d => d.radius)
-            .attr("fill", "lightblue")
+            .attr("fill", "gray")
 
         labels = elements
             .append("text")
