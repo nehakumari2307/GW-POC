@@ -61,7 +61,7 @@
     const nodes = csvToNode(data);
     const links = csvToLink(data);
 
-    var width = 900;
+    var width = 950;
     var height = 700;
     var strokeWidth = 1;
 
@@ -137,7 +137,7 @@
 
     function getClickedNodeColor(node, neighbors) {
       if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
-        return 'lightgray'
+        return 'lightblue'
       }
       else if (node.level === 0) {
         return 'lightblack';
