@@ -50,7 +50,7 @@
   };
 
 
-  d3.csv("/csv_data/node_data.csv", function (error, data) {
+  d3.csv("./csv_data/node_data.csv", function (error, data) {
 
     const nodes = csvToNode(data);
     const links = csvToLink(data);

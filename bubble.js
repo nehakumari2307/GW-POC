@@ -37,7 +37,7 @@
 
 
     d3.queue()
-        .defer(d3.csv, "/csv_data/test.csv")
+        .defer(d3.csv, "./csv_data/test.csv")
         .await(ready)
 
     function ready(error, datapoints) {
