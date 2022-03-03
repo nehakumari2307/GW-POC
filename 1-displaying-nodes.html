@@ -137,7 +137,7 @@
 
     function getClickedNodeColor(node, neighbors) {
       if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
-        return 'lightblue'
+        return 'lightgray'
       }
       else if (node.level === 0) {
         return 'lightblack';
@@ -153,7 +153,7 @@
     }
 
     function getClickedNodeSize(node, neighbors) {
-      return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? (node.strength * 70) + 1.0 : (node.strength * 50) + 1.0
+      return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? (node.strength * 55) + 1.0 : (node.strength * 50) + 1.0
 
     }
 
