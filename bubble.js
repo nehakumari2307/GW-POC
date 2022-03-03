@@ -9,6 +9,7 @@
     var svg = d3.select("#chart").append("svg")
         .attr("height", height)
         .attr("width", width)
+        .attr("style", "outline: thick solid black")
         .append("g")
         .attr("transform", "translate(0,0)")
         .attr("class", "bubble")
@@ -65,7 +66,7 @@
             .attr("stroke", "black")
             .attr("stroke-width", "2")
             .attr("r", d => d.radius)
-            .attr("fill", "gray")
+            .attr("fill", "lightgray")
 
         labels = elements
             .append("text")

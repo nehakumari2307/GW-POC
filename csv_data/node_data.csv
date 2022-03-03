@@ -5,9 +5,17 @@ dog,1,Dogs,2,mammal,dog,0.7
 cat,1,Cats,2,mammal,cat,0.7
 fox,1,Foxes,2,mammal,fox,0.7
 elk,1,Elk,2,mammal,elk,0.7
+abyssinian,1,Abyssinian,4,cat,abyssinian,0.5
+bobtail,1,bobtail,4,cat,bobtail,0.5
+wirehair,1,wirehair,4,cat,wirehair,0.5
+bengal,1,Bengal,4,cat,bengal,0.5
+burmese,1,Burmese,4,cat,burmese,0.5
+chartreux,1,Chartreux,4,cat,chartreux,0.5
 insect,2,Insects,1,animal,insect,0.8
 ant,2,Ants,2,insect,ant,0.7
 bee,2,Bees,2,insect,bee,0.7
 fish,3,Fish,1,animal,fish,0.8
 carp,3,Carp,2,fish,carp,0.7
 pike,3,Pikes,2,fish,pike,0.7
+catfish,3,Catfish,2,fish,catfish,0.7
+angelfish,3,Angelfish,2,fish,angelfish,0.7
