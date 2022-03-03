@@ -1,0 +1,13 @@
+id,group,label,level,target,source,strength
+animal,0,Animal,0,animal,animal,1
+mammal,1,Mammals,1,animal,mammal,0.8
+dog,1,Dogs,2,mammal,dog,0.7
+cat,1,Cats,2,mammal,cat,0.7
+fox,1,Foxes,2,mammal,fox,0.7
+elk,1,Elk,2,mammal,elk,0.7
+insect,2,Insects,1,animal,insect,0.8
+ant,2,Ants,2,insect,ant,0.7
+bee,2,Bees,2,insect,bee,0.7
+fish,3,Fish,1,animal,fish,0.8
+carp,3,Carp,2,fish,carp,0.7
+pike,3,Pikes,2,fish,pike,0.7

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+<style type="text/css">
+  .tooltip {
+    fill: white;
+    display: block;
+    font-family: sans-serif;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid grey;
+  }
+</style>
+
+</html>
+
+<div id="interaction" width="1000" height="1000" style="text-align: center"></div>
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+  function csvToNode(str) {
+    var node_data = [];
+    for (var i = 0; i < str.length; i++) {
+      node_data.push({
+        id: str[i].id,
+        group: parseInt(str[i].group),
+        label: str[i].label,
+        level: parseInt(str[i].level),
+        strength: parseFloat(str[i].strength)
+      });
+    }
+    return node_data;
+  };
+
+  function csvToLink(str) {
+    var link_data = [];
+    for (var i = 0; i < str.length; i++) {
+      link_data.push({
+        id: str[i].id,
+        target: str[i].target,
+        source: str[i].source,
+        strength: parseFloat(str[i].strength)
+      });
+    }
+    return link_data;
+  };
+
+
+  d3.csv("/csv_data/node_data.csv", function (error, data) {
+
+    const nodes = csvToNode(data);
+    const links = csvToLink(data);
+
+    var width = 800;
+    var height = 600;
+    var strokeWidth = 1;
+
+    var linkForce = d3
+      .forceLink()
+      .id(function (link) { return link.id })
+      .strength(function (link) { return link.strength })
+
+    // simulation setup with all forces
+    var simulation = d3
+      .forceSimulation()
+      .force('link', linkForce)
+      .force('charge', d3.forceManyBody().strength(-2000))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+
+    var dragDrop = d3.drag().on('start', function (node) {
+      node.fx = node.x
+      node.fy = node.y
+    }).on('drag', function (node) {
+      simulation.alphaTarget(0.7).restart()
+      node.fx = d3.event.x
+      node.fy = d3.event.y
+    }).on('end', function (node) {
+      if (!d3.event.active) {
+        simulation.alphaTarget(0)
+      }
+      node.fx = null
+      node.fy = null
+    })
+
+    var svg = d3.select("#interaction").append("svg")
+      .attr("height", height)
+      .attr("width", width)
+      .attr("style", "outline: thick solid black")
+      .append("g")
+      .attr("transform", "translate(0,0)")
+
+    // .call(zoom_handler)
+    // .call(zoom_handler.transform, d3.zoomIdentity.translate(200, 150).scale(0.2));
+
+    // var zoom_handler = d3.zoom().on("zoom", zoom_actions);
+    // zoom_handler(svg);
+
+    // function zoom_actions() {
+    //   g.attr("transform", d3.event.transform)
+    // }
+
+    // const draginteraction = d3.drag().on('drag', (event, node) => {
+    //   node.fx = event.x; //fx& fy is used to fix new position of the nodes when dragged
+    //   node.fy = event.y;
+    //   simulation.alpha(1);
+    //   simulation.restart();
+    // });
+
+    //for hghlighting associated nodes and links when clicked on any node
+
+    function getNeighbors(node) {
+      return links.reduce(function (neighbors, link) {
+        if (link.target.id === node.id) {
+          neighbors.push(link.source.id)
+        } else if (link.source.id === node.id) {
+          neighbors.push(link.target.id)
+        }
+        return neighbors
+      },
+        [node.id]
+      )
+    }
+
+    function isNeighborLink(node, link) {
+      return link.target.id === node.id || link.source.id === node.id
+    }
+
+    function getClickedNodeColor(node, neighbors) {
+      if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
+        return 'lightblue'
+      }
+      else if (node.level === 0) {
+        return 'lightblack';
+      } else if (node.level === 1) {
+        return 'gray';
+      } else {
+        return 'lightgray';
+      }
+    }
+
+    function getClickedLinkColor(node, link) {
+      return isNeighborLink(node, link) ? 'gray' : 'black'
+    }
+
+    function getClickedNodeSize(node, neighbors) {
+      return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? (node.strength * 70) + 1.0 : (node.strength * 50) + 1.0
+
+    }
+
+    function getTextColor(node) {
+      return node.level === 0 ? 'white' : 'black'
+    }
+
+    function selectNode(selectedNode) {
+      var neighbors = getNeighbors(selectedNode)
+
+      // modify the styles to highlight selected nodes
+      nodeElements.attr('fill', function (node) { return getClickedNodeColor(node, neighbors) })
+      nodeElements.attr('r', function (node) { return getClickedNodeSize(node, neighbors) })
+      // textElements.attr('fill', function (node) { return getTextColor(node, neighbors) })
+      linkElements.attr('stroke', function (link) { return getClickedLinkColor(selectedNode, link) })
+    }
+
+
+
+    function tooltip_in(event, d) { // pass event and d to this function so that it can access d for our data
+      console.log("d value is " + d);
+      return tooltip
+        .html("<h4>" + d.id + "</h4>") // add an html element with a header tag containing the name of the node.  This line is where you would add additional information like: "<h4>" + d.name + "</h4></br><p>" + d.type + "</p>"  Note the quote marks, pluses and </br>--these are necessary for javascript to put all the data and strings within quotes together properly.  Any text needs to be all one line in .html() here
+        .style("visibility", "visible") // make the tooltip visible on hover
+        .style("top", event.pageY + "px") // position the tooltip with its top at the same pixel location as the mouse on the screen
+        .style("left", event.pageX + "px"); // position the tooltip just to the right of the mouse location
+    }
+
+    function tooltip_out() {
+      return tooltip
+        .transition()
+        .duration(50) // give the hide behavior a 50 milisecond delay so that it doesn't jump around as the network moves
+        .style("visibility", "hidden"); // hide the tooltip when the mouse stops hovering
+    }
+
+    var linkElements = svg.append("g")
+      .attr("class", "links")
+      .selectAll("line")
+      .data(links)
+      .enter().append("line")
+      .attr("stroke-width", strokeWidth)
+      .attr("stroke", "rgba(50, 50, 50, 0.5)")
+
+
+    var nodeElements = svg.append("g")
+      .attr("class", "nodes")
+      .selectAll("circle")
+      .data(nodes)
+      .enter().append("circle")
+      .attr("r", getClickedNodeSize)
+      .attr("stroke-width", strokeWidth)
+      .attr("fill", getClickedNodeColor)
+      .call(dragDrop)
+      .on('click', selectNode)
+      .on("mouseover", tooltip_in) // when the mouse hovers a node, call the tooltip_in function to create the tooltip
+      .on("mouseout", tooltip_out) // when the mouse stops hovering a node, call the tooltip_out function to get rid of the tooltip
+
+    var textElements = svg.append("g")
+      .attr("class", "texts")
+      .selectAll("text")
+      .data(nodes)
+      .enter().append("text")
+      .text(function (node) { return node.label })
+      .attr("text-anchor", "middle")
+      .attr("class", "nodetext")
+      .attr('alignment-baseline', 'middle')
+      .attr("font-size", 18)
+      .style("fill", getTextColor)
+
+    var tooltip = d3.select("body")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("padding", "10px")
+      .style("z-index", "10")
+      .style("width", "300px")
+      .style("height", "200px")
+      .style("background-color", "rgba(230, 242, 255, 0.8)")
+      .style("border-radius", "5px")
+      .style("visibility", "hidden")
+      .text("");
+
+
+    simulation.nodes(nodes).on('tick', () => {
+      nodeElements
+        .attr('cx', function (node) { return node.x })
+        .attr('cy', function (node) { return node.y })
+      textElements
+        .attr('x', function (node) { return node.x })
+        .attr('y', function (node) { return node.y })
+      linkElements
+        .attr('x1', function (link) { return link.source.x })
+        .attr('y1', function (link) { return link.source.y })
+        .attr('x2', function (link) { return link.target.x })
+        .attr('y2', function (link) { return link.target.y })
+    })
+    simulation.force("link").links(links)
+  })
+</script>
