@@ -98,11 +98,13 @@
     })
 
     var svg = d3.select("#interaction").append("svg")
-      .attr("height", height)
-      .attr("width", width)
       .attr("style", "outline: thick solid black")
       .append("g")
       .attr("transform", "translate(0,0)")
+      .attr("viewBox", "0 0 " + w + " " + h)
+      .attr("preserveAspectRatio", "xMidYMid meet");
+    // .attr("height", height)
+    // .attr("width", width)
 
     var tip = d3.tip().attr('class', 'd3-tip')
       .html(function (d) {
@@ -256,8 +258,9 @@
 
 
     simulation.nodes(nodes).on('tick', () => {
-      nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
-      textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+      // nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+      // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+      // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
 
       nodeElements
         .attr('cx', function (node) { return node.x })
