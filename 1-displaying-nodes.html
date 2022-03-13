@@ -9,7 +9,7 @@
     display: inline-block;
     position: relative;
     width: 100%;
-    padding-bottom: 100%;
+    /* padding-bottom: 100%; */
     vertical-align: top;
     overflow: hidden;
   }
@@ -115,11 +115,11 @@
 
     var svg = d3.select("#interaction").append("svg")
       .attr("style", "outline: thick solid black")
-      .append("g")
       .attr("transform", "translate(0,0)")
       .attr("viewBox", "0 0 " + width + " " + height)
       .attr("preserveAspectRatio", "xMidYMid meet")
-      .classed("svg-content", true);
+      .classed("svg-content", true)
+      .append("g")
     // .attr("height", height)
     // .attr("width", width)
 
