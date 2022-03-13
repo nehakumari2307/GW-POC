@@ -5,16 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
 <style type="text/css">
-  /* .tooltip {
-    fill: white;
-    display: block;
-    font-family: sans-serif;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid grey;
-    text-align: center;
-  } */
-
   div.d3-tip {
     line-height: 1;
     font-weight: bold;
@@ -40,7 +30,6 @@
 <div id="interaction" width="1000" height="1000" style="text-align: center"></div>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
 <script>
 
@@ -267,6 +256,9 @@
 
 
     simulation.nodes(nodes).on('tick', () => {
+      nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+      textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+
       nodeElements
         .attr('cx', function (node) { return node.x })
         .attr('cy', function (node) { return node.y })
