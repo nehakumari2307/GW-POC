@@ -100,7 +100,7 @@
     var simulation = d3
       .forceSimulation()
       .force('link', linkForce)
-      .force('charge', d3.forceManyBody().strength(-1500))
+      .force('charge', d3.forceManyBody().strength(-500))
       .force('center', d3.forceCenter(width / 2, height / 2))
 
     var dragDrop = d3.drag().on('start', function (node) {
@@ -197,7 +197,7 @@
     }
 
     function getClickedNodeSize(node, neighbors) {
-      return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? (node.strength * 55) + 1.0 : (node.strength * 50) + 1.0
+      return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? (node.strength * 30) + 1.0 : (node.strength * 25) + 1.0
 
     }
 
@@ -269,7 +269,7 @@
       .attr("text-anchor", "middle")
       .attr("class", "nodetext")
       .attr('alignment-baseline', 'middle')
-      .attr("font-size", 18)
+      .attr("font-size", 10)
       .style("fill", getTextColor)
 
     // var tooltip = d3.select("body")
