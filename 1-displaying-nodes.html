@@ -9,9 +9,10 @@
     display: inline-block;
     position: relative;
     width: 100%;
-    /* padding-bottom: 100%; */
+    padding-bottom: 100%;
     vertical-align: top;
     overflow: hidden;
+    text-align: center
   }
 
   .svg-content {
@@ -43,7 +44,7 @@
 
 </html>
 
-<div id="interaction" class="interaction" style="text-align: center"></div>
+<div id="interaction" class="interaction"></div>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
@@ -75,6 +76,10 @@
     }
     return link_data;
   };
+
+  function zoomed() {
+    svg.attr("transform", d3.event.transform);
+  }
 
 
   d3.csv("./csv_data/node_data.csv", function (error, data) {
@@ -113,13 +118,17 @@
       node.fy = null
     })
 
-    var svg = d3.select("#interaction").append("svg")
+    let zoom = d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
+
+    var svg = d3.select("#interaction").append("g")
       .attr("style", "outline: thick solid black")
       .attr("transform", "translate(0,0)")
       .attr("viewBox", "0 0 " + width + " " + height)
       .attr("preserveAspectRatio", "xMidYMid meet")
       .classed("svg-content", true)
-      .append("g")
+      .call(zoom)
+
+    // .append("g")
     // .attr("height", height)
     // .attr("width", width)
 
@@ -245,6 +254,9 @@
       .on('click', selectNode)
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide)
+      .call(drag(simulation));
+
+
     // .on("mouseover", tooltip_in) // when the mouse hovers a node, call the tooltip_in function to create the tooltip
     // .on("mouseout", tooltip_out) // when the mouse stops hovering a node, call the tooltip_out function to get rid of the tooltip
 
@@ -272,7 +284,8 @@
     //   .style("border-radius", "5px")
     //   .style("visibility", "hidden")
     //   .text("");
-
+    let zoomLvl = 1;
+    let lastK = 0;
 
     simulation.nodes(nodes).on('tick', () => {
       // nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
@@ -292,5 +305,27 @@
         .attr('y2', function (link) { return link.target.y })
     })
     simulation.force("link").links(links)
+
+    //zoom in functionlity
+    invalidation.then(() => simulation.stop());
+
+    svg.call(d3.zoom()
+      .extent([[0, 0], [width, height]])
+      .scaleExtent([1, 80])
+      .on("zoom", zoomed));
+
+    function zoomed() {
+      let e = d3.event
+
+      if (e.transform.k > 2 && lastK != e.transform.k) {
+        lastK = e.transform.k;
+        console.log("zoomed");
+        zoomLvl = Math.log2(e.transform.k);
+        nodeElements.attr("stroke-width", 1.5 / zoomLvl);
+        linkElements.attr("stroke-width", d => Math.sqrt(d.value) / (zoomLvl));
+      }
+      g.attr("transform", e.transform);
+    }
+
   })
 </script>
