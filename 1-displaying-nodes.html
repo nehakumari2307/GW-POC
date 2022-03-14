@@ -141,7 +141,7 @@
       });
 
     svg.call(tip);
-    svg.call(zoom);
+    //svg.call(zoom);
 
     // .call(zoom_handler)
     // .call(zoom_handler.transform, d3.zoomIdentity.translate(200, 150).scale(0.2));
@@ -307,7 +307,8 @@
     simulation.force("link").links(links)
 
     //zoom in functionlity
-    invalidation.then(() => simulation.stop());
+    // invalidation.then(() => simulation.stop());
+    let lastK = 0; let zoomLvl = 1;
 
     svg.call(d3.zoom()
       .extent([[0, 0], [width, height]])
