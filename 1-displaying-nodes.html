@@ -211,13 +211,18 @@
     }
 
     function selectNode(selectedNode) {
-      var neighbors = getNeighbors(selectedNode)
+      clearTimeout(timeout);
+      timeout = setTimeout(function () {
+        console.clear();
+        console.log("node was single clicked");
+        var neighbors = getNeighbors(selectedNode)
 
-      // modify the styles to highlight selected nodes
-      nodeElements.attr('fill', function (node) { return getClickedNodeColor(node, neighbors) })
-      nodeElements.attr('r', function (node) { return getClickedNodeSize(node, neighbors) })
-      // textElements.attr('fill', function (node) { return getTextColor(node, neighbors) })
-      linkElements.attr('stroke', function (link) { return getClickedLinkColor(selectedNode, link) })
+        // modify the styles to highlight selected nodes
+        nodeElements.attr('fill', function (node) { return getClickedNodeColor(node, neighbors) })
+        nodeElements.attr('r', function (node) { return getClickedNodeSize(node, neighbors) })
+        // textElements.attr('fill', function (node) { return getTextColor(node, neighbors) })
+        linkElements.attr('stroke', function (link) { return getClickedLinkColor(selectedNode, link) })
+      }, 300)
     }
 
 
@@ -262,11 +267,15 @@
     // .call(drag(simulation))
 
     nodeElements.on("dblclick.zoom", function (d) {
-      d3.event.stopPropagation();
-      var dcx = (window.innerWidth / 2 - d.x * zoom.scale());
-      var dcy = (window.innerHeight / 2 - d.y * zoom.scale());
-      zoom.translate([dcx, dcy]);
-      g.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + zoom.scale() + ")");
+      clearTimeout(timeout);
+
+      console.clear();
+      console.log("node was double clicked");
+      // d3.event.stopPropagation();
+      // var dcx = (window.innerWidth / 2 - d.x * zoom.scale());
+      // var dcy = (window.innerHeight / 2 - d.y * zoom.scale());
+      // zoom.translate([dcx, dcy]);
+      // g.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + zoom.scale() + ")");
 
 
     });
