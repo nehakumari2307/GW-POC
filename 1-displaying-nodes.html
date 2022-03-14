@@ -120,13 +120,13 @@
 
     let zoom = d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
 
-    var svg = d3.select("#interaction").append("svg").append("g")
+    var svg = d3.select("#interaction").append("svg")
       .attr("style", "outline: thick solid black")
       .attr("transform", "translate(0,0)")
       .attr("viewBox", "0 0 " + width + " " + height)
       .attr("preserveAspectRatio", "xMidYMid meet")
       .classed("svg-content", true)
-      .call(zoom)
+      .append("g")
 
     // .attr("height", height)
     // .attr("width", width)
@@ -141,6 +141,7 @@
       });
 
     svg.call(tip);
+    svg.call(zoom);
 
     // .call(zoom_handler)
     // .call(zoom_handler.transform, d3.zoomIdentity.translate(200, 150).scale(0.2));
