@@ -287,8 +287,9 @@
       console.clear();
       console.log("node was double clicked");
       d3.event.stopPropagation();
-      var dcx = (window.innerWidth / 2 - d.x * zoom.scale());
-      var dcy = (window.innerHeight / 2 - d.y * zoom.scale());
+      console.log("transform" + d3.event.transform.k);
+      var dcx = (window.innerWidth / 2 - d.x * d3.event.transform.k);
+      var dcy = (window.innerHeight / 2 - d.y * d3.event.transform.k);
       console.log("width value " + dcx + "height value " + dcy);
 
       // svg.call(zoom.transform, d3.zoomIdentity.translate(dcx, dcy).scale(2));
@@ -327,8 +328,6 @@
     //   .style("border-radius", "5px")
     //   .style("visibility", "hidden")
     //   .text("");
-    let zoomLvl = 1;
-    let lastK = 0;
 
     simulation.nodes(nodes).on('tick', () => {
       // nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
