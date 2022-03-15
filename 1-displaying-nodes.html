@@ -124,12 +124,6 @@
       node.fy = null
     })
 
-    function zoomed() {
-      svg.attr("transform", d3.event.transform);
-    }
-
-
-    // let zoom = d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
 
     var svg = d3.select("#interaction").append("svg")
       .attr("style", "outline: thick solid black")
@@ -144,8 +138,10 @@
       .call(zoom.transform, d3.zoomIdentity.scale(2, 2))
       .append("g")
 
-    // .attr("height", height)
-    // .attr("width", width)
+    function zoomed() {
+      svg.attr("transform", d3.event.transform);
+    }
+
 
     var tip = d3.tip().attr('class', 'd3-tip')
       .html(function (d) {
