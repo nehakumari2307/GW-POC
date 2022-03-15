@@ -77,9 +77,10 @@
     return link_data;
   };
 
-  function zoomed() {
-    svg.attr("transform", d3.event.transform);
-  }
+  // function zoomed() {
+  //   svg.attr("transform", d3.event.transform);
+  // }
+
 
 
   d3.csv("./csv_data/node_data.csv", function (error, data) {
@@ -93,6 +94,7 @@
     var height = window.innerHeight;
     var strokeWidth = 1;
     var timeout = null;
+    var zoom = d3.zoom().on("zoom", zoomed);
 
 
     var linkForce = d3
@@ -122,6 +124,11 @@
       node.fy = null
     })
 
+    function zoomed() {
+      svg.attr("transform", d3.event.transform);
+    }
+
+
     // let zoom = d3.zoom().scaleExtent([1, 8]).on("zoom", zoomed);
 
     var svg = d3.select("#interaction").append("svg")
@@ -130,9 +137,11 @@
       .attr("viewBox", "0 0 " + width + " " + height)
       .attr("preserveAspectRatio", "xMidYMid meet")
       .classed("svg-content", true)
-      .call(d3.zoom().on("zoom", function () {
-        svg.attr("transform", d3.event.transform)
-      }))
+      // .call(d3.zoom().on("zoom", function () {
+      //   svg.attr("transform", d3.event.transform)
+      // }))
+      .call(zoom)
+      .call(zoom.transform, d3.zoomIdentity.scale(2, 2))
       .append("g")
 
     // .attr("height", height)
@@ -290,13 +299,13 @@
       console.clear();
       console.log("node was double clicked");
       d3.event.stopPropagation();
-      var dcx = (window.innerWidth / 2 - d.x * d3.zoomTransform());
-      var dcy = (window.innerHeight / 2 - d.y * d3.zoomTransform());
+      var dcx = (window.innerWidth / 2 - d.x * zoom.scale());
+      var dcy = (window.innerHeight / 2 - d.y * zoom.scale());
       console.log("width value " + dcx + "height value " + dcy);
-      svg.call(zoom.transform, d3.zoomIdentity.translate(dcx, dcy).scale(2));
-      // d3.zoom.translate([dcx, dcy]);
+      // svg.call(zoom.transform, d3.zoomIdentity.translate(dcx, dcy).scale(2));
+      zoom.translate([dcx, dcy]);
       // g.attr("transform", d3.event.transform)
-      // g.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + zoom.scale() + ")");
+      g.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + zoom.scale() + ")");
 
 
     });
