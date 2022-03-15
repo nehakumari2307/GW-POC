@@ -135,11 +135,12 @@
       //   svg.attr("transform", d3.event.transform)
       // }))
       .call(zoom)
-      .call(zoom.transform, d3.zoomIdentity.scale(2, 2))
-      .append("g")
+      .call(zoom.transform, d3.zoomIdentity.scale(2, 2));
+
+    const svg_g = svg.append("g");
 
     function zoomed() {
-      g.attr("transform", d3.event.transform);
+      svg_g.attr("transform", d3.event.transform);
     }
 
 
