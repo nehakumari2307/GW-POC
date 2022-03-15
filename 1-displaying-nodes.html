@@ -292,8 +292,10 @@
       d3.event.stopPropagation();
       var dcx = (window.innerWidth / 2 - d.x * d3.zoomTransform());
       var dcy = (window.innerHeight / 2 - d.y * d3.zoomTransform());
-      d3.zoom.translate([dcx, dcy]);
-      g.attr("transform", d3.event.transform)
+      console.log("width value " + dcx + "height value " + dcy);
+      svg.call(zoom.transform, d3.zoomIdentity.translate(dcx, dcy).scale(2));
+      // d3.zoom.translate([dcx, dcy]);
+      // g.attr("transform", d3.event.transform)
       // g.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + zoom.scale() + ")");
 
 
