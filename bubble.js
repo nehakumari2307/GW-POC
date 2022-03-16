@@ -6,11 +6,6 @@
     let labels = null;
     //let nodes = [];
 
-    function click() {
-        var url = "https://nehakumari2307.github.io/GW-POC/1-displaying-nodes.html"
-        window.location = url;
-    }
-
     var svg = d3.select("#chart").append("svg")
         .attr("height", height)
         .attr("width", width)
@@ -18,7 +13,6 @@
         .append("g")
         .attr("transform", "translate(0,0)")
         .attr("class", "bubble")
-        .on("click", click);
 
     function createNodes(rawData) {
 
