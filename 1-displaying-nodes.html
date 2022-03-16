@@ -93,9 +93,7 @@
     var strokeWidth = 1;
     var timeout = null;
     // var zoom = d3.zoom().scaleExtent([1, 40]);
-    var color = d3.scale.ordinal()
-      .domain(["Selected category", "Subcategories ", "articles", "commentary"])
-      .range(["black", "gray", "lightgray", "lightgray"]);
+    var color = d3.scaleOrdinal(["black", "gray", "lightgray", "lightgray"], ["Selected category", "Subcategories ", "articles", "commentary"]);
 
 
     var linkForce = d3
