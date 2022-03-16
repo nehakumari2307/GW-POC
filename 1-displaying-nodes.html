@@ -29,6 +29,17 @@
     left: 0;
   }
 
+  .node_legend {
+    display: block;
+  }
+
+  .rect_fill {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    border: 2px solid black;
+  }
+
   div.d3-tip {
     line-height: 1;
     font-weight: bold;
@@ -52,8 +63,8 @@
 </html>
 
 <body>
+  <button onclick="history.back()">Go Back</button>
   <div id="container">
-    <button onclick="history.back()">Go Back</button>
     <div id="interaction" class="interaction"></div>
     <div id="legend" class="legend"></div>
   </div>
@@ -375,8 +386,9 @@
 
     legend.append("rect")
       .attr("x", 1000)
-      .attr("width", 18)
-      .attr("height", 18)
+      .attr("y", 9)
+      .attr("class", "rect_fill")
+      // .attr("height", 18)
       .style("fill", color);
 
     legend.append("text")
