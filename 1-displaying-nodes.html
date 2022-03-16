@@ -363,12 +363,12 @@
     })
     simulation.force("link").links(links)
 
-    var svg_legend = d3.select("#legend").append("svg");
+    var svg_legend = d3.select("#legend").append("g");;
 
     var legend = svg_legend.selectAll(".legend")
       .data(color.domain())
       .enter().append("g")
-      .attr("class", "legend")
+      .attr("class", "node_legend")
       .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
 
     legend.append("rect")
