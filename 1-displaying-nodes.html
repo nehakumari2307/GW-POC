@@ -318,11 +318,11 @@
       console.clear();
       console.log("node was double clicked");
       d3.event.stopPropagation();
-      if (svg.getAttribute("transform")) {
-        var svg_scale = getTransformation(svg.getAttribute("transform"));
-        var currScale = svg_scale.scaleX;
-        console.log("svg scale is" + currScale);
-      }
+      // if (svg.getAttribute("transform")) {
+      //   var svg_scale = getTransformation(svg.getAttribute("transform"));
+      //   var currScale = svg_scale.scaleX;
+      //   console.log("svg scale is" + currScale);
+      // }
       var dcx = (width / 2 - d.x * 1); //assuming scale to be 1
       var dcy = (height / 2 - d.y * 1); //assuming scale to be 1
       console.log("width value " + dcx + "height value " + dcy);
