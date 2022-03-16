@@ -304,8 +304,8 @@
       console.clear();
       console.log("node was double clicked");
       d3.event.stopPropagation();
-      var dcx = (window.innerWidth / 2 - d.x * 1); //assuming scale to be 1
-      var dcy = (window.innerHeight / 2 - d.y * 1); //assuming scale to be 1
+      var dcx = (width / 2 - d.x * 1); //assuming scale to be 1
+      var dcy = (height / 2 - d.y * 1); //assuming scale to be 1
       console.log("width value " + dcx + "height value " + dcy);
 
       svg.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + 1 + ")");
@@ -351,8 +351,12 @@
       // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
 
       nodeElements
-        .attr('cx', function (node) { return node.x })
-        .attr('cy', function (node) { return node.y })
+        .attr("cx", function (d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
+        .attr("cy", function (d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
+
+      // .attr('cx', function (node) { return node.x })
+      // .attr('cy', function (node) { return node.y })
+
       textElements
         .attr('x', function (node) { return node.x })
         .attr('y', function (node) { return node.y })
