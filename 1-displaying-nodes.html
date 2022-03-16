@@ -351,11 +351,8 @@
       // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
 
       nodeElements
-        .attr("cx", function (d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
-        .attr("cy", function (d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
-
-      // .attr('cx', function (node) { return node.x })
-      // .attr('cy', function (node) { return node.y })
+        .attr('cx', function (node) { return node.x })
+        .attr('cy', function (node) { return node.y })
 
       textElements
         .attr('x', function (node) { return node.x })
