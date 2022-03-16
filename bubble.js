@@ -1,13 +1,13 @@
 (function () {
-    var width = window.innerWidth;
-    height = window.innerHeight;
+    var width = 800;
+    height = 600;
 
     let bubbles = null;
     let labels = null;
     //let nodes = [];
 
     function click() {
-        var url = "https://nehakumari2307.github.io/GW-POC/1-displaying-nodes.html";
+        var url = "https://nehakumari2307.github.io/GW-POC/1-displaying-nodes.html"
         window.location = url;
     }
 
@@ -36,8 +36,8 @@
     }
 
     var simulation = d3.forceSimulation()
-        .force("x", d3.forceX(width / 2).strength(0.10))
-        .force("y", d3.forceY(height / 2).strength(0.10))
+        .force("x", d3.forceX(width / 2).strength(0.05))
+        .force("y", d3.forceY(height / 2).strength(0.05))
         .force("collide", d3.forceCollide(function (d) {
             return d.radius + 1;
         }))
