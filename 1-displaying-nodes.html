@@ -8,11 +8,17 @@
   .interaction {
     display: inline-block;
     position: relative;
-    width: 100%;
+    width: 80%;
     padding-bottom: 100%;
     vertical-align: top;
     overflow: hidden;
     text-align: center
+  }
+
+  .legend {
+    display: inline-block;
+    width: 20%;
+    border: 1px solid red;
   }
 
   .svg-content {
@@ -45,9 +51,11 @@
 </html>
 
 <body>
-  <button onclick="history.back()">Go Back</button>
-  <!-- <div id="legend"></div> -->
-  <div id="interaction" class="interaction"></div>
+  <div id="container">
+    <button onclick="history.back()">Go Back</button>
+    <div id="interaction" class="interaction"></div>
+    <div id="legend"></div>
+  </div>
 </body>
 
 
@@ -89,7 +97,7 @@
 
     // var width = 950;
     // var height = 500;
-    var width = window.innerWidth - 500;
+    var width = window.innerWidth - 700;
     var height = window.innerHeight;
     var strokeWidth = 1;
     var timeout = null;
@@ -355,9 +363,9 @@
     })
     simulation.force("link").links(links)
 
-    // var svg_legend = d3.select("#legend").append("svg");
+    var svg_legend = d3.select("#legend").append("svg");
 
-    var legend = svg.selectAll(".legend")
+    var legend = svg_legend.selectAll(".legend")
       .data(color.domain())
       .enter().append("g")
       .attr("class", "legend")
