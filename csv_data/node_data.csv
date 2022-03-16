@@ -11,6 +11,11 @@ wirehair,1,wirehair,4,cat,wirehair,0.5
 bengal,1,Bengal,4,cat,bengal,0.5
 burmese,1,Burmese,4,cat,burmese,0.5
 chartreux,1,Chartreux,4,cat,chartreux,0.5
+afador,1,Afador,4,dog,afador,0.5
+bulldog,1,Bulldog,4,dog,bulldog,0.5
+retriever,1,Retriever,4,dog,retriever,0.5
+beagle,1,Beagle,4,dog,beagle,0.5
+bossie,1,Bossie,4,dog,bossie,0.5
 insect,2,Insects,1,animal,insect,0.8
 ant,2,Ants,2,insect,ant,0.7
 bee,2,Bees,2,insect,bee,0.7
