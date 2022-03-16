@@ -8,16 +8,17 @@
   .interaction {
     display: inline-block;
     position: relative;
-    width: 80%;
+    width: 85%;
     padding-bottom: 100%;
     vertical-align: top;
     overflow: hidden;
-    text-align: center
+    text-align: center;
+    margin: 10px;
   }
 
   .legend {
     display: inline-block;
-    width: 20%;
+    width: 10%;
     position: absolute;
     border: 1px solid red;
   }
@@ -106,6 +107,7 @@
 
     const nodes = csvToNode(data);
     const links = csvToLink(data);
+    var radius = 0;
 
     // var width = 950;
     // var height = 500;
@@ -229,6 +231,7 @@
     }
 
     function getClickedNodeSize(node, neighbors) {
+      radius = (node.strength * 25) + 1.0;
       return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? (node.strength * 30) + 1.0 : (node.strength * 25) + 1.0
 
     }
@@ -315,6 +318,11 @@
       console.clear();
       console.log("node was double clicked");
       d3.event.stopPropagation();
+      if (svg.getAttribute("transform")) {
+        var svg_scale = getTransformation(svg.getAttribute("transform"));
+        var currScale = svg_scale.scaleX;
+        console.log("svg scale is" + currScale);
+      }
       var dcx = (width / 2 - d.x * 1); //assuming scale to be 1
       var dcy = (height / 2 - d.y * 1); //assuming scale to be 1
       console.log("width value " + dcx + "height value " + dcy);
@@ -360,10 +368,10 @@
       // nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
       // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
       // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
-
+      // var radius = (node.strength * 25) + 1.0;
       nodeElements
-        .attr('cx', function (node) { return node.x })
-        .attr('cy', function (node) { return node.y })
+        .attr('cx', function (node) { return node.x = Math.max(radius, Math.min(width - radius, node.x)); })
+        .attr('cy', function (node) { return node.y = Math.max(radius, Math.min(height - radius, node.y)); })
 
       textElements
         .attr('x', function (node) { return node.x })
