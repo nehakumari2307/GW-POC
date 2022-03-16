@@ -46,6 +46,7 @@
 
 <body>
   <button onclick="history.back()">Go Back</button>
+  <div id="legend"></div>
   <div id="interaction" class="interaction"></div>
 </body>
 
@@ -354,7 +355,9 @@
     })
     simulation.force("link").links(links)
 
-    var legend = svg.selectAll(".legend")
+    var svg_legend = d3.select("#legend").append("svg");
+
+    var legend = svg_legend.selectAll(".legend")
       .data(color.domain())
       .enter().append("g")
       .attr("class", "legend")
