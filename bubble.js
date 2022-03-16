@@ -36,8 +36,8 @@
     }
 
     var simulation = d3.forceSimulation()
-        .force("x", d3.forceX(width / 2).strength(-0.10))
-        .force("y", d3.forceY(height / 2).strength(-0.10))
+        .force("x", d3.forceX(width / 2).strength(0.10))
+        .force("y", d3.forceY(height / 2).strength(0.10))
         .force("collide", d3.forceCollide(function (d) {
             return d.radius + 1;
         }))
