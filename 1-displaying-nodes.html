@@ -248,12 +248,13 @@
       //   }
       radius = (node.strength * 25) + 1.0;
       if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
-        if (d3.select(this).classed("selected")) {
-          d3.select(this).classed("selected", false);
+        if (d3.select(node).classed("selected")) {
+          d3.select(node).classed("selected", false);
           radius = (node.strength * 25) + 1.0;
         }
         else {
-          d3.select(this).classed("selected", true);
+          d3.select(node).classed("selected", true);
+          console.log(node);
           radius = (node.strength * 30) + 1.0;
         }
       }
