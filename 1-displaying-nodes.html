@@ -20,7 +20,7 @@
     display: inline-block;
     width: 10%;
     position: absolute;
-    border: 1px solid red;
+    /* border: 1px solid red; */
   }
 
   .svg-content {
@@ -459,7 +459,7 @@
       .attr("y", 9)
       .attr("class", "rect_fill")
       // .attr("height", 18)
-      .style("fill", color);
+      .style("fill", color.range());
 
     legend.append("text")
       .attr("x", 990)
