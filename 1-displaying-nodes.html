@@ -95,6 +95,7 @@
     for (var i = 0; i < str.length; i++) {
       link_data.push({
         id: str[i].id,
+        group: parseInt(str[i].group),
         target: str[i].target,
         source: str[i].source,
         strength: parseFloat(str[i].strength)
@@ -280,6 +281,34 @@
       .enter().append("line")
       .attr("stroke-width", strokeWidth)
       .attr("stroke", "rgba(50, 50, 50, 0.5)")
+      .attr("group", function (d) { return d.group; })
+      .on("click", function (d) {
+        // This is to toggle visibility - need to do it on the nodes and links
+        d3.selectAll("line:not([group='" + d.group + "'])")
+          .style("opacity", function () {
+            currentDisplay = d3.select(this).style("opacity");
+            currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+            return currentDisplay;
+          });
+        d3.selectAll("circle:not([group='" + d.group + "'])")
+          .style("opacity", function () {
+            currentDisplay = d3.select(this).style("opacity");
+            currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+            return currentDisplay;
+          });
+        d3.selectAll("text:not([group='" + d.group + "'])")
+          .style("opacity", function () {
+            currentDisplay = d3.select(this).style("opacity");
+            currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+            return currentDisplay;
+          });
+      })
+      .on("mouseover", function (d) {
+        d3.select(this).style("cursor", "crosshair");
+      })
+      .on("mouseout", function (d) {
+        d3.select(this).style("cursor", "default");
+      })
 
 
     var nodeElements = svg.append("g")
@@ -291,7 +320,7 @@
       .attr("stroke-width", strokeWidth)
       .attr("fill", getClickedNodeColor)
       .call(dragDrop)
-      .on('click', selectNode)
+      // .on('click', selectNode)
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide)
     // .call(drag(simulation))
