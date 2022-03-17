@@ -320,6 +320,7 @@
       .attr("r", getClickedNodeSize)
       .attr("stroke-width", strokeWidth)
       .attr("fill", getClickedNodeColor)
+      .attr("group", function (d) { return d.group; })
       .call(dragDrop)
       // .on('click', selectNode)
       .on("mouseover", tip.show)
@@ -380,6 +381,7 @@
       .attr('alignment-baseline', 'middle')
       .attr("font-size", 10)
       .style("fill", getTextColor)
+      .attr("group", function (d) { return d.group; });
 
     // var tooltip = d3.select("body")
     //   .append("div")
