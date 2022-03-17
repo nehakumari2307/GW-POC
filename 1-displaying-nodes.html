@@ -117,7 +117,7 @@
     // var width = 950;
     // var height = 500;
     var width = window.innerWidth - 700;
-    var height = window.innerHeight;
+    var height = window.innerHeight - 200;
     var strokeWidth = 3;
     var timeout = null;
     // var zoom = d3.zoom().scaleExtent([1, 40]);
@@ -176,7 +176,8 @@
         var y = 'hello';
         // var x = links.filter(g => g.source.name == d.name).map(t => t.target.name).toString();
         // var y = links.filter(g => g.target.name == d.name).map(t => t.target.name).toString();
-        return "<span>" + "inbound: " + x + "</span><br><span>" + "outbound: " + y + "</span>";
+        //return "<span>" + "inbound: " + x + "</span><br><span>" + "outbound: " + y + "</span>";
+        return "<span>" + "Dummy Text : Hi" + "</span>";
       });
 
     svg.call(tip);
