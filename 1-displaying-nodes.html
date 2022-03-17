@@ -67,7 +67,10 @@
   <button onclick="history.back()">Go Back</button>
   <div id="container">
     <div id="interaction" class="interaction"></div>
-    <div id="legend" class="legend"></div>
+    <div id="legend" class="legend">
+      <div id="tooltip"></div>
+    </div>
+
   </div>
 </body>
 
@@ -109,13 +112,14 @@
     const nodes = csvToNode(data);
     const links = csvToLink(data);
     var radius = 0;
+    var curr_radius = 0;
     var opacity = 0.25;
 
     // var width = 950;
     // var height = 500;
     var width = window.innerWidth - 700;
     var height = window.innerHeight;
-    var strokeWidth = 1;
+    var strokeWidth = 6;
     var timeout = null;
     // var zoom = d3.zoom().scaleExtent([1, 40]);
     var color = d3.scaleOrdinal()
@@ -233,8 +237,20 @@
     }
 
     function getClickedNodeSize(node, neighbors) {
+      // radius = (node.strength * 25) + 1.0;
+      if (radius === curr_radius) {
+        if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
+          curr_radius = (node.strength * 30) + 1.0;
+        }
+        else {
+          curr_radius = (node.strength * 25) + 1.0;
+        }
+      }
       radius = (node.strength * 25) + 1.0;
-      return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? (node.strength * 30) + 1.0 : (node.strength * 25) + 1.0
+      curr_radius = (node.strength * 25) + 1.0;
+      return curr_radius;
+
+      // return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? (node.strength * 30) + 1.0 : (node.strength * 25) + 1.0
 
     }
 
@@ -322,7 +338,7 @@
       .attr("fill", getClickedNodeColor)
       .attr("group", function (d) { return d.group; })
       .call(dragDrop)
-      // .on('click', selectNode)
+      .on('click', selectNode)
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide)
     // .call(drag(simulation))
