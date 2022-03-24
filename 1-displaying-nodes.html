@@ -223,9 +223,9 @@
       if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
         return 'lightblue'
       }
-      else if (node.level === 0) {
-        return 'lightblack';
-      } else if (node.level === 1) {
+      else if (node.group === 0) {
+        return 'black';
+      } else if (node.group === 1) {
         return 'gray';
       } else {
         return 'lightgray';
@@ -363,6 +363,7 @@
       .attr("stroke-width", strokeWidth)
       .attr("fill", getClickedNodeColor)
       .attr("group", function (d) { return d.group; })
+      .attr("id", function (d) { return d.id + "_" + d.group; })
       .call(dragDrop)
       .on('click', selectNode)
       .on("mouseover", tip.show)
