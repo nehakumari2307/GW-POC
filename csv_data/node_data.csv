@@ -2,14 +2,14 @@ id,group,label,level,target,source,strength
 vibrant,0,Vibrant Ecologies of Research,0,vibrant,vibrant,1
 sustainability,1,Sustainability,1,vibrant,sustainability,0.8
 climate,1,Climate,2,sustainability,climate,0.65
-itoc,1,IToC,4,climate,itoc,0.25
-ask,1,ASK,4,climate,ask,0.25
-fp,1,FP,4,climate,fp,0.25
+itoc_1_0,1,IToC,4,climate,itoc_1_0,0.25
+ask_1_0,1,ASK,4,climate,ask_1_0,0.25
+fp_1_0,1,FP,4,climate,fp_1_0,0.25
 projectscope,1,Project Scope,2,sustainability,projectscope,0.65
 durable,1,Durable,3,projectscope,durable,0.5
-itoc,1,IToC,4,durable,itoc,0.25
-vi,1,VI,4,durable,vi,0.25
+itoc_1_1,1,IToC,4,durable,itoc_1_1,0.25
+vi_1_0,1,VI,4,durable,vi_1_0,0.25
 emergent,1,Emergent,3,projectscope,emergent,0.5
-to,1,TO,4,emergent,to,0.25
-ask,1,ASK,4,emergent,ask,0.25
-fr,1,FR,4,emergent,fr,0.25
+to_1_0,1,TO,4,emergent,to_1_0,0.25
+ask_1_1,1,ASK,4,emergent,ask_1_1,0.25
+fr_1_0,1,FR,4,emergent,fr_1_0,0.25
