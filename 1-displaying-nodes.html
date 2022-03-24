@@ -116,7 +116,7 @@
 
     // var width = 950;
     // var height = 500;
-    var width = window.innerWidth - 700;
+    var width = window.innerWidth - 500;
     var height = window.innerHeight - 200;
     var strokeWidth = 3;
     var timeout = null;
@@ -164,7 +164,7 @@
       .attr("viewBox", "0 0 " + width + " " + height)
       .attr("preserveAspectRatio", "xMidYMid meet")
       // .classed("svg-content", true)
-      .attr("transform", "translate(100,50)scale(1,1)")
+      .attr("transform", "translate(100,50)scale(0.8,0.8)")
       .call(d3.zoom()
         .on("zoom", function () {
           svg.attr("transform", d3.event.transform)
