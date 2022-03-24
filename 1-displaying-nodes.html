@@ -121,9 +121,13 @@
     var strokeWidth = 3;
     var timeout = null;
     // var zoom = d3.zoom().scaleExtent([1, 40]);
-    var color = d3.scaleOrdinal()
-      .domain(["Selected category", "Subcategories ", "articles", "commentary"])
-      .range(["black", "gray", "lightgray", "lightgray"]);
+    // var color = d3.scaleOrdinal()
+    //   .domain(["Selected category", "Subcategories ", "articles", "commentary"])
+    //   .range(["black", "gray", "lightgray", "lightgray"]);
+    var keys = ["ASK", "FR", "IToC", "TO", "VI"];
+    var values = ["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"];
+    var color = d3.scaleOrdinal().domain(keys).range(values);
+
 
 
     var linkForce = d3
@@ -160,7 +164,7 @@
       .attr("viewBox", "0 0 " + width + " " + height)
       .attr("preserveAspectRatio", "xMidYMid meet")
       // .classed("svg-content", true)
-      .attr("transform", "translate(100,50)scale(.5,.5)")
+      .attr("transform", "translate(100,50)scale(1,1)")
       .call(d3.zoom()
         .on("zoom", function () {
           svg.attr("transform", d3.event.transform)
@@ -470,23 +474,24 @@
     var svg_legend = d3.select("#legend").append("g");;
 
     var legend = svg_legend.selectAll(".legend")
-      .data(color.domain())
+      .data(color)
       .enter().append("g")
       .attr("class", "node_legend")
       .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
 
-    legend.append("rect")
+    legend.append("text")
       .attr("x", 1000)
       .attr("y", 9)
       .attr("class", "rect_fill")
-      .attr("fill", color.range())
+      .text(function (color) { return color.keys })
+    // .attr("fill", color.range())
 
     legend.append("text")
       .attr("x", 990)
       .attr("y", 9)
       .attr("dy", ".35em")
       .style("text-anchor", "end")
-      .text(function (d) { return d; });
+      .text(function (color) { return color.values; });
 
     //zoom in functionlity
     // invalidation.then(() => simulation.stop());
