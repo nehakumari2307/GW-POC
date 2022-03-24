@@ -28,8 +28,26 @@ to_2_0,2,TO,4,collaboration,to_2_0,0.25
 policy,2,Policy,2,boundarywork,policy,0.65
 to_2_1,2,TO,4,policy,to_2_1,0.25
 collection,2,Collection,2,boundarywork,collection,0.65
-archive,2,Archive,3,projectscope,archive,0.5
+archive,2,Archive,3,collection,archive,0.5
 vi_2_2,2,VI,4,archive,vi_2_2,0.25
-exhibition,2,Exhibition,3,projectscope,exhibition,0.5
+exhibition,2,Exhibition,3,collection,exhibition,0.5
 ask_2_2,2,ASK,4,exhibition,ask_2_2,0.25
 itoc_2_2,2,IToC,4,exhibition,itoc_2_2,0.25
+site,3,Site,1,vibrant,site,0.8
+community,3,Community,2,site,community,0.65
+to_3_0,3,TO,4,community,to_3_0,0.25
+vi_3_1,3,VI,4,community,vi_3_1,0.25
+fr_3_1,3,FR,4,community,fr_3_1,0.25
+local,3,Local,2,site,local,0.65
+vi_3_0,3,VI,4,local,vi_3_0,0.25
+fr_3_0,3,FR,4,local,fr_3_0,0.25
+itoc_3_0,3,IToC,4,local,itoc_3_0,0.25
+glocal,3,Glocal,2,site,glocal,0.65
+ask_3_0,3,ASK,4,glocal,ask_3_0,0.25
+plantbased,3,Place Based,2,site,plantbased,0.65
+plantmaking,3,Place Making,3,plantbased,plantmaking,0.5
+to_3_1,3,TO,4,plantmaking,to_3_1,0.25
+plantinquiry,3,Place Inquiry,3,plantbased,plantinquiry,0.5
+itoc_3_1,3,IToC,4,plantinquiry,itoc_3_1,0.25
+plantlearning,3,Place Learning,3,plantbased,plantlearning,0.5
+ask_3_1,3,ASK,4,plantlearning,ask_3_1,0.25
