@@ -13,3 +13,23 @@ emergent,1,Emergent,3,projectscope,emergent,0.5
 to_1_0,1,TO,4,emergent,to_1_0,0.25
 ask_1_1,1,ASK,4,emergent,ask_1_1,0.25
 fr_1_0,1,FR,4,emergent,fr_1_0,0.25
+boundarywork,2,Boundary Work,1,vibrant,boundarywork,0.8
+workshop,2,Workshop,2,boundarywork,workshop,0.65
+fr_2_0,2,FR,4,workshop,fr_2_0,0.25
+itoc_2_0,2,IToC,4,workshop,itoc_2_0,0.25
+ask_2_0,2,ASK,4,workshop,ask_2_0,0.25
+vi_2_0,2,VI,4,workshop,vi_2_0,0.25
+collaboration,2,Collaboration,2,boundarywork,collaboration,0.65
+fr_2_1,2,FR,4,collaboration,fr_2_1,0.25
+itoc_2_1,2,IToC,4,collaboration,itoc_2_1,0.25
+ask_2_1,2,ASK,4,collaboration,ask_2_1,0.25
+vi_2_1,2,VI,4,collaboration,vi_2_1,0.25
+to_2_0,2,TO,4,collaboration,to_2_0,0.25
+policy,2,Policy,2,boundarywork,policy,0.65
+to_2_1,2,TO,4,policy,to_2_1,0.25
+collection,2,Collection,2,boundarywork,collection,0.65
+archive,2,Archive,3,projectscope,archive,0.5
+vi_2_2,2,VI,4,archive,vi_2_2,0.25
+exhibition,2,Exhibition,3,projectscope,exhibition,0.5
+ask_2_2,2,ASK,4,exhibition,ask_2_2,0.25
+itoc_2_2,2,IToC,4,exhibition,itoc_2_2,0.25
