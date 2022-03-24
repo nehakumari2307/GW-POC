@@ -67,9 +67,9 @@
   <button onclick="history.back()">Go Back</button>
   <div id="container">
     <div id="interaction" class="interaction"></div>
-    <div id="legend" class="legend">
+    <!-- <div id="legend" class="legend">
       <div id="tooltip"></div>
-    </div>
+    </div> -->
 
   </div>
 </body>
@@ -376,7 +376,7 @@
       .attr("group", function (d) { return d.group; })
       .attr("id", function (d) { return d.id + "_" + d.group; })
       .call(dragDrop)
-      .on('click', selectNode)
+      // .on('click', selectNode)
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide)
       .attr("class", "nodes");
@@ -438,19 +438,6 @@
       .style("fill", getTextColor)
       .attr("group", function (d) { return d.group; });
 
-    // var tooltip = d3.select("body")
-    //   .append("div")
-    //   .attr("class", "tooltip")
-    //   .style("position", "absolute")
-    //   .style("padding", "10px")
-    //   .style("z-index", "10")
-    //   .style("width", "300px")
-    //   .style("height", "200px")
-    //   .style("background-color", "rgba(230, 242, 255, 0.8)")
-    //   .style("border-radius", "5px")
-    //   .style("visibility", "hidden")
-    //   .text("");
-
     simulation.nodes(nodes).on('tick', () => {
       // nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
       // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
@@ -471,48 +458,27 @@
     })
     simulation.force("link").links(links)
 
-    var svg_legend = d3.select("#legend").append("g");;
+    // var svg_legend = d3.select("#legend").append("g");;
 
-    var legend = svg_legend.selectAll(".legend")
-      .data(color)
-      .enter().append("g")
-      .attr("class", "node_legend")
-      .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+    // var legend = svg_legend.selectAll(".legend")
+    //   .data(color)
+    //   .enter().append("g")
+    //   .attr("class", "node_legend")
+    //   .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
 
-    legend.append("text")
-      .attr("x", 1000)
-      .attr("y", 9)
-      .attr("class", "rect_fill")
-      .text(function (color) { return color.keys })
-    // .attr("fill", color.range())
+    // legend.append("text")
+    //   .attr("x", 1000)
+    //   .attr("y", 9)
+    //   .attr("class", "rect_fill")
+    //   .text(function (color) { return color.keys })
+    // // .attr("fill", color.range())
 
-    legend.append("text")
-      .attr("x", 990)
-      .attr("y", 9)
-      .attr("dy", ".35em")
-      .style("text-anchor", "end")
-      .text(function (color) { return color.values; });
-
-    //zoom in functionlity
-    // invalidation.then(() => simulation.stop());
-
-    // svg.call(d3.zoom()
-    //   .extent([[0, 0], [width, height]])
-    //   .scaleExtent([1, 80])
-    //   .on("zoom", zoomed));
-
-    // function zoomed() {
-    //   let e = d3.event
-
-    //   if (e.transform.k > 2 && lastK != e.transform.k) {
-    //     lastK = e.transform.k;
-    //     console.log("zoomed");
-    //     zoomLvl = Math.log2(e.transform.k);
-    //     nodeElements.attr("stroke-width", 1.5 / zoomLvl);
-    //     linkElements.attr("stroke-width", d => Math.sqrt(d.value) / (zoomLvl));
-    //   }
-    //   g.attr("transform", e.transform);
-    // }
+    // legend.append("text")
+    //   .attr("x", 990)
+    //   .attr("y", 9)
+    //   .attr("dy", ".35em")
+    //   .style("text-anchor", "end")
+    //   .text(function (color) { return color.values; });
 
   })
 </script>
