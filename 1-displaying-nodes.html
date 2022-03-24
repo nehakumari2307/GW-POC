@@ -232,6 +232,19 @@
       }
     }
 
+    // function getClickedNodeColor(node, neighbors) {
+    //   if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
+    //     return 'lightblue'
+    //   }
+    //   else if (node.group === 1) {
+    //     return '#';
+    //   } else if (node.level === 1) {
+    //     return 'gray';
+    //   } else {
+    //     return 'lightgray';
+    //   }
+    // }
+
     function getClickedLinkColor(node, link) {
       return isNeighborLink(node, link) ? 'gray' : 'black'
     }
