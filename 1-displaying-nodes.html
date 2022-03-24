@@ -139,7 +139,7 @@
     var simulation = d3
       .forceSimulation()
       .force('link', linkForce)
-      .force('charge', d3.forceManyBody().strength(-50))
+      .force('charge', d3.forceManyBody().strength(-60))
       .force('center', d3.forceCenter(width / 2, height / 2))
 
     var dragDrop = d3.drag().on('start', function (node) {
@@ -160,7 +160,7 @@
 
     var svg = d3.select("#interaction").append("svg")
       .attr("style", "outline: thick solid black")
-      .attr("transform", "translate(0,0)")
+      // .attr("transform", "translate(0,0)")
       .attr("viewBox", "0 0 " + width + " " + height)
       .attr("preserveAspectRatio", "xMidYMid meet")
       // .classed("svg-content", true)
@@ -430,13 +430,43 @@
       .selectAll("text")
       .data(nodes)
       .enter().append("text")
-      .text(function (node) { return node.label })
       .attr("text-anchor", "middle")
       .attr("class", "nodetext")
       .attr('alignment-baseline', 'middle')
       .attr("font-size", 10)
       .style("fill", getTextColor)
-      .attr("group", function (d) { return d.group; });
+      .attr("group", function (d) { return d.group; })
+      .text(function (node) { return node.label }).call(wrap, 0)
+
+    function wrap(text, width) {
+      text.each(function () {
+        var text = d3.select(this),
+          words = text.text().split(/\s+/).reverse(),
+          word,
+          line = [],
+          lineNumber = 0,
+          lineHeight = 1, // ems
+          y = text.attr("y") - ((words.length + 1) * 4),
+          dy = parseFloat(text.attr("dy")),
+          tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+        while (word = words.pop()) {
+          line.push(word);
+          tspan.text(line.join(" "));
+          if (tspan.node().getComputedTextLength() > width) {
+            line.pop();
+            tspan.text(line.join(" "));
+            line = [word];
+            tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+          }
+        }
+      });
+    }
+
+
+
+
+
+
 
     simulation.nodes(nodes).on('tick', () => {
       // nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
