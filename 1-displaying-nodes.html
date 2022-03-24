@@ -135,7 +135,7 @@
     var simulation = d3
       .forceSimulation()
       .force('link', linkForce)
-      .force('charge', d3.forceManyBody().strength(-300))
+      .force('charge', d3.forceManyBody().strength(-50))
       .force('center', d3.forceCenter(width / 2, height / 2))
 
     var dragDrop = d3.drag().on('start', function (node) {
@@ -230,7 +230,9 @@
       } else if (node.group === 2) {
         return '#C5C6D0';
       } else if (node.group === 3) {
-        return '#333333';
+        return '#41424C';
+      } else if (node.group === 4) {
+        return '#787276';
       } else {
         return 'lightgray';
       }
