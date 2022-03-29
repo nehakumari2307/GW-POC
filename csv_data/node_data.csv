@@ -6,13 +6,13 @@ itoc_1_0,1,IToC,4,climate,itoc_1_0,0.3
 ask_1_0,1,ASK,4,climate,ask_1_0,0.3
 fp_1_0,1,FP,4,climate,fp_1_0,0.3
 projectscope,1,Project Scope,2,sustainability,projectscope,0.65
-durable,1,Durable,3,projectscope,durable,0.5
-itoc_1_1,1,IToC,4,durable,itoc_1_1,0.3
-vi_1_0,1,VI,4,durable,vi_1_0,0.3
 emergent,1,Emergent,3,projectscope,emergent,0.5
 to_1_0,1,TO,4,emergent,to_1_0,0.3
 ask_1_1,1,ASK,4,emergent,ask_1_1,0.3
 fr_1_0,1,FR,4,emergent,fr_1_0,0.3
+durable,1,Durable,3,projectscope,durable,0.5
+itoc_1_1,1,IToC,4,durable,itoc_1_1,0.3
+vi_1_0,1,VI,4,durable,vi_1_0,0.3
 boundarywork,2,Boundary Work,1,vibrant,boundarywork,0.8
 workshop,2,Workshop,2,boundarywork,workshop,0.65
 fr_2_0,2,FR,4,workshop,fr_2_0,0.3
