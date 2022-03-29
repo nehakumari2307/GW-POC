@@ -397,7 +397,7 @@
     // .call(drag(simulation))
 
     // nodes.filter(function (n) { return clickableNodes.indexOf(n.id) != -1; })
-    nodes.on("click", function (d) {
+    nodeElements.on("click", function (d) {
       if (clickableNodes.indexOf(d.id) != -1) {
         return;
       } else {
