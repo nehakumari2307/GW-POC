@@ -397,19 +397,19 @@
     // .call(drag(simulation))
 
     // nodes.filter(function (n) { return clickableNodes.indexOf(n.id) != -1; })
-    nodes.on("click", function (n) {
-      if (clickableNodes.indexOf(n.id) != -1) {
+    nodes.on("click", function (d) {
+      if (clickableNodes.indexOf(d.id) != -1) {
         return;
       } else {
         // Determine if current node's neighbors and their links are visible
-        var active = n.active ? false : true // toggle whether node is active
+        var active = d.active ? false : true // toggle whether node is active
           , newOpacity = active ? 0 : 1;
 
         // Extract node's name and the names of its neighbors
-        var name = n.label;
+        var name = d.label;
         console.log("clicked node name " + name);
 
-        var neighbors = getChildrenNode(n);//node2neighbors[name];
+        var neighbors = getChildrenNode(d);//node2neighbors[name];
         console.log("clicked node neighbour " + neighbors);
         // Hide the neighbors and their links
         for (var i = 0; i < neighbors.length; i++) {
@@ -417,7 +417,7 @@
           d3.selectAll("line." + neighbors[i]).style("opacity", newOpacity);
         }
         // Update whether or not the node is active
-        n.active = active;
+        d.active = active;
       }
     });
 
