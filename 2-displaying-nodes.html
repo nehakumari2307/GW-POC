@@ -1,130 +1,532 @@
 <!DOCTYPE html>
-<html>
+<meta charset="utf-8">
 
-<head>
-    <meta charset="UTF-8">
-</head>
-<style>
-    .node {
-        stroke: #fff;
-        stroke-width: 1.5px;
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+<style type="text/css">
+    .interaction {
+        /* display: inline-block; */
+        /* position: relative; */
+        /* width: 100%; */
+        padding-bottom: 100%;
+        vertical-align: top;
+        overflow: hidden;
+        text-align: center;
+        margin: 10px;
     }
 
-    .link {
-        stroke: #999;
-        stroke-opacity: .6;
+    .legend {
+        display: inline-block;
+        width: 10%;
+        position: absolute;
+        /* border: 1px solid red; */
+    }
+
+    /* .svg-content {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  } */
+
+    .node_legend {
+        display: block;
+    }
+
+    .rect_fill {
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        border: 2px solid black;
+    }
+
+    div.d3-tip {
+        line-height: 1;
+        font-weight: bold;
+        padding: 12px;
+        background: #001;
+        color: #F00;
+        border-radius: 2px;
+        pointer-events: none;
+    }
+
+    .d3-tip span {
+        color: #ff00c7;
+    }
+
+    svg {
+        background: #f1f1f1;
+        overflow: scroll;
     }
 </style>
 
+</html>
+
 <body>
-    <p>Are you there!!!</p>
+    <button onclick="history.back()">Go Back</button>
+    <!-- <div id="container"> -->
     <div id="interaction" class="interaction"></div>
+    <!-- <div id="legend" class="legend">
+      <div id="tooltip"></div>
+    </div> -->
+
+    <!-- </div> -->
 </body>
-<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
+
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
 <script>
 
-    var width = 960,
-        height = 500;
-
-    d3.json("./csv_data/sample.json", function (error, graph) {
-
-        var color = d3.scale.category20();
-
-        var json = {
-            "nodes": [{ "name": "Node1", "group": 2 }, { "name": "Node2", "group": 1 }, { "name": "Node3", "group": 1 }],
-            "links": [{ "source": 0, "target": 1, "value": 2 }, { "source": 0, "target": 2, "value": 2 }]
-        };
-
-        var force = d3.layout.force()
-            .charge(-120)
-            .linkDistance(30)
-            .nodes(json.nodes)
-            .links(json.links)
-            .size([width, height]);
-
-        var svg = d3.select("body").append("svg")
-            .attr("width", width)
-            .attr("height", height)
-
-
-        var link = svg.selectAll(".link")
-            .data(json.links)
-            .enter().append("line")
-            .attr("class", function (d) { return ["link", d.source.name, d.target.name].join(" "); })
-            .style("stroke-width", function (d) { return Math.sqrt(d.value); });
-
-        // Set up dictionary of neighbors
-        var node2neighbors = {};
-        for (var i = 0; i < json.nodes.length; i++) {
-            var name = json.nodes[i].name;
-            node2neighbors[name] = json.links.filter(function (d) {
-                console.log("source name is " + d.source.name + " target name is " + d.target.name);
-                return d.source.name == name || d.target.name == name;
-            }).map(function (d) {
-                return d.source.name == name ? d.target.name : d.source.name;
+    function csvToNode(str) {
+        var node_data = [];
+        for (var i = 0; i < str.length; i++) {
+            node_data.push({
+                id: str[i].id,
+                group: parseInt(str[i].group),
+                label: str[i].label,
+                level: parseInt(str[i].level),
+                strength: parseFloat(str[i].strength)
             });
-            console.log("node2 neighbour " + node2neighbors);
+        }
+        return node_data;
+    };
+
+    function csvToLink(str) {
+        var link_data = [];
+        for (var i = 0; i < str.length; i++) {
+            link_data.push({
+                id: str[i].id,
+                group: parseInt(str[i].group),
+                target: str[i].target,
+                source: str[i].source,
+                strength: parseFloat(str[i].strength)
+            });
+        }
+        return link_data;
+    };
+
+    d3.csv("./csv_data/node_data.csv", function (error, data) {
+
+        const nodes = csvToNode(data);
+        const links = csvToLink(data);
+        var radius = 0;
+        var opacity = 0.25;
+
+        // var width = 950;
+        // var height = 500;
+        var width = window.innerWidth - 500;
+        var height = window.innerHeight - 200;
+        var strokeWidth = 2;
+        var timeout = null;
+        // var zoom = d3.zoom().scaleExtent([1, 40]);
+        // var color = d3.scaleOrdinal()
+        //   .domain(["Selected category", "Subcategories ", "articles", "commentary"])
+        //   .range(["black", "gray", "lightgray", "lightgray"]);
+        var keys = ["ASK", "FR", "IToC", "TO", "VI"];
+        var values = ["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"];
+        var color = d3.scaleOrdinal().domain(keys).range(values);
+
+
+
+        var linkForce = d3
+            .forceLink()
+            .id(function (link) { return link.id })
+            .strength(function (link) { return link.strength })
+
+        // simulation setup with all forces
+        var simulation = d3
+            .forceSimulation()
+            .force('link', linkForce)
+            .force('charge', d3.forceManyBody().strength(-60))
+            .force('center', d3.forceCenter(width / 2, height / 2))
+
+        var dragDrop = d3.drag().on('start', function (node) {
+            node.fx = node.x
+            node.fy = node.y
+        }).on('drag', function (node) {
+            simulation.alphaTarget(0.7).restart()
+            node.fx = d3.event.x
+            node.fy = d3.event.y
+        }).on('end', function (node) {
+            if (!d3.event.active) {
+                simulation.alphaTarget(0)
+            }
+            node.fx = null
+            node.fy = null
+        })
+
+
+        var svg = d3.select("#interaction").append("svg")
+            .attr("style", "outline: thick solid black")
+            // .attr("transform", "translate(0,0)")
+            .attr("viewBox", "0 0 " + width + " " + height)
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            // .classed("svg-content", true)
+            .attr("transform", "translate(02,02)scale(0.9,0.9)")
+            .call(d3.zoom()
+                .on("zoom", function () {
+                    svg.attr("transform", d3.event.transform)
+                })
+                // .scaleExtent([0.5, 4])
+                // .translateExtent([[0, 0], [width, height]])
+            )
+            .append("g");
+
+
+        var tip = d3.tip().attr('class', 'd3-tip')
+            .html(function (d) {
+                var x = 'hi';
+                var y = 'hello';
+                // var x = links.filter(g => g.source.name == d.name).map(t => t.target.name).toString();
+                // var y = links.filter(g => g.target.name == d.name).map(t => t.target.name).toString();
+                //return "<span>" + "inbound: " + x + "</span><br><span>" + "outbound: " + y + "</span>";
+                return "<span>" + "Dummy Text : Hi" + "</span>";
+            });
+
+        svg.call(tip);
+        //svg.call(zoom);
+
+        // .call(zoom_handler)
+        // .call(zoom_handler.transform, d3.zoomIdentity.translate(200, 150).scale(0.2));
+
+        // var zoom_handler = d3.zoom().on("zoom", zoom_actions);
+        // zoom_handler(svg);
+
+        // function zoom_actions() {
+        //   g.attr("transform", d3.event.transform)
+        // }
+
+        // const draginteraction = d3.drag().on('drag', (event, node) => {
+        //   node.fx = event.x; //fx& fy is used to fix new position of the nodes when dragged
+        //   node.fy = event.y;
+        //   simulation.alpha(1);
+        //   simulation.restart();
+        // });
+
+        //for hghlighting associated nodes and links when clicked on any node
+
+        function getNeighbors(node) {
+            return links.reduce(function (neighbors, link) {
+                if (link.target.id === node.id) {
+                    neighbors.push(link.source.id)
+                } else if (link.source.id === node.id) {
+                    neighbors.push(link.target.id)
+                }
+                return neighbors
+            },
+                [node.id]
+            )
         }
 
-        var clickableNodes = ["Node1"];
+        function getChildrenNode(node) {
+            return links.reduce(function (neighbors, link) {
+                if (link.target.id === node.id) {
+                    neighbors.push(link.source.id)
+                }
+                return neighbors
+            },
+                [node.id]
+            )
+        }
+
+        function isNeighborLink(node, link) {
+            return link.target.id === node.id || link.source.id === node.id
+        }
+
+        function getClickedNodeColor(node, neighbors) {
+            if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
+                return 'lightblue'
+            }
+            else if (node.group === 0) {
+                return 'black';
+            } else if (node.group === 1) {
+                return 'gray';
+            } else if (node.group === 2) {
+                return '#C5C6D0';
+            } else if (node.group === 3) {
+                return '#5C5D5E';
+            } else if (node.group === 4) {
+                return '#787276';
+            } else {
+                return 'lightgray';
+            }
+        }
+
+        // function getClickedNodeColor(node, neighbors) {
+        //   if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
+        //     return 'lightblue'
+        //   }
+        //   else if (node.group === 1) {
+        //     return '#';
+        //   } else if (node.level === 1) {
+        //     return 'gray';
+        //   } else {
+        //     return 'lightgray';
+        //   }
+        // }
+
+        function getClickedLinkColor(node, link) {
+            return isNeighborLink(node, link) ? 'gray' : 'black'
+        }
+
+        function getClickedNodeSize(node, neighbors) {
+            // neighbors is a array of all nodes connected the the clicked node. Check if the incoming node is present in the neighbour array.
+            // if present, increase the radius size of it and add the class "selected" to the node, if not present keep the default radius size
+            // if (!d3.select(this).classed("selected")) {
+            //     d3.select(this)
+            //       .classed("selected", true)
+            //   } else {
+            //     d3.select(this)
+            //       .style('stroke', 'white')
+            //       .classed("selected", false);
+            //   }
+            radius = (node.strength * 25) + 1.0;
+            // if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
+            //   if (d3.select(node).classed("selected")) {
+            //     d3.select(node).classed("selected", false);
+            //     radius = (node.strength * 25) + 1.0;
+            //   }
+            //   else {
+            //     d3.select(node).classed("selected", true);
+            //     console.log(node);
+            //     radius = (node.strength * 30) + 1.0;
+            //   }
+            // }
+            // return radius;
+
+            return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? (node.strength * 30) + 1.0 : (node.strength * 25) + 1.0
+            // d3.selectAll(".nodes").each(function (d, i) {
+            //   console.log("The radius of the nodes " + i + " is " + d3.select(this).attr("r"))
+        }
+
+        function getTextColor(node) {
+            return node.level === 0 ? 'white' : 'black'
+        }
+
+        function selectNode(selectedNode) {
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                console.clear();
+                console.log("node was single clicked");
+                var neighbors = getNeighbors(selectedNode)
+
+                console.log("selected neighbours are" + neighbors);
+
+                // modify the styles to highlight selected nodes
+                nodeElements.attr('fill', function (node) { return getClickedNodeColor(node, neighbors) })
+                nodeElements.attr('r', function (node) { return getClickedNodeSize(node, neighbors) })
+                // textElements.attr('fill', function (node) { return getTextColor(node, neighbors) })
+                linkElements.attr('stroke', function (link) { return getClickedLinkColor(selectedNode, link) })
+            }, 300)
+        }
 
 
-        var nodes = svg.selectAll(".node")
-            .data(json.nodes)
+
+
+        // function tooltip_in(event, d) { // pass event and d to this function so that it can access d for our data
+        //   console.log("d value is " + d);
+        //   return tooltip
+        //     .html("<h4>" + d.id + "</h4>") // add an html element with a header tag containing the name of the node.  This line is where you would add additional information like: "<h4>" + d.name + "</h4></br><p>" + d.type + "</p>"  Note the quote marks, pluses and </br>--these are necessary for javascript to put all the data and strings within quotes together properly.  Any text needs to be all one line in .html() here
+        //     .style("visibility", "visible") // make the tooltip visible on hover
+        //     .style("top", event.pageY + "px") // position the tooltip with its top at the same pixel location as the mouse on the screen
+        //     .style("left", event.pageX + "px"); // position the tooltip just to the right of the mouse location
+        // }
+
+        // function tooltip_out() {
+        //   return tooltip
+        //     .transition()
+        //     .duration(50) // give the hide behavior a 50 milisecond delay so that it doesn't jump around as the network moves
+        //     .style("visibility", "hidden"); // hide the tooltip when the mouse stops hovering
+        // }
+
+        var linkElements = svg.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(links)
+            .enter().append("line")
+            .attr("stroke-width", strokeWidth)
+            .attr("stroke", "rgba(50, 50, 50, 0.5)")
+            .attr("group", function (d) { return d.group; })
+            .attr("id", function (d) { return d.id; })
+            .on("click", function (d) {
+                // This is to toggle visibility - need to do it on the nodes and links
+                d3.selectAll("line:not([group='" + d.group + "'])")
+                    .style("opacity", function () {
+                        currentDisplay = d3.select(this).style("opacity");
+                        currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                        return currentDisplay;
+                    });
+                d3.selectAll("circle:not([group='" + d.group + "'])")
+                    .style("opacity", function () {
+                        currentDisplay = d3.select(this).style("opacity");
+                        currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                        return currentDisplay;
+                    });
+                d3.selectAll("text:not([group='" + d.group + "'])")
+                    .style("opacity", function () {
+                        currentDisplay = d3.select(this).style("opacity");
+                        currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                        return currentDisplay;
+                    });
+            })
+            .on("mouseover", function (d) {
+                d3.select(this).style("cursor", "crosshair");
+            })
+            .on("mouseout", function (d) {
+                d3.select(this).style("cursor", "default");
+            })
+
+        var clickableNodes = ["climate"];
+
+        var nodeElements = svg.append("g")
+            .attr("class", "nodes")
+            .selectAll("circle")
+            .data(nodes)
             .enter().append("circle")
-            .attr("class", "node")
-            .attr("r", 25)
-            .attr("cy", function (d) {
-                return d.y;
-            })
-            .attr("cx", function (d) {
-                return d.x;
-            })
-            .style("fill", function (d) { return color(d.group); })
-            .style("stroke-width", 20)
-            .call(force.drag);
+            .attr("r", getClickedNodeSize)
+            .attr("stroke-width", strokeWidth)
+            .attr("fill", getClickedNodeColor)
+            .attr("group", function (d) { return d.group; })
+            .attr("id", function (d) { return d.id; })
+            .call(dragDrop)
+            .on('click', selectNode)
+            .on("mouseover", tip.show)
+            .on("mouseout", tip.hide)
+            .attr("class", "nodes");
+        // .call(drag(simulation))
 
-        nodes.filter(function (n) { return clickableNodes.indexOf(n.name) != -1; })
-            .on("click", function (n) {
+        // nodes.filter(function (n) { return clickableNodes.indexOf(n.id) != -1; })
+        nodeElements.on("click", function (d) {
+            if (clickableNodes.indexOf(d.id) != -1) {
+                return;
+            } else {
                 // Determine if current node's neighbors and their links are visible
-                var active = n.active ? false : true // toggle whether node is active
+                var active = d.active ? false : true // toggle whether node is active
                     , newOpacity = active ? 0 : 1;
 
                 // Extract node's name and the names of its neighbors
-                var name = n.name
-                    , neighbors = node2neighbors[name];
+                var name = d.label;
                 console.log("clicked node name " + name);
+
+                var neighbors = getChildrenNode(d);//node2neighbors[name];
                 console.log("clicked node neighbour " + neighbors);
                 // Hide the neighbors and their links
-                for (var i = 0; i < neighbors.length; i++) {
+                for (var i = 1; i < neighbors.length; i++) {
                     d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
-                    d3.selectAll("line." + neighbors[i]).style("opacity", newOpacity);
+                    d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
+                    d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
                 }
                 // Update whether or not the node is active
-                n.active = active;
-            });
+                d.active = active;
+            }
+        });
 
-        nodes.append("title")
-            .text(function (d) { return d.name; });
+        // nodeElements.on("click", function (d) {
+        //   clearTimeout(timeout);
 
-        force.nodes(json.nodes)
-            .links(json.links)
-            .charge(-150)
-            .linkDistance(90)
-            .start();
+        //   timeout = setTimeout(function () {
+        //     console.clear();
+        //     console.log("node was single clicked");
+        //     var neighbors = getNeighbors(selectedNode)
 
-        force.on("tick", function () {
-            nodes.attr("cx", function (node) { return node.x; })
-                .attr("cy", function (node) { return node.y; });
+        //     // modify the styles to highlight selected nodes
+        //     nodeElements.attr('fill', function (node) { return getClickedNodeColor(node, neighbors) })
+        //     nodeElements.attr('r', function (node) { return getClickedNodeSize(node, neighbors) })
+        //     // textElements.attr('fill', function (node) { return getTextColor(node, neighbors) })
+        //     linkElements.attr('stroke', function (link) { return getClickedLinkColor(selectedNode, link) })
+        //   }, 300)
+        // });
 
-            link.attr("x1", function (d) { return d.source.x; })
-                .attr("y1", function (d) { return d.source.y; })
-                .attr("x2", function (d) { return d.target.x; })
-                .attr("y2", function (d) { return d.target.y; });
+        nodeElements.on("dblclick.zoom", function (d) {
+            clearTimeout(timeout);
+
+            console.clear();
+            console.log("node was double clicked");
+            d3.event.stopPropagation();
+            // if (svg.getAttribute("transform")) {
+            //   var svg_scale = getTransformation(svg.getAttribute("transform"));
+            //   var currScale = svg_scale.scaleX;
+            //   console.log("svg scale is" + currScale);
+            // }
+            var dcx = (width / 2 - d.x * 1); //assuming scale to be 1
+            var dcy = (height / 2 - d.y * 1); //assuming scale to be 1
+            console.log("width value " + dcx + "height value " + dcy);
+
+            svg.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + 1 + ")");
+            // zoom.translate([dcx, dcy]);
+            // // g.attr("transform", d3.event.transform)
+            // g.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + zoom.scale() + ")");
+
 
         });
-    });
-</script>
 
-</html>
+
+        // .on("mouseover", tooltip_in) // when the mouse hovers a node, call the tooltip_in function to create the tooltip
+        // .on("mouseout", tooltip_out) // when the mouse stops hovering a node, call the tooltip_out function to get rid of the tooltip
+
+        var textElements = svg.append("g")
+            .attr("class", "texts")
+            .selectAll("text")
+            .data(nodes)
+            .enter().append("text")
+            .attr("text-anchor", "middle")
+            .attr("class", "nodetext")
+            .attr('alignment-baseline', 'middle')
+            .attr("font-size", 10)
+            .attr("id", function (d) { return d.id; })
+            .style("fill", getTextColor)
+            .attr("group", function (d) { return d.group; })
+            .text(function (node) { return node.label });
+
+
+
+
+
+
+
+        simulation.nodes(nodes).on('tick', () => {
+            // nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+            // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+            // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+            // var radius = (node.strength * 25) + 1.0;
+            nodeElements
+                .attr('cx', function (node) { return node.x = Math.max(radius, Math.min(width - radius, node.x)); })
+                .attr('cy', function (node) { return node.y = Math.max(radius, Math.min(height - radius, node.y)); })
+
+            textElements
+                .attr('x', function (node) { return node.x })
+                .attr('y', function (node) { return node.y })
+            linkElements
+                .attr('x1', function (link) { return link.source.x })
+                .attr('y1', function (link) { return link.source.y })
+                .attr('x2', function (link) { return link.target.x })
+                .attr('y2', function (link) { return link.target.y })
+        })
+        simulation.force("link").links(links)
+
+        // var svg_legend = d3.select("#legend").append("g");;
+
+        // var legend = svg_legend.selectAll(".legend")
+        //   .data(color)
+        //   .enter().append("g")
+        //   .attr("class", "node_legend")
+        //   .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+
+        // legend.append("text")
+        //   .attr("x", 1000)
+        //   .attr("y", 9)
+        //   .attr("class", "rect_fill")
+        //   .text(function (color) { return color.keys })
+        // // .attr("fill", color.range())
+
+        // legend.append("text")
+        //   .attr("x", 990)
+        //   .attr("y", 9)
+        //   .attr("dy", ".35em")
+        //   .style("text-anchor", "end")
+        //   .text(function (color) { return color.values; });
+
+    })
+</script>
