@@ -388,7 +388,7 @@
       .attr("stroke-width", strokeWidth)
       .attr("fill", getClickedNodeColor)
       .attr("group", function (d) { return d.group; })
-      .attr("id", function (d) { return d.id + "_" + d.group; })
+      .attr("id", function (d) { return d.id; })
       .call(dragDrop)
       .on('click', selectNode)
       .on("mouseover", tip.show)
@@ -396,16 +396,20 @@
       .attr("class", "nodes");
     // .call(drag(simulation))
 
-    nodes.filter(function (n) { return clickableNodes.indexOf(n.id) != -1; })
-      .on("click", function (n) {
+    // nodes.filter(function (n) { return clickableNodes.indexOf(n.id) != -1; })
+    nodes.on("click", function (n) {
+      if (clickableNodes.indexOf(n.id) != -1) {
+        return;
+      } else {
         // Determine if current node's neighbors and their links are visible
         var active = n.active ? false : true // toggle whether node is active
           , newOpacity = active ? 0 : 1;
 
         // Extract node's name and the names of its neighbors
-        var name = n.name;
-        var neighbors = getChildrenNode(n);//node2neighbors[name];
+        var name = n.label;
         console.log("clicked node name " + name);
+
+        var neighbors = getChildrenNode(n);//node2neighbors[name];
         console.log("clicked node neighbour " + neighbors);
         // Hide the neighbors and their links
         for (var i = 0; i < neighbors.length; i++) {
@@ -414,7 +418,8 @@
         }
         // Update whether or not the node is active
         n.active = active;
-      });
+      }
+    });
 
     // nodeElements.on("click", function (d) {
     //   clearTimeout(timeout);
