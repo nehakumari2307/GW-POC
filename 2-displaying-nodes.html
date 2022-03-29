@@ -30,23 +30,28 @@
 
         var color = d3.scale.category20();
 
+        var json = {
+            "nodes": [{ "name": "Node1", "group": 2 }, { "name": "Node2", "group": 1 }, { "name": "Node3", "group": 1 }],
+            "links": [{ "source": 0, "target": 1, "value": 2 }, { "source": 0, "target": 2, "value": 2 }]
+        };
+
         var force = d3.layout.force()
             .charge(-120)
             .linkDistance(30)
             .size([width, height]);
 
-        var svg = d3.select("#interaction").append("svg")
+        var svg = d3.select("body").append("svg")
             .attr("width", width)
             .attr("height", height)
-        force
-            .nodes(graph.nodes)
-            .links(graph.links)
+
+        force.nodes(json.nodes)
+            .links(json.links)
             .start();
 
         var link = svg.selectAll(".link")
-            .data(graph.links)
+            .data(json.links)
             .enter().append("line")
-            .attr("class", "link")
+            .attr("class", function (d) { return ["link", d.source.name, d.target.name].join(" "); })
             .style("stroke-width", function (d) { return Math.sqrt(d.value); });
 
         // Set up dictionary of neighbors
