@@ -59,10 +59,12 @@
         for (var i = 0; i < json.nodes.length; i++) {
             var name = json.nodes[i].name;
             node2neighbors[name] = json.links.filter(function (d) {
+                console.log("source name is " + d.source.name + " target name is " + d.target.name);
                 return d.source.name == name || d.target.name == name;
             }).map(function (d) {
                 return d.source.name == name ? d.target.name : d.source.name;
             });
+            console.log("node2 neighbour " + node2neighbors);
         }
 
         var clickableNodes = ["Node1"];
@@ -92,7 +94,8 @@
                 // Extract node's name and the names of its neighbors
                 var name = n.name
                     , neighbors = node2neighbors[name];
-
+                console.log("clicked node name " + name);
+                console.log("clicked node neighbour " + neighbors);
                 // Hide the neighbors and their links
                 for (var i = 0; i < neighbors.length; i++) {
                     d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
