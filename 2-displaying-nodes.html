@@ -110,7 +110,7 @@
             .start();
 
         force.on("tick", function () {
-            node.attr("cx", function (node) { return node.x; })
+            nodes.attr("cx", function (node) { return node.x; })
                 .attr("cy", function (node) { return node.y; });
 
             link.attr("x1", function (d) { return d.source.x; })
