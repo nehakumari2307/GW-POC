@@ -378,7 +378,7 @@
       .attr("group", function (d) { return d.group; })
       .attr("id", function (d) { return d.id + "_" + d.group; })
       .call(dragDrop)
-      // .on('click', selectNode)
+      .on('click', selectNode)
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide)
       .attr("class", "nodes");
