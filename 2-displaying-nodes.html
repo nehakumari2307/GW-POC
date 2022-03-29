@@ -99,8 +99,8 @@
             .text(function (d) { return d.name; });
 
         force.on("tick", function () {
-            nodes.attr("cx", function (node) { return node.x = Math.max(radius, Math.min(width - radius, node.x)); })
-                .attr("cy", function (node) { return node.y = Math.max(radius, Math.min(height - radius, node.y)); })
+            nodes.attr("cx", function (node) { return node.x; })
+                .attr("cy", function (node) { return node.y; });
 
             link.attr("x1", function (d) { return d.source.x; })
                 .attr("y1", function (d) { return d.source.y; })
