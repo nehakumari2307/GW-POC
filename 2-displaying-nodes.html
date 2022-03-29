@@ -18,90 +18,91 @@
 
 <body>
     <p>Are you there!!!</p>
-    <script type="text/javascript" src="d3/d3.v3.js"></script>
-    <script>
-
-        var width = 960,
-            height = 500;
-
-        d3.json("./csv_data/sample.json", function (error, graph) {
-
-            var color = d3.scale.category20();
-
-            var force = d3.layout.force()
-                .charge(-120)
-                .linkDistance(30)
-                .size([width, height]);
-
-            var svg = d3.select("body").append("svg")
-                .attr("width", width)
-                .attr("height", height)
-            force
-                .nodes(graph.nodes)
-                .links(graph.links)
-                .start();
-
-            var link = svg.selectAll(".link")
-                .data(graph.links)
-                .enter().append("line")
-                .attr("class", "link")
-                .style("stroke-width", function (d) { return Math.sqrt(d.value); });
-
-            // Set up dictionary of neighbors
-            var node2neighbors = {};
-            for (var i = 0; i < json.nodes.length; i++) {
-                var name = json.nodes[i].name;
-                node2neighbors[name] = json.links.filter(function (d) {
-                    return d.source.name == name || d.target.name == name;
-                }).map(function (d) {
-                    return d.source.name == name ? d.target.name : d.source.name;
-                });
-            }
-
-            var clickableNodes = ["Node1"];
-
-
-            var node = svg.selectAll(".node")
-                .data(graph.nodes)
-                .enter().append("circle")
-                .attr("class", "node")
-                .attr("r", 5)
-                .style("fill", function (d) { return color(d.group); })
-                .call(force.drag);
-
-            nodes.filter(function (n) { return clickableNodes.indexOf(n.name) != -1; })
-                .on("click", function (n) {
-                    // Determine if current node's neighbors and their links are visible
-                    var active = n.active ? false : true // toggle whether node is active
-                        , newOpacity = active ? 0 : 1;
-
-                    // Extract node's name and the names of its neighbors
-                    var name = n.name
-                        , neighbors = node2neighbors[name];
-
-                    // Hide the neighbors and their links
-                    for (var i = 0; i < neighbors.length; i++) {
-                        d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
-                        d3.selectAll("line." + neighbors[i]).style("opacity", newOpacity);
-                    }
-                    // Update whether or not the node is active
-                    n.active = active;
-                });
-
-            node.append("title")
-                .text(function (d) { return d.name; });
-
-            force.on("tick", function () {
-                link.attr("x1", function (d) { return d.source.x; })
-                    .attr("y1", function (d) { return d.source.y; })
-                    .attr("x2", function (d) { return d.target.x; })
-                    .attr("y2", function (d) { return d.target.y; });
-
-                node.attr("cx", function (d) { return d.x; })
-                    .attr("cy", function (d) { return d.y; });
-            });
-        });
-    </script>
+    <div id="interaction" class="interaction"></div>
 </body>
+<script type="text/javascript" src="d3/d3.v3.js"></script>
+<script>
+
+    var width = 960,
+        height = 500;
+
+    d3.json("./csv_data/sample.json", function (error, graph) {
+
+        var color = d3.scale.category20();
+
+        var force = d3.layout.force()
+            .charge(-120)
+            .linkDistance(30)
+            .size([width, height]);
+
+        var svg = d3.select("#interaction").append("svg")
+            .attr("width", width)
+            .attr("height", height)
+        force
+            .nodes(graph.nodes)
+            .links(graph.links)
+            .start();
+
+        var link = svg.selectAll(".link")
+            .data(graph.links)
+            .enter().append("line")
+            .attr("class", "link")
+            .style("stroke-width", function (d) { return Math.sqrt(d.value); });
+
+        // Set up dictionary of neighbors
+        var node2neighbors = {};
+        for (var i = 0; i < json.nodes.length; i++) {
+            var name = json.nodes[i].name;
+            node2neighbors[name] = json.links.filter(function (d) {
+                return d.source.name == name || d.target.name == name;
+            }).map(function (d) {
+                return d.source.name == name ? d.target.name : d.source.name;
+            });
+        }
+
+        var clickableNodes = ["Node1"];
+
+
+        var node = svg.selectAll(".node")
+            .data(graph.nodes)
+            .enter().append("circle")
+            .attr("class", "node")
+            .attr("r", 5)
+            .style("fill", function (d) { return color(d.group); })
+            .call(force.drag);
+
+        nodes.filter(function (n) { return clickableNodes.indexOf(n.name) != -1; })
+            .on("click", function (n) {
+                // Determine if current node's neighbors and their links are visible
+                var active = n.active ? false : true // toggle whether node is active
+                    , newOpacity = active ? 0 : 1;
+
+                // Extract node's name and the names of its neighbors
+                var name = n.name
+                    , neighbors = node2neighbors[name];
+
+                // Hide the neighbors and their links
+                for (var i = 0; i < neighbors.length; i++) {
+                    d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
+                    d3.selectAll("line." + neighbors[i]).style("opacity", newOpacity);
+                }
+                // Update whether or not the node is active
+                n.active = active;
+            });
+
+        node.append("title")
+            .text(function (d) { return d.name; });
+
+        force.on("tick", function () {
+            link.attr("x1", function (d) { return d.source.x; })
+                .attr("y1", function (d) { return d.source.y; })
+                .attr("x2", function (d) { return d.target.x; })
+                .attr("y2", function (d) { return d.target.y; });
+
+            node.attr("cx", function (d) { return d.x; })
+                .attr("cy", function (d) { return d.y; });
+        });
+    });
+</script>
 
 </html>
