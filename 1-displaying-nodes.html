@@ -301,6 +301,8 @@
         console.log("node was single clicked");
         var neighbors = getNeighbors(selectedNode)
 
+        console.log("selected neighbours are" + neighbors);
+
         // modify the styles to highlight selected nodes
         nodeElements.attr('fill', function (node) { return getClickedNodeColor(node, neighbors) })
         nodeElements.attr('r', function (node) { return getClickedNodeSize(node, neighbors) })
