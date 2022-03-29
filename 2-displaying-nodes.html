@@ -393,7 +393,7 @@
             .attr("group", function (d) { return d.group; })
             .attr("id", function (d) { return d.id; })
             .attr("active", function (d) {
-                if (d.child === true) {
+                if (d.child === "true") {
                     var active = d.active ? false : true // toggle whether node is active
                         , newOpacity = active ? 0 : 1;
 
