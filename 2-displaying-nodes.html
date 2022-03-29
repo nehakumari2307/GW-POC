@@ -402,9 +402,9 @@
                     var name = d.label;
                     console.log("clicked node name " + name);
 
-                    d3.select("circle#" + name).style("opacity", newOpacity);
-                    // d3.select("text#" + name).style("opacity", newOpacity);
-                    d3.select("line#" + name).style("opacity", newOpacity);
+                    d3.select("circle#" + name).style("opacity", activeOpacity);
+                    // d3.select("text#" + name).style("opacity", activeOpacity);
+                    d3.select("line#" + name).style("opacity", activeOpacity);
 
                     // var neighbors = getChildrenNode(d);
                     // console.log("clicked node neighbour " + neighbors);
