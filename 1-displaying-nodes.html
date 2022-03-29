@@ -220,6 +220,17 @@
       )
     }
 
+    function getChildrenNode(node) {
+      return links.reduce(function (neighbors, link) {
+        if (link.target.id === node.id) {
+          neighbors.push(link.source.id)
+        }
+        return neighbors
+      },
+        [node.id]
+      )
+    }
+
     function isNeighborLink(node, link) {
       return link.target.id === node.id || link.source.id === node.id
     }
@@ -366,6 +377,7 @@
         d3.select(this).style("cursor", "default");
       })
 
+    var clickableNodes = ["climate"];
 
     var nodeElements = svg.append("g")
       .attr("class", "nodes")
@@ -383,6 +395,26 @@
       .on("mouseout", tip.hide)
       .attr("class", "nodes");
     // .call(drag(simulation))
+
+    nodes.filter(function (n) { return clickableNodes.indexOf(n.id) != -1; })
+      .on("click", function (n) {
+        // Determine if current node's neighbors and their links are visible
+        var active = n.active ? false : true // toggle whether node is active
+          , newOpacity = active ? 0 : 1;
+
+        // Extract node's name and the names of its neighbors
+        var name = n.name;
+        var neighbors = getChildrenNode(n);//node2neighbors[name];
+        console.log("clicked node name " + name);
+        console.log("clicked node neighbour " + neighbors);
+        // Hide the neighbors and their links
+        for (var i = 0; i < neighbors.length; i++) {
+          d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
+          d3.selectAll("line." + neighbors[i]).style("opacity", newOpacity);
+        }
+        // Update whether or not the node is active
+        n.active = active;
+      });
 
     // nodeElements.on("click", function (d) {
     //   clearTimeout(timeout);
