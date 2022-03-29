@@ -87,7 +87,8 @@
                 group: parseInt(str[i].group),
                 label: str[i].label,
                 level: parseInt(str[i].level),
-                strength: parseFloat(str[i].strength)
+                strength: parseFloat(str[i].strength),
+                child: str[i].child
             });
         }
         return node_data;
@@ -101,7 +102,8 @@
                 group: parseInt(str[i].group),
                 target: str[i].target,
                 source: str[i].source,
-                strength: parseFloat(str[i].strength)
+                strength: parseFloat(str[i].strength),
+                child: str[i].child
             });
         }
         return link_data;
