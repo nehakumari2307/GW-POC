@@ -381,7 +381,7 @@
             })
 
         var clickableNodes = ["climate"];
-        var activeOpacity;
+        var activeOpacity = false;
 
         var nodeElements = svg.append("g")
             .attr("class", "nodes")
@@ -398,8 +398,8 @@
                 //     return d.child == "true";
                 // })
                 if (d.child == "true") {
-                    // d3.select("circle#" + d.label).style("opacity", "0.5");
-                    d3.select(this).style("opacity", "0.5");
+                    activeOpacity = true;
+                    d3.select(this).style("opacity", "0");
                 }
             })
             .call(dragDrop)
@@ -416,7 +416,8 @@
             } else {
                 // Determine if current node's neighbors and their links are visible
                 var active = d.active ? false : true // toggle whether node is active
-                    , newOpacity = active ? 0 : 1;
+                    , newOpacity = active && activeOpacity ? 1 : 0;
+                // , newOpacity = active || activeOpacity ? 0 : 1;
 
                 // Extract node's name and the names of its neighbors
                 var name = d.label;
