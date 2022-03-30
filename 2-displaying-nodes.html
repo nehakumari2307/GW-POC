@@ -352,6 +352,12 @@
             .attr("stroke", "rgba(50, 50, 50, 0.5)")
             .attr("group", function (d) { return d.group; })
             .attr("id", function (d) { return d.id; })
+            .attr("active", function (d) {
+                if (d.child == "true") {
+                    activeOpacity = true;
+                    d3.select(this).style("opacity", "0");
+                }
+            })
             .on("click", function (d) {
                 // This is to toggle visibility - need to do it on the nodes and links
                 d3.selectAll("line:not([group='" + d.group + "'])")
@@ -394,9 +400,6 @@
             .attr("group", function (d) { return d.group; })
             .attr("id", function (d) { return d.id; })
             .attr("active", function (d) {
-                // nodeElements.filter(function (d) {
-                //     return d.child == "true";
-                // })
                 if (d.child == "true") {
                     activeOpacity = true;
                     d3.select(this).style("opacity", "0");
@@ -491,11 +494,13 @@
             .attr("id", function (d) { return d.id; })
             .style("fill", getTextColor)
             .attr("group", function (d) { return d.group; })
-            .text(function (node) { return node.label });
-
-
-
-
+            .text(function (node) { return node.label })
+            .attr("active", function (d) {
+                if (d.child == "true") {
+                    activeOpacity = true;
+                    d3.select(this).style("opacity", "0");
+                }
+            })
 
 
 
