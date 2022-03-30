@@ -398,7 +398,8 @@
                 //     return d.child == "true";
                 // })
                 if (d.child == "true") {
-                    d.style("opacity", "0.5");
+                    d3.select("circle#" + d.label).style("opacity", "0.5");
+                    // d.style("opacity", "0.5");
                 }
             })
             /* .attr("active", function (d) {
