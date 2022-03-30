@@ -394,6 +394,12 @@
             .attr("group", function (d) { return d.group; })
             .attr("id", function (d) { return d.id; })
             .attr("active", function (d) {
+                node.filter(function (d) {
+                    return d.child == "true";
+                })
+                    .style("opacity", "0.5");
+            })
+            /* .attr("active", function (d) {
                 if (d.child === "true") {
                     var active = d.active ? false : true // toggle whether node is active
                         , activeOpacity = active ? 0 : 1;
@@ -419,7 +425,7 @@
                 } else {
                     return false;
                 }
-            })
+            }) */
             .call(dragDrop)
             // .on('click', selectNode)
             .on("mouseover", tip.show)
