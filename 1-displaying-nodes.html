@@ -589,11 +589,11 @@
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px")
       .attr("fill", "black")
-      .text(function (d) {
-        console.log("key is " + d.key);
-        console.log("values is " + d.value);
+      .text(function (legend_data) {
+        console.log("key is " + legend_data[0].key);
+        console.log("values is " + legend_data[0].value);
         // console.log("lengend value " + legend_data.values)
-        return d.value;
+        // return d.value;
       })
     // .attr("class", function (d, i) { return d[i].label; });
 
