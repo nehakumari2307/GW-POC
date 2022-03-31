@@ -531,21 +531,30 @@
 
     //legends
     var legend = svg2.selectAll(".legend")
-      .data(color)
+      .data(nodes)
       .enter().append("g")
       .attr("class", "node_legend")
-      .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+      .attr("transform", function (d, i) { return "translate(0," + i * 50 + ")"; });
 
     legend.append("rect")
-      .attr("x", 1000)
+      .attr("x", 10)
       .attr("y", 9)
       .attr("height", 40)
       .attr("width", 40)
       .attr("stroke-width", "1.5")
       .attr("stroke", "gray")
-      .attr("class", function (d) { return color.keys; })
-      .text(function (color) { return color.keys })
+      .attr("class", function (d) { return nodes.label; })
+      .text(function (keys) { return keys })
     // .attr("fill", color.range())
+
+    legend.append("rect")
+      .attr("x", 55)
+      .attr("y", 9)
+      .attr("font-family", "sans-serif")
+      .attr("font-size", "12px")
+      .attr("fill", "black")
+      .text(function (d) { return values; })
+      .attr("class", function (d) { return d.label; });
 
   })
 </script>
