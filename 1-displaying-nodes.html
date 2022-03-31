@@ -133,7 +133,7 @@
 
     var legend_data = d3.scaleOrdinal()
       .domain(["ASK", "FR", "IToC", "TO", "VI"])
-      .range(["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"]);
+    // .range(["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"]);
 
 
 
@@ -558,7 +558,7 @@
       //   }
       // })
       .text(function (d) {
-        return d.domain;
+        return d;
       })
       .attr("fill", "lightgray")
 
@@ -568,7 +568,11 @@
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px")
       .attr("fill", "black")
-      .text(function (d) { return d.range; })
+      .text(function (values) {
+        for (i = 0; i < values.length; i++) {
+          return values[i];
+        }
+      })
     // .attr("class", function (d, i) { return d[i].label; });
 
   })
