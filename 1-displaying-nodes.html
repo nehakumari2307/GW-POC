@@ -567,13 +567,13 @@
     legend.append("text")
       .attr("x", 55)
       .attr("y", 9)
-      .data(legend_data.values())
+      .data(legend_data)
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px")
       .attr("fill", "black")
       .text(function (values) {
         console.log("values is " + values);
-        console.log("lengend value " + legend_data.values)
+        // console.log("lengend value " + legend_data.values)
         return values;
       })
     // .attr("class", function (d, i) { return d[i].label; });
