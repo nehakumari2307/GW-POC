@@ -576,8 +576,9 @@
 
     legend.append("text")
       .attr("x", 55)
-      .attr("y", 9)
+      .attr("y", 40)
       .attr("class", "texts")
+      .data(legend_data)
       .selectAll("text")
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px")
