@@ -131,24 +131,9 @@
     var keys = ["ASK", "FR", "IToC", "TO", "VI"];
     var values = ["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"];
 
-    var legend_data = [{
-      key: "ASK",
-      value: "ASIKXXI"
-    }, {
-      key: "FR",
-      value: "Fresh Press"
-    }, {
-      key: "IToC",
-      value: "In Time of Change"
-    }, {
-      key: "TO",
-      value: "Translating Outcomes"
-    }, {
-      key: "VI",
-      value: "Viral Imaginations"
-    }]
-    // .domain(["ASK", "FR", "IToC", "TO", "VI"])
-    // .range(["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"]);
+    var legend_data = d3.scaleOrdinal()
+      .domain(["ASK", "FR", "IToC", "TO", "VI"])
+      .range(["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"]);
 
 
 
@@ -554,7 +539,7 @@
 
     //legends
     var legend = svg2.selectAll(".legend")
-      .data(legend_data)
+      .data(legend_data.domain())
       .enter().append("g")
       .attr("class", "node_legend")
       .attr("transform", function (d, i) { return "translate(0," + i * 50 + ")"; });
@@ -582,18 +567,18 @@
     legend.append("text")
       .attr("x", 55)
       .attr("y", 9)
-      .attr("class", "texts")
-      .selectAll("text")
-      .data(legend_data)
-      // .data(values)
+      // .data(legend_data())
+      .data(values)
       .attr("class", "texts")
       .selectAll("text")
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px")
       .attr("fill", "black")
-      .text(function (legend_data) {
-        return legend_data.value
-      });
+      .text(function (values) {
+        console.log("values is " + values);
+        // console.log("lengend value " + legend_data.values)
+        return values;
+      })
     // .attr("class", function (d, i) { return d[i].label; });
 
   })
