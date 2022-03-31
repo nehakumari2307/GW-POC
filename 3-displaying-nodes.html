@@ -385,7 +385,7 @@
             .selectAll("circle")
             .data(nodes)
             .enter().append("circle")
-            .attr("r", getClickedNodeSize)
+            .attr("r", "25")
             .attr("stroke-width", strokeWidth)
             .attr("fill", getClickedNodeColor)
             .attr("group", function (d) { return d.group; })
