@@ -10,22 +10,35 @@ disciplinarity,1,Disciplinarity,3,inter,disciplinarity,0.6,false
 epistemologies,1,Epistemologies,3,vi,epistemologies,0.6,false
 epistemologies,1,Epistemologies,3,itoc,epistemologies,0.6,false
 integration,1,Integration,3,vi,integration,0.6,false
+community,3,Community,3,vi,community,0.6,false
+local,3,Local,3,itoc,local,0.6,false
+local,3,Local,3,vi,local,0.6,false
+placeinquiry,3,Place Inquiry,2,itoc,placeinquiry,0.5,false
 to,1,TO,1,vibrant,to,0.3,false
 multi,1,Multi,2,to,multi,0.5,false
 emergent,2,Emergent,2,to,emergent,0.5,false
 disciplinarity,1,Disciplinarity,3,multi,disciplinarity,0.6,false
 integration,1,Integration,3,to,integration,0.6,false
+community,3,Community,3,to,community,0.6,false
+plantmaking,3,Place Making,2,to,plantmaking,0.5,false
 ask,1,ASK,1,vibrant,ask,0.3,false
 trans,1,Trans,2,ask,trans,0.5,false
 emergent,2,Emergent,2,ask,emergent,0.5,false
 climate,2,Climate,3,ask,climate,0.6,false
 disciplinarity,1,Disciplinarity,3,trans,disciplinarity,0.6,false
+glocal,3,Glocal,3,ask,glocal,0.6,false
+plantlearning,3,Place Learning,2,ask,plantlearning,0.5,false
 fr,1,FR,1,vibrant,fr,0.3,false
 inter,1,Inter,2,fr,inter,0.5,false
 emergent,2,Emergent,2,fr,emergent,0.5,false
 disciplinarity,1,Disciplinarity,3,inter,disciplinarity,0.6,false
 projectscope,2,Project Scope,3,emergent,projectscope,0.6,false
 projectscope,2,Project Scope,3,durable,projectscope,0.6,false
+plantbased,3,Place Based,3,placeinquiry,plantbased,0.6,false
+plantbased,3,Place Based,3,plantmaking,plantbased,0.6,false
+plantbased,3,Place Based,3,plantlearning,plantbased,0.6,false
+community,3,Community,3,fr,community,0.6,false
+local,3,Local,3,fr,local,0.6,false
 fp,1,FP,1,vibrant,fp,0.3,false
 climate,2,Climate,3,fp,climate,0.6,false
 polydisciplinarity,1,Polydisciplinarity,4,disciplinarity,polydisciplinarity,0.8,true
@@ -33,3 +46,7 @@ polydisciplinarity,1,Polydisciplinarity,4,epistemologies,polydisciplinarity,0.8,
 polydisciplinarity,1,Polydisciplinarity,4,integration,polydisciplinarity,0.8,true
 sustainability,2,Sustainability,4,climate,sustainability,0.8,true
 sustainability,2,Sustainability,4,projectscope,sustainability,0.8,true
+site,3,Site,4,community,site,0.8,true
+site,3,Site,4,glocal,site,0.8,true
+site,3,Site,4,local,site,0.8,true
+site,3,Site,4,plantbased,site,0.8,true
