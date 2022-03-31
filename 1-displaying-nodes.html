@@ -111,6 +111,15 @@
 
     const nodes = csvToNode(data);
     const links = csvToLink(data);
+
+    //legend data
+    const legend = [
+      { "key": "ASK", "location": "ASIKXXI" },
+      { "key": "FR", "location": "FreshPress" },
+      { "key": "IToC", "location": "InTimeofChange" },
+      { "key": "TO", "location": "TranslatingOutcomes" },
+      { "key": "VI", "location": "ViralImaginations" }];
+
     var radius = 0;
     var opacity = 0.25;
 
@@ -128,12 +137,12 @@
     // var color = d3.scaleOrdinal().domain(keys).range(values);
 
 
-    var keys = ["ASK", "FR", "IToC", "TO", "VI"];
-    var values = ["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"];
+    // var keys = ["ASK", "FR", "IToC", "TO", "VI"];
+    // var values = ["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"];
 
-    var legend_data = d3.scaleOrdinal()
-      .domain(["ASK", "FR", "IToC", "TO", "VI"])
-      .range(["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"]);
+    // var legend_data = d3.scaleOrdinal()
+    //   .domain(["ASK", "FR", "IToC", "TO", "VI"])
+    //   .range(["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"]);
 
 
 
@@ -539,10 +548,30 @@
 
     //legends
     var legend = svg2.selectAll(".legend")
-      .data(legend_data.domain())
+      .data(legend)
       .enter().append("g")
       .attr("class", "node_legend")
-      .attr("transform", function (d, i) { return "translate(0," + i * 50 + ")"; });
+      .attr("transform", function (d, i) { return "translate(0," + i * 50 + ")"; })
+      .on("mouseover", function (d) {
+        d3.select(this).select("rect").style("stroke-width", 6);
+        d3.select(this).select("rect").style("stroke", "orange");
+        d3.select(this).select("text").style("font", "20px sans-serif")
+      })
+      .on("mouseout", function (d) {
+        d3.select(this).select("rect").style("stroke-width", 1.5);
+        d3.select(this).select("rect").style("stroke", "gray");
+        d3.select(this).select("text").style("font", "12px sans-serif");
+      });
+
+    mapit.append("rect")
+      .attr("x", function (d) { return xScale(d.long); })
+      .attr("y", function (d) { return yScale(d.lat); })
+      .attr("height", 20)
+      .attr("width", 20)
+      .attr("fill", "gray")
+      .attr("stroke-width", "1.5")
+      .attr("stroke", "gray")
+      .attr("class", function (d) { return d.location; });
 
     legend.append("rect")
       .attr("x", 10)
@@ -552,34 +581,61 @@
       // .data(legend_data.domain())
       .attr("stroke-width", "1.5")
       .attr("stroke", "gray")
-      // .attr("class", function (d, i) { return nodes[i].label; })
-      // .text(function (keys, i) {
-      //   for (i = 0; i < keys.length; i++) {
-      //     return keys[i];
-      //   }
-      // })
-      // .text(function (d) {
-      //   console.log(d);
-      //   return d;
-      // })
-      .attr("fill", "lightgray")
+      .attr("class", function (d) { return d.location; })
+      .attr("fill", "lightgray");
 
     legend.append("text")
       .attr("x", 55)
       .attr("y", 9)
-      // .data(legend_data())
-      .data(values)
       .attr("class", "texts")
       .selectAll("text")
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px")
       .attr("fill", "black")
-      .text(function (values) {
-        console.log("values is " + values);
-        // console.log("lengend value " + legend_data.values)
-        return values;
-      })
-    // .attr("class", function (d, i) { return d[i].label; });
+      .text(function (d) { return d.location; })
+      .attr("class", function (d) { return d.location; });
+    /* 
+        var mapit = svg2.selectAll(".mapit")
+      .data(graph.locs)
+      .enter().append("g")
+      .on("mouseover", function(d) { 
+        d3.select(this).select("rect").style("stroke-width", 6); 
+        d3.select(this).select("rect").style("stroke", "orange"); 
+        d3.select(this).select("text").style("font", "20px sans-serif");
+        d3.selectAll("g." + d.location + " circle").style("stroke-width", 6); 
+        d3.selectAll("g." + d.location + " circle").style("stroke", "orange"); 
+        d3.selectAll("g." + d.location + " text").style("font", "20px sans-serif");
+        d3.selectAll("tr." + d.location).style("background-color", "orange");
+        })
+      .on("mouseout",  function(d) { 
+        d3.select(this).select("rect").style("stroke-width", 1.5); 
+        d3.select(this).select("rect").style("stroke", "gray"); 
+        d3.select(this).select("text").style("font", "12px sans-serif");
+        d3.selectAll("g." + d.location + " circle").style("stroke-width", 1.5); 
+        d3.selectAll("g." + d.location + " circle").style("stroke", "gray"); 
+        d3.selectAll("g." + d.location + " text").style("font", "12px sans-serif");
+        d3.selectAll("tr." + d.location).style("background-color", "white");
+        });
 
+    mapit.append("rect")
+      .attr("x", function(d) { return xScale(d.long); })
+      .attr("y", function(d) { return yScale(d.lat); })
+      .attr("height", 20)
+      .attr("width", 20)
+      .attr("fill", "gray")
+      .attr("stroke-width", "1.5")
+      .attr("stroke", "gray")
+      .attr("class", function(d) { return d.location ;});
+
+    mapit.append("text")
+      .attr("x", function(d) { return xScale(d.long); })
+      .attr("y", function(d) { return yScale(d.lat) -5; })
+      .attr("font-family", "sans-serif")
+      .attr("font-size", "12px")
+      .attr("fill", "black")
+      .text(function(d) { return d.location; })
+            .attr("class", function(d) { return d.location ;});
+
+    */
   })
 </script>
