@@ -5,9 +5,13 @@ itoc,1,IToc,1,vibrant,itoc,0.8,false
 inter,1,Inter,2,itoc,inter,0.6,false
 inter,1,Inter,2,vi,inter,0.6,false
 disciplinarity,1,Disciplinarity,3,inter,disciplinarity,0.5,false
+epistemologies,1,Epistemologies,3,vi,epistemologies,0.5,false
+epistemologies,1,Epistemologies,3,itoc,epistemologies,0.5,false
+integration,1,Integration,3,vi,integration,0.5,false
 to,1,TO,1,vibrant,to,0.8,false
 multi,1,Multi,2,to,multi,0.6,false
 disciplinarity,1,Disciplinarity,3,multi,disciplinarity,0.5,false
+integration,1,Integration,3,to,integration,0.5,false
 ask,1,ASK,1,vibrant,ask,0.8,false
 trans,1,Trans,2,ask,trans,0.6,false
 disciplinarity,1,Disciplinarity,3,trans,disciplinarity,0.5,false
@@ -15,3 +19,6 @@ fr,1,FR,1,vibrant,fr,0.8,false
 inter,1,Inter,2,fr,inter,0.6,false
 disciplinarity,1,Disciplinarity,3,inter,disciplinarity,0.5,false
 fp,1,FP,1,vibrant,fp,0.8,false
+polydisciplinarity,1,Polydisciplinarity,4,disciplinarity,polydisciplinarity,0.3,true
+polydisciplinarity,1,Polydisciplinarity,4,epistemologies,polydisciplinarity,0.3,true
+polydisciplinarity,1,Polydisciplinarity,4,integration,polydisciplinarity,0.3,true
