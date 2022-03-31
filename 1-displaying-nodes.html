@@ -563,21 +563,10 @@
         d3.select(this).select("text").style("font", "12px sans-serif");
       });
 
-    legend.append("rect")
-      .attr("x", 10)
-      .attr("y", 9)
-      .attr("height", 40)
-      .attr("width", 40)
-      // .data(legend_data)
-      .attr("stroke-width", "1.5")
-      .attr("stroke", "gray")
-      .attr("class", function (d) { return d.location; })
-      .attr("fill", "lightgray");
-
     legend.append("text")
       .attr("x", 55)
       .attr("y", 40)
-      .attr("class", "texts")
+      // .attr("class", "texts")
       // .data(legend_data)
       .selectAll("text")
       .attr("font-family", "sans-serif")
@@ -588,6 +577,17 @@
         return d.location;
       })
       .attr("class", function (d) { return d.location; });
+
+    legend.append("rect")
+      .attr("x", 10)
+      .attr("y", 9)
+      .attr("height", 40)
+      .attr("width", 40)
+      // .data(legend_data)
+      .attr("stroke-width", "1.5")
+      .attr("stroke", "gray")
+      .attr("class", function (d) { return d.location; })
+      .attr("fill", "lightgray");
     /* 
         var mapit = svg2.selectAll(".mapit")
       .data(graph.locs)
