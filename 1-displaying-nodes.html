@@ -578,12 +578,15 @@
       .attr("x", 55)
       .attr("y", 40)
       .attr("class", "texts")
-      .data(legend_data)
+      // .data(legend_data)
       .selectAll("text")
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px")
       .attr("fill", "black")
-      .text(function (legend_data) { return legend_data.location; })
+      .text(function (d) {
+        console.log("value is " + d.location);
+        return d.location;
+      })
       .attr("class", function (d) { return d.location; });
     /* 
         var mapit = svg2.selectAll(".mapit")
