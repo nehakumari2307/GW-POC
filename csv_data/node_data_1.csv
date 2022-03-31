@@ -1,3 +1,4 @@
 id,group,label,level,target,source,strength,child
 vibrant,0,Vibrant Ecologies,0,vibrant,vibrant,1,false
 vi,1,VI,1,vibrant,vi,0.8,false
+itoc,1,IToc,1,vibrant,itoc,0.8,false
