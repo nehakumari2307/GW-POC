@@ -582,6 +582,8 @@
     legend.append("text")
       .attr("x", 55)
       .attr("y", 9)
+      .attr("class", "texts")
+      .selectAll("text")
       .data(legend_data)
       // .data(values)
       .attr("class", "texts")
@@ -590,11 +592,8 @@
       .attr("font-size", "12px")
       .attr("fill", "black")
       .text(function (legend_data) {
-        console.log("key is " + legend_data[0].key);
-        console.log("values is " + legend_data[0].value);
-        // console.log("lengend value " + legend_data.values)
-        // return d.value;
-      })
+        return legend_data.value
+      });
     // .attr("class", function (d, i) { return d[i].label; });
 
   })
