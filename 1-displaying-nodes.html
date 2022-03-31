@@ -555,12 +555,18 @@
       .on("mouseover", function (d) {
         d3.select(this).select("rect").style("stroke-width", 6);
         d3.select(this).select("rect").style("stroke", "orange");
-        d3.select(this).select("text").style("font", "20px sans-serif")
+        d3.select(this).select("text").style("font", "20px sans-serif");
+        d3.selectAll("g." + d.location + " circle").style("stroke-width", 6);
+        d3.selectAll("g." + d.location + " circle").style("stroke", "orange");
+        d3.selectAll("g." + d.location + " text").style("font", "20px sans-serif");
       })
       .on("mouseout", function (d) {
         d3.select(this).select("rect").style("stroke-width", 1.5);
         d3.select(this).select("rect").style("stroke", "gray");
         d3.select(this).select("text").style("font", "12px sans-serif");
+        d3.selectAll("g." + d.location + " circle").style("stroke-width", 1.5);
+        d3.selectAll("g." + d.location + " circle").style("stroke", "gray");
+        d3.selectAll("g." + d.location + " text").style("font", "12px sans-serif");
       });
 
     legend.append("text")
@@ -568,15 +574,15 @@
       .attr("y", 40)
       // .attr("class", "texts")
       // .data(legend_data)
-      .selectAll("text")
+      // .selectAll("text")
+      .attr("class", function (d) { return d.location; })
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px")
-      .attr("fill", "black")
+      .style("fill", "black")
       .text(function (d) {
-        console.log("value is " + d.location);
         return d.location;
-      })
-      .attr("class", function (d) { return d.location; });
+      });
+
 
     legend.append("rect")
       .attr("x", 10)
