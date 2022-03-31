@@ -174,6 +174,10 @@
       )
       .append("g");
 
+    // second svg for legend
+    var svg2 = d3.select("#interaction").append("svg")
+      .attr("width", "250")
+      .attr("height", "250");
 
     var tip = d3.tip().attr('class', 'd3-tip')
       .html(function (d) {
@@ -391,37 +395,37 @@
       .attr("group", function (d) { return d.group; })
       .attr("id", function (d) { return d.id; })
       .call(dragDrop)
-      .on('click', selectNode)
+      // .on('click', selectNode)
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide)
       .attr("class", "nodes");
     // .call(drag(simulation))
 
-    // nodes.filter(function (n) { return clickableNodes.indexOf(n.id) != -1; })
-    nodeElements.on("click", function (d) {
-      if (clickableNodes.indexOf(d.id) != -1) {
-        return;
-      } else {
-        // Determine if current node's neighbors and their links are visible
-        var active = d.active ? false : true // toggle whether node is active
-          , newOpacity = active ? 0 : 1;
+    // this will hide the children node on click of node
+    // nodeElements.on("click", function (d) {
+    //   if (clickableNodes.indexOf(d.id) != -1) {
+    //     return;
+    //   } else {
+    //     // Determine if current node's neighbors and their links are visible
+    //     var active = d.active ? false : true // toggle whether node is active
+    //       , newOpacity = active ? 0 : 1;
 
-        // Extract node's name and the names of its neighbors
-        var name = d.label;
-        console.log("clicked node name " + name);
+    //     // Extract node's name and the names of its neighbors
+    //     var name = d.label;
+    //     console.log("clicked node name " + name);
 
-        var neighbors = getChildrenNode(d);//node2neighbors[name];
-        console.log("clicked node neighbour " + neighbors);
-        // Hide the neighbors and their links
-        for (var i = 1; i < neighbors.length; i++) {
-          d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
-          d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
-          d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
-        }
-        // Update whether or not the node is active
-        d.active = active;
-      }
-    });
+    //     var neighbors = getChildrenNode(d);//node2neighbors[name];
+    //     console.log("clicked node neighbour " + neighbors);
+    //     // Hide the neighbors and their links
+    //     for (var i = 1; i < neighbors.length; i++) {
+    //       d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
+    //       d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
+    //       d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
+    //     }
+    //     // Update whether or not the node is active
+    //     d.active = active;
+    //   }
+    // });
 
     // nodeElements.on("click", function (d) {
     //   clearTimeout(timeout);
@@ -483,9 +487,6 @@
 
 
 
-
-
-
     simulation.nodes(nodes).on('tick', () => {
       // nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
       // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
@@ -527,6 +528,24 @@
     //   .attr("dy", ".35em")
     //   .style("text-anchor", "end")
     //   .text(function (color) { return color.values; });
+
+    //legends
+    var legend = svg2.selectAll(".legend")
+      .data(color)
+      .enter().append("g")
+      .attr("class", "node_legend")
+      .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
+
+    legend.append("rect")
+      .attr("x", 1000)
+      .attr("y", 9)
+      .attr("height", 40)
+      .attr("width", 40)
+      .attr("stroke-width", "1.5")
+      .attr("stroke", "gray")
+      .attr("class", function (d) { return color.keys; })
+      .text(function (color) { return color.keys })
+    // .attr("fill", color.range())
 
   })
 </script>
