@@ -98,7 +98,7 @@
         var link_data = [];
         for (var i = 0; i < str.length; i++) {
             link_data.push({
-                // id: str[i].id,
+                id: str[i].id,
                 group: parseInt(str[i].group),
                 target: str[i].target,
                 source: str[i].source,
@@ -351,7 +351,7 @@
             .attr("stroke-width", strokeWidth)
             .attr("stroke", "rgba(50, 50, 50, 0.5)")
             .attr("group", function (d) { return d.group; })
-            // .attr("id", function (d) { return d.id; })
+            .attr("id", function (d) { return d.id; })
             // .attr("active", function (d) {
             //     if (d.child == "true") {
             //         activeOpacity = true;

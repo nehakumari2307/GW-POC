@@ -18,12 +18,18 @@ integration,1,Integration,3,to,integration,0.6,false
 ask,1,ASK,1,vibrant,ask,0.3,false
 trans,1,Trans,2,ask,trans,0.5,false
 emergent,2,Emergent,2,ask,emergent,0.5,false
+climate,2,Climate,3,ask,climate,0.6,false
 disciplinarity,1,Disciplinarity,3,trans,disciplinarity,0.6,false
 fr,1,FR,1,vibrant,fr,0.3,false
 inter,1,Inter,2,fr,inter,0.5,false
 emergent,2,Emergent,2,fr,emergent,0.5,false
 disciplinarity,1,Disciplinarity,3,inter,disciplinarity,0.6,false
+projectscope,2,Project Scope,3,emergent,projectscope,0.6,false
+projectscope,2,Project Scope,3,durable,projectscope,0.6,false
 fp,1,FP,1,vibrant,fp,0.3,false
+climate,2,Climate,3,fp,climate,0.6,false
 polydisciplinarity,1,Polydisciplinarity,4,disciplinarity,polydisciplinarity,0.8,true
 polydisciplinarity,1,Polydisciplinarity,4,epistemologies,polydisciplinarity,0.8,true
 polydisciplinarity,1,Polydisciplinarity,4,integration,polydisciplinarity,0.8,true
+sustainability,2,Sustainability,4,climate,sustainability,0.8,true
+sustainability,2,Sustainability,4,projectscope,sustainability,0.8,true
