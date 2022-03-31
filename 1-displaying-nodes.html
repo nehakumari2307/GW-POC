@@ -113,7 +113,7 @@
     const links = csvToLink(data);
 
     //legend data
-    const legend = [
+    const legend_data = [
       { "key": "ASK", "location": "ASIKXXI" },
       { "key": "FR", "location": "FreshPress" },
       { "key": "IToC", "location": "InTimeofChange" },
@@ -548,7 +548,7 @@
 
     //legends
     var legend = svg2.selectAll(".legend")
-      .data(legend)
+      .data(legend_data)
       .enter().append("g")
       .attr("class", "node_legend")
       .attr("transform", function (d, i) { return "translate(0," + i * 50 + ")"; })
@@ -562,16 +562,6 @@
         d3.select(this).select("rect").style("stroke", "gray");
         d3.select(this).select("text").style("font", "12px sans-serif");
       });
-
-    mapit.append("rect")
-      .attr("x", function (d) { return xScale(d.long); })
-      .attr("y", function (d) { return yScale(d.lat); })
-      .attr("height", 20)
-      .attr("width", 20)
-      .attr("fill", "gray")
-      .attr("stroke-width", "1.5")
-      .attr("stroke", "gray")
-      .attr("class", function (d) { return d.location; });
 
     legend.append("rect")
       .attr("x", 10)
