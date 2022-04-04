@@ -327,29 +327,27 @@
 
         function showNodes(d) {
             console.log("Mouse in");
-            t = setTimeout('showChildNode(d)', hoverTime);
-        }
+            t = setTimeout(function () {
+                console.log("Show Child node");
+                var active = d.active ? false : true // toggle whether node is active
+                    , newOpacity = active && activeOpacity ? 1 : 0;
+                // , newOpacity = active || activeOpacity ? 0 : 1;
 
-        function showChildNode(d) {
-            console.log("Show Child node");
-            var active = d.active ? false : true // toggle whether node is active
-                , newOpacity = active && activeOpacity ? 1 : 0;
-            // , newOpacity = active || activeOpacity ? 0 : 1;
+                // Extract node's name and the names of its neighbors
+                var name = d.label;
+                console.log("clicked node name " + name);
 
-            // Extract node's name and the names of its neighbors
-            var name = d.label;
-            console.log("clicked node name " + name);
-
-            var neighbors = getChildrenNode(d);
-            console.log("clicked node neighbour " + neighbors);
-            // Hide the neighbors and their links
-            for (var i = 1; i < neighbors.length; i++) {
-                d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
-                d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
-                d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
-            }
-            // Update whether or not the node is active
-            d.active = active;
+                var neighbors = getChildrenNode(d);
+                console.log("clicked node neighbour " + neighbors);
+                // Hide the neighbors and their links
+                for (var i = 1; i < neighbors.length; i++) {
+                    d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
+                    d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
+                    d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
+                }
+                // Update whether or not the node is active
+                d.active = active;
+            }, hoverTime);
         }
 
         function hideNodes() {
