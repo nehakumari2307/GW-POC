@@ -330,7 +330,7 @@
         function showNodes(d) {
             console.log("Mouse in");
             t = setTimeout(function () {
-                console.log($(this).data('isNodeClicked'));
+                console.log(d3.select(this).data('isNodeClicked'));
                 if (isNodeClicked == false) {
                     console.log("Show Child node");
                     active = d.active ? false : true // toggle whether node is active
