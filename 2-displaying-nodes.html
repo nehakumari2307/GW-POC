@@ -117,6 +117,7 @@
         var opacity = 0.25;
         let t, hoverTime = 1000;
         var active;
+        var isNodeClicked = false;
 
         // var width = 950;
         // var height = 500;
@@ -329,25 +330,29 @@
         function showNodes(d) {
             console.log("Mouse in");
             t = setTimeout(function () {
-                console.log("Show Child node");
-                active = d.active ? false : true // toggle whether node is active
-                    , newOpacity = active && activeOpacity ? 0.8 : 0;
-                // , newOpacity = active || activeOpacity ? 0 : 1;
+                if (isNodeClicked = false) {
+                    console.log("Show Child node");
+                    active = d.active ? false : true // toggle whether node is active
+                        , newOpacity = active && activeOpacity ? 0.8 : 0;
+                    // , newOpacity = active || activeOpacity ? 0 : 1;
 
-                // Extract node's name and the names of its neighbors
-                var name = d.label;
-                console.log("clicked node name " + name);
+                    // Extract node's name and the names of its neighbors
+                    var name = d.label;
+                    console.log("clicked node name " + name);
 
-                var neighbors = getChildrenNode(d);
-                console.log("clicked node neighbour " + neighbors);
-                // Hide the neighbors and their links
-                for (var i = 1; i < neighbors.length; i++) {
-                    d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
-                    d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
-                    d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
+                    var neighbors = getChildrenNode(d);
+                    console.log("clicked node neighbour " + neighbors);
+                    // Hide the neighbors and their links
+                    for (var i = 1; i < neighbors.length; i++) {
+                        d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
+                        d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
+                        d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
+                    }
+                    // Update whether or not the node is active
+                    d.active = active;
+                } else {
+                    return;
                 }
-                // Update whether or not the node is active
-                d.active = active;
             }, hoverTime);
         }
 
@@ -472,6 +477,12 @@
                 }
                 // Update whether or not the node is active
                 d.active = active;
+                if (d.active == true) {
+                    isNodeClicked = true;
+                } else {
+                    isNodeClicked = false;
+                }
+                console.log("state of click" + isNodeClicked);
                 console.log("state of node" + d.active);
             }
         });
