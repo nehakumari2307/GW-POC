@@ -479,10 +479,10 @@
                 // Update whether or not the node is active
                 d.active = active;
                 if (d.active == true) {
-                    $(this).data('isNodeClicked', true);
+                    d3.select(this).data('isNodeClicked', true);
                     // isNodeClicked = true;
                 } else {
-                    $(this).data('isNodeClicked', false);
+                    d3.select(this).data('isNodeClicked', false);
                     // isNodeClicked = false;
                 }
                 console.log("state of click" + isNodeClicked);
