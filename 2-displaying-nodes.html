@@ -330,6 +330,7 @@
         function showNodes(d) {
             console.log("Mouse in");
             t = setTimeout(function () {
+                console.log($(this).data('isNodeClicked'));
                 if (isNodeClicked == false) {
                     console.log("Show Child node");
                     active = d.active ? false : true // toggle whether node is active
@@ -478,9 +479,11 @@
                 // Update whether or not the node is active
                 d.active = active;
                 if (d.active == true) {
-                    isNodeClicked = true;
+                    $(this).data('isNodeClicked', true);
+                    // isNodeClicked = true;
                 } else {
-                    isNodeClicked = false;
+                    $(this).data('isNodeClicked', false);
+                    // isNodeClicked = false;
                 }
                 console.log("state of click" + isNodeClicked);
                 console.log("state of node" + d.active);
