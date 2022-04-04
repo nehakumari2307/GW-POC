@@ -116,6 +116,7 @@
         var radius = 0;
         var opacity = 0.25;
         let t, hoverTime = 1000;
+        var active;
 
         // var width = 950;
         // var height = 500;
@@ -329,7 +330,7 @@
             console.log("Mouse in");
             t = setTimeout(function () {
                 console.log("Show Child node");
-                var active = d.active ? false : true // toggle whether node is active
+                active = d.active ? false : true // toggle whether node is active
                     , newOpacity = active && activeOpacity ? 0.8 : 0;
                 // , newOpacity = active || activeOpacity ? 0 : 1;
 
@@ -452,7 +453,8 @@
                 return;
             } else {
                 // Determine if current node's neighbors and their links are visible
-                var active = d.active ? false : true // toggle whether node is active
+                console.log("state of node during hover" + d.active);
+                active = d.active ? false : true // toggle whether node is active
                     , newOpacity = active && activeOpacity ? 1 : 0;
                 // , newOpacity = active || activeOpacity ? 0 : 1;
 
@@ -470,6 +472,7 @@
                 }
                 // Update whether or not the node is active
                 d.active = active;
+                console.log("state of node" + d.active);
             }
         });
 
