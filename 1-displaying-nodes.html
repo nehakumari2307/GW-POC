@@ -575,7 +575,10 @@
       // .attr("class", "texts")
       // .data(legend_data)
       // .selectAll("text")
-      .attr("class", function (d) { return d.key + " - " + d.location; })
+      .attr("class", function (d) {
+        console.log("legend value is " + d.key + "-" + d.location);
+        return d.key + "-" + d.location;
+      })
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px")
       .style("fill", "black")
