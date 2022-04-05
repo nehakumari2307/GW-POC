@@ -577,7 +577,7 @@
       // .selectAll("text")
       .attr("class", function (d) {
         console.log("legend value is " + d.key + "-" + d.location);
-        return d.key + "-" + d.location;
+        return d.key + ":" + d.location;
       })
       .attr("font-family", "sans-serif")
       .attr("font-size", "12px")
@@ -595,7 +595,7 @@
       // .data(legend_data)
       .attr("stroke-width", "1.5")
       .attr("stroke", "gray")
-      .attr("class", function (d) { return d.location; })
+      // .attr("class", function (d) { return d.location; })
       .attr("fill", "lightgray");
     /* 
         var mapit = svg2.selectAll(".mapit")
