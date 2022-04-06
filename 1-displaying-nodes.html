@@ -556,9 +556,16 @@
         d3.select(this).select("rect").style("stroke-width", 6);
         d3.select(this).select("rect").style("stroke", "orange");
         d3.select(this).select("text").style("font", "20px sans-serif");
-        d3.selectAll("g." + d.id + " circle").style("stroke-width", 6);
-        d3.selectAll("g." + d.id + " circle").style("stroke", "orange");
-        d3.selectAll("g." + d.id + " text").style("font", "20px sans-serif");
+        // d3.selectAll("g." + d.id + " circle").style("stroke-width", 6);
+        // d3.selectAll("g." + d.id + " circle").style("stroke", "orange");
+        // d3.selectAll("g." + d.id + " text").style("font", "20px sans-serif");
+        // d3.selectAll("circle:not([label='" + d.id + "'])")
+        d3.selectAll("circle")
+          .select(function (d, i) {
+            console.log("value of highlighted legend " + d.id);
+            console.log("value of selected node " + node.label);
+            return d.id == node.label ? this : null;
+          })
       })
       .on("mouseout", function (d) {
         d3.select(this).select("rect").style("stroke-width", 1.5);
