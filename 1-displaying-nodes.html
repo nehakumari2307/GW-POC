@@ -553,6 +553,7 @@
       .attr("class", "node_legend")
       .attr("transform", function (d, i) { return "translate(0," + i * 50 + ")"; })
       .on("mouseover", function (d) {
+        var selectedLegendId = d.id;
         d3.select(this).select("rect").style("stroke-width", 6);
         d3.select(this).select("rect").style("stroke", "orange");
         d3.select(this).select("text").style("font", "20px sans-serif");
@@ -562,9 +563,8 @@
         // d3.selectAll("circle:not([label='" + d.id + "'])")
         d3.selectAll("circle")
           .select(function (d, i) {
-            console.log("value of highlighted legend " + d.id);
-            console.log("value of selected node " + node.label);
-            return d.id == node.label ? this : null;
+            console.log("value of highlighted legend " + d.label);
+            return d.label == selectedLegendId ? console.log("matched") : console.log("not matched");
           })
       })
       .on("mouseout", function (d) {
