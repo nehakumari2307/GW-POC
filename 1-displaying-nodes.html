@@ -576,15 +576,18 @@
           .select(function (d, i) {
             // console.log("value of highlighted legend " + d.label);
             if (d.label == selectedLegendId) {
-              var nonTerminatingNeighbors = getNonterminatingNode(d);
+              //var nonTerminatingNeighbors = getNonterminatingNode(d);
+              var nonTerminatingNeighbors = getNeighbors(d);
               console.log("non terminating node neighbour " + nonTerminatingNeighbors);
               // Hide the neighbors and their links
               for (var i = 1; i < nonTerminatingNeighbors.length; i++) {
                 d3.select("circle#" + nonTerminatingNeighbors[i]).style("stroke", "orange");
                 d3.select("text#" + nonTerminatingNeighbors[i]).style("stroke", "orange");
                 d3.select("line#" + nonTerminatingNeighbors[i]).style("stroke", "orange");
-                var nonTerminatingTarget = getChildrenNode(nonTerminatingNeighbors[i]);
-                console.log("non terminating target node " + nonTerminatingTarget);
+                console.log("value of d" + d);
+
+                // var nonTerminatingTarget = getNextNode(nonTerminatingNeighbors[i]);
+                // console.log("non terminating target node " + nonTerminatingTarget);
               }
             }
             // return d.label == selectedLegendId ? console.log("matched") : console.log("not matched");
