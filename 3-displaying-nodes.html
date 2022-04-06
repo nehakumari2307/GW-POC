@@ -109,12 +109,15 @@
         return link_data;
     };
 
-    d3.csv("./csv_data/node_data_1.csv", function (error, data) {
+    d3.csv("./csv_data/node_data.csv", function (error, data) {
 
         const nodes = csvToNode(data);
         const links = csvToLink(data);
         var radius = 0;
         var opacity = 0.25;
+        let t, hoverTime = 1000;
+        var active;
+        var isNodeClicked = false;
 
         // var width = 950;
         // var height = 500;
@@ -129,6 +132,8 @@
         var keys = ["ASK", "FR", "IToC", "TO", "VI"];
         var values = ["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"];
         var color = d3.scaleOrdinal().domain(keys).range(values);
+        var clickableNodes = ["climate", "projectscope", "community"];
+        var activeOpacity = false;
 
 
 
@@ -141,7 +146,7 @@
         var simulation = d3
             .forceSimulation()
             .force('link', linkForce)
-            .force('charge', d3.forceManyBody().strength(-560))
+            .force('charge', d3.forceManyBody().strength(-90))
             .force('center', d3.forceCenter(width / 2, height / 2))
 
         var dragDrop = d3.drag().on('start', function (node) {
@@ -188,24 +193,6 @@
             });
 
         svg.call(tip);
-        //svg.call(zoom);
-
-        // .call(zoom_handler)
-        // .call(zoom_handler.transform, d3.zoomIdentity.translate(200, 150).scale(0.2));
-
-        // var zoom_handler = d3.zoom().on("zoom", zoom_actions);
-        // zoom_handler(svg);
-
-        // function zoom_actions() {
-        //   g.attr("transform", d3.event.transform)
-        // }
-
-        // const draginteraction = d3.drag().on('drag', (event, node) => {
-        //   node.fx = event.x; //fx& fy is used to fix new position of the nodes when dragged
-        //   node.fy = event.y;
-        //   simulation.alpha(1);
-        //   simulation.restart();
-        // });
 
         //for hghlighting associated nodes and links when clicked on any node
 
@@ -255,19 +242,6 @@
                 return 'lightgray';
             }
         }
-
-        // function getClickedNodeColor(node, neighbors) {
-        //   if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
-        //     return 'lightblue'
-        //   }
-        //   else if (node.group === 1) {
-        //     return '#';
-        //   } else if (node.level === 1) {
-        //     return 'gray';
-        //   } else {
-        //     return 'lightgray';
-        //   }
-        // }
 
         function getClickedLinkColor(node, link) {
             return isNeighborLink(node, link) ? 'gray' : 'black'
@@ -324,24 +298,40 @@
             }, 300)
         }
 
+        function showNodes(d) {
+            console.log("Mouse in");
+            console.log("d value in showNode " + d);
+            t = setTimeout(function () {
+                console.log("clickable nodes are" + clickableNodes);
+                if (clickableNodes.indexOf(d.id) == -1) {
+                    return;
+                } else {
+                    console.log("Show Child node");
+                    active = d.active ? false : true // toggle whether node is active
+                        , newOpacity = active && activeOpacity ? 1 : 0;
+                    // , newOpacity = active || activeOpacity ? 0 : 1;
 
+                    // Extract node's name and the names of its neighbors
+                    var name = d.label;
+                    console.log("clicked node name " + name);
 
+                    var neighbors = getChildrenNode(d);
+                    console.log("clicked node neighbour " + neighbors);
+                    // Hide the neighbors and their links
+                    for (var i = 1; i < neighbors.length; i++) {
+                        d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
+                        d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
+                        d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
+                    }
+                    // Update whether or not the node is active
+                    d.active = active;
+                }
+            }, hoverTime);
+        }
 
-        // function tooltip_in(event, d) { // pass event and d to this function so that it can access d for our data
-        //   console.log("d value is " + d);
-        //   return tooltip
-        //     .html("<h4>" + d.id + "</h4>") // add an html element with a header tag containing the name of the node.  This line is where you would add additional information like: "<h4>" + d.name + "</h4></br><p>" + d.type + "</p>"  Note the quote marks, pluses and </br>--these are necessary for javascript to put all the data and strings within quotes together properly.  Any text needs to be all one line in .html() here
-        //     .style("visibility", "visible") // make the tooltip visible on hover
-        //     .style("top", event.pageY + "px") // position the tooltip with its top at the same pixel location as the mouse on the screen
-        //     .style("left", event.pageX + "px"); // position the tooltip just to the right of the mouse location
-        // }
-
-        // function tooltip_out() {
-        //   return tooltip
-        //     .transition()
-        //     .duration(50) // give the hide behavior a 50 milisecond delay so that it doesn't jump around as the network moves
-        //     .style("visibility", "hidden"); // hide the tooltip when the mouse stops hovering
-        // }
+        function hideNodes() {
+            console.log("Mouse out");
+        }
 
         var linkElements = svg.append("g")
             .attr("class", "links")
@@ -352,32 +342,63 @@
             .attr("stroke", "rgba(50, 50, 50, 0.5)")
             .attr("group", function (d) { return d.group; })
             .attr("id", function (d) { return d.id; })
-            // .attr("active", function (d) {
-            //     if (d.child == "true") {
-            //         activeOpacity = true;
-            //         d3.select(this).style("opacity", "0");
-            //     }
-            // })
+            .attr("active", function (d) {
+                if (d.child == "true") {
+                    activeOpacity = true;
+                    d3.select(this).style("opacity", "0");
+                }
+            })
             .on("click", function (d) {
                 // This is to toggle visibility - need to do it on the nodes and links
-                d3.selectAll("line:not([group='" + d.group + "'])")
-                    .style("opacity", function () {
-                        currentDisplay = d3.select(this).style("opacity");
-                        currentDisplay = currentDisplay == "1" ? "0.1" : "1";
-                        return currentDisplay;
-                    });
-                d3.selectAll("circle:not([group='" + d.group + "'])")
-                    .style("opacity", function () {
-                        currentDisplay = d3.select(this).style("opacity");
-                        currentDisplay = currentDisplay == "1" ? "0.1" : "1";
-                        return currentDisplay;
-                    });
-                d3.selectAll("text:not([group='" + d.group + "'])")
-                    .style("opacity", function () {
-                        currentDisplay = d3.select(this).style("opacity");
-                        currentDisplay = currentDisplay == "1" ? "0.1" : "1";
-                        return currentDisplay;
-                    });
+                d3.selectAll("line:not([group='" + d.group + "'])").select(function (d, i) {
+                    if (d.child == "false") {
+                        d3.select(this).style("opacity", function () {
+                            // if (d3.select(this).child == "false") {
+                            currentDisplay = d3.select(this).style("opacity");
+                            currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                            return currentDisplay;
+                        });
+                    } else {
+                        d3.select(this).style("opacity", function () {
+                            currentDisplay = d3.select(this).style("opacity");
+                            currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+                            return currentDisplay;
+                        });
+                    }
+                })
+
+                d3.selectAll("circle:not([group='" + d.group + "'])").select(function (d, i) {
+                    if (d.child == "false") {
+                        d3.select(this).style("opacity", function () {
+                            // if (d3.select(this).child == "false") {
+                            currentDisplay = d3.select(this).style("opacity");
+                            currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                            return currentDisplay;
+                        });
+                    } else {
+                        d3.select(this).style("opacity", function () {
+                            currentDisplay = d3.select(this).style("opacity");
+                            currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+                            return currentDisplay;
+                        });
+                    }
+                })
+                d3.selectAll("text:not([group='" + d.group + "'])").select(function (d, i) {
+                    if (d.child == "false") {
+                        d3.select(this).style("opacity", function () {
+                            // if (d3.select(this).child == "false") {
+                            currentDisplay = d3.select(this).style("opacity");
+                            currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                            return currentDisplay;
+                        });
+                    } else {
+                        d3.select(this).style("opacity", function () {
+                            currentDisplay = d3.select(this).style("opacity");
+                            currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+                            return currentDisplay;
+                        });
+                    }
+                });
             })
             .on("mouseover", function (d) {
                 d3.select(this).style("cursor", "crosshair");
@@ -386,8 +407,7 @@
                 d3.select(this).style("cursor", "default");
             })
 
-        var clickableNodes = ["climate"];
-        var activeOpacity = false;
+
 
         var nodeElements = svg.append("g")
             .attr("class", "nodes")
@@ -399,61 +419,19 @@
             .attr("fill", getClickedNodeColor)
             .attr("group", function (d) { return d.group; })
             .attr("id", function (d) { return d.id; })
-            // .attr("active", function (d) {
-            //     if (d.child == "true") {
-            //         activeOpacity = true;
-            //         d3.select(this).style("opacity", "0");
-            //     }
-            // })
+            .attr("active", function (d) {
+                if (d.child == "true") {
+                    activeOpacity = true;
+                    d3.select(this).style("opacity", "0");
+                }
+            })
             .call(dragDrop)
             // .on('click', selectNode)
-            .on("mouseover", tip.show)
-            .on("mouseout", tip.hide)
-            .attr("class", "nodes");
-        // .call(drag(simulation))
-
-        // nodes.filter(function (n) { return clickableNodes.indexOf(n.id) != -1; })
-        // nodeElements.on("click", function (d) {
-        //     if (clickableNodes.indexOf(d.id) != -1) {
-        //         return;
-        //     } else {
-        //         // Determine if current node's neighbors and their links are visible
-        //         var active = d.active ? false : true // toggle whether node is active
-        //             , newOpacity = active && activeOpacity ? 1 : 0;
-        //         // , newOpacity = active || activeOpacity ? 0 : 1;
-
-        //         // Extract node's name and the names of its neighbors
-        //         var name = d.label;
-        //         console.log("clicked node name " + name);
-
-        //         var neighbors = getChildrenNode(d);
-        //         console.log("clicked node neighbour " + neighbors);
-        //         // Hide the neighbors and their links
-        //         for (var i = 1; i < neighbors.length; i++) {
-        //             d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
-        //             d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
-        //             d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
-        //         }
-        //         // Update whether or not the node is active
-        //         d.active = active;
-        //     }
-        // });
-
-        // nodeElements.on("click", function (d) {
-        //   clearTimeout(timeout);
-
-        //   timeout = setTimeout(function () {
-        //     console.clear();
-        //     console.log("node was single clicked");
-        //     var neighbors = getNeighbors(selectedNode)
-
-        //     // modify the styles to highlight selected nodes
-        //     nodeElements.attr('fill', function (node) { return getClickedNodeColor(node, neighbors) })
-        //     nodeElements.attr('r', function (node) { return getClickedNodeSize(node, neighbors) })
-        //     // textElements.attr('fill', function (node) { return getTextColor(node, neighbors) })
-        //     linkElements.attr('stroke', function (link) { return getClickedLinkColor(selectedNode, link) })
-        //   }, 300)
-        // });
+            // .on("mouseover", tip.show)
+            // .on("mouseout", tip.hide)
+            .attr("class", "nodes")
+            .on("mouseover", showNodes)
+            .on("mouseout", hideNodes);
 
         nodeElements.on("dblclick.zoom", function (d) {
             clearTimeout(timeout);
@@ -461,11 +439,6 @@
             console.clear();
             console.log("node was double clicked");
             d3.event.stopPropagation();
-            // if (svg.getAttribute("transform")) {
-            //   var svg_scale = getTransformation(svg.getAttribute("transform"));
-            //   var currScale = svg_scale.scaleX;
-            //   console.log("svg scale is" + currScale);
-            // }
             var dcx = (width / 2 - d.x * 1); //assuming scale to be 1
             var dcy = (height / 2 - d.y * 1); //assuming scale to be 1
             console.log("width value " + dcx + "height value " + dcy);
@@ -474,13 +447,7 @@
             // zoom.translate([dcx, dcy]);
             // // g.attr("transform", d3.event.transform)
             // g.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + zoom.scale() + ")");
-
-
         });
-
-
-        // .on("mouseover", tooltip_in) // when the mouse hovers a node, call the tooltip_in function to create the tooltip
-        // .on("mouseout", tooltip_out) // when the mouse stops hovering a node, call the tooltip_out function to get rid of the tooltip
 
         var textElements = svg.append("g")
             .attr("class", "texts")
@@ -495,12 +462,12 @@
             .style("fill", getTextColor)
             .attr("group", function (d) { return d.group; })
             .text(function (node) { return node.label })
-        // .attr("active", function (d) {
-        //     if (d.child == "true") {
-        //         activeOpacity = true;
-        //         d3.select(this).style("opacity", "0");
-        //     }
-        // })
+            .attr("active", function (d) {
+                if (d.child == "true") {
+                    activeOpacity = true;
+                    d3.select(this).style("opacity", "0");
+                }
+            })
 
 
 
@@ -523,28 +490,5 @@
                 .attr('y2', function (link) { return link.target.y })
         })
         simulation.force("link").links(links)
-
-        // var svg_legend = d3.select("#legend").append("g");;
-
-        // var legend = svg_legend.selectAll(".legend")
-        //   .data(color)
-        //   .enter().append("g")
-        //   .attr("class", "node_legend")
-        //   .attr("transform", function (d, i) { return "translate(0," + i * 20 + ")"; });
-
-        // legend.append("text")
-        //   .attr("x", 1000)
-        //   .attr("y", 9)
-        //   .attr("class", "rect_fill")
-        //   .text(function (color) { return color.keys })
-        // // .attr("fill", color.range())
-
-        // legend.append("text")
-        //   .attr("x", 990)
-        //   .attr("y", 9)
-        //   .attr("dy", ".35em")
-        //   .style("text-anchor", "end")
-        //   .text(function (color) { return color.values; });
-
     })
 </script>
