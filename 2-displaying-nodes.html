@@ -401,7 +401,7 @@
                 // This is to toggle visibility - need to do it on the nodes and links
                 d3.selectAll("line:not([group='" + d.group + "'])")
                     .style("opacity", function () {
-                        if (d.child == false) {
+                        if (d.child == "false") {
                             currentDisplay = d3.select(this).style("opacity");
                             currentDisplay = currentDisplay == "1" ? "0.1" : "1";
                             return currentDisplay;
@@ -413,7 +413,7 @@
                     });
                 d3.selectAll("circle:not([group='" + d.group + "'])")
                     .style("opacity", function () {
-                        if (d.child == false) {
+                        if (d.child == "false") {
                             currentDisplay = d3.select(this).style("opacity");
                             currentDisplay = currentDisplay == "1" ? "0.1" : "1";
                             return currentDisplay;
@@ -426,7 +426,7 @@
                     });
                 d3.selectAll("text:not([group='" + d.group + "'])")
                     .style("opacity", function () {
-                        if (d.child == false) {
+                        if (d.child == "false") {
                             currentDisplay = d3.select(this).style("opacity");
                             currentDisplay = currentDisplay == "1" ? "0.1" : "1";
                             return currentDisplay;
