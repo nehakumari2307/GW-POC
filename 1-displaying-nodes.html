@@ -241,6 +241,17 @@
       )
     }
 
+    function getNonterminatingNode(node) {
+      return links.reduce(function (neighbors, link) {
+        if (link.source.id === node.id) {
+          neighbors.push(link.target.id)
+        }
+        return neighbors
+      },
+        [node.id]
+      )
+    }
+
     function getChildrenNode(node) {
       return links.reduce(function (neighbors, link) {
         if (link.target.id === node.id) {
@@ -564,7 +575,17 @@
         d3.selectAll("circle")
           .select(function (d, i) {
             console.log("value of highlighted legend " + d.label);
-            return d.label == selectedLegendId ? console.log("matched") : console.log("not matched");
+            if (d.label == selectedLegendId) {
+              var nonTerminatingNeighbors = getNonterminatingNode(d);
+              console.log("non terminating node neighbour " + nonTerminatingNeighbors);
+              // Hide the neighbors and their links
+              for (var i = 1; i < nonTerminatingNeighbors.length; i++) {
+                d3.select("circle#" + nonTerminatingNeighbors[i]).style("stroke", "orange");
+                d3.select("text#" + nonTerminatingNeighbors[i]).style("stroke", "orange");
+                d3.select("line#" + nonTerminatingNeighbors[i]).style("stroke", "orange");
+              }
+            }
+            // return d.label == selectedLegendId ? console.log("matched") : console.log("not matched");
           })
       })
       .on("mouseout", function (d) {
