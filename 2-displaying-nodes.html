@@ -410,7 +410,7 @@
                     } else {
                         d3.select(this).style("opacity", function () {
                             currentDisplay = d3.select(this).style("opacity");
-                            currentDisplay = currentDisplay == "0" ? "0.1" : "1";
+                            currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
                             return currentDisplay;
                         });
                     }
@@ -427,7 +427,7 @@
                     } else {
                         d3.select(this).style("opacity", function () {
                             currentDisplay = d3.select(this).style("opacity");
-                            currentDisplay = currentDisplay == "0" ? "0.1" : "1";
+                            currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
                             return currentDisplay;
                         });
                     }
@@ -455,7 +455,7 @@
                     } else {
                         d3.select(this).style("opacity", function () {
                             currentDisplay = d3.select(this).style("opacity");
-                            currentDisplay = currentDisplay == "0" ? "0.1" : "1";
+                            currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
                             return currentDisplay;
                         });
                     }
