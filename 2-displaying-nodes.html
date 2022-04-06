@@ -400,46 +400,78 @@
             .on("click", function (d) {
                 // This is to toggle visibility - need to do it on the nodes and links
                 d3.selectAll("line:not([group='" + d.group + "'])").select(function (d, i) {
-                    console.log("data inside click" + d);
+                    if (d.child == "false") {
+                        d.style("opacity", function () {
+                            // if (d3.select(this).child == "false") {
+                            currentDisplay = d3.select(this).style("opacity");
+                            currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                            return currentDisplay;
+                        });
+                    } else {
+                        d.style("opacity", function () {
+                            currentDisplay = d3.select(this).style("opacity");
+                            currentDisplay = currentDisplay == "0" ? "0.1" : "1";
+                            return currentDisplay;
+                        });
+                    }
                 })
-                    .style("opacity", function () {
-                        // if (d3.select(this).child == "false") {
-                        currentDisplay = d3.select(this).style("opacity");
-                        currentDisplay = currentDisplay == "1" ? "0.1" : "1";
-                        return currentDisplay;
-                        // } 
-                        // else {
-                        //     currentDisplay = d3.select(this).style("opacity");
-                        //     currentDisplay = currentDisplay == "0" ? "0.1" : "1";
-                        //     return currentDisplay;
-                        // }
-                    });
-                d3.selectAll("circle:not([group='" + d.group + "'])").filter()
-                    .style("opacity", function () {
-                        if (d3.select(this).child == "false") {
+
+                d3.selectAll("circle:not([group='" + d.group + "'])").select(function (d, i) {
+                    if (d.child == "false") {
+                        d.style("opacity", function () {
+                            // if (d3.select(this).child == "false") {
                             currentDisplay = d3.select(this).style("opacity");
                             currentDisplay = currentDisplay == "1" ? "0.1" : "1";
                             return currentDisplay;
-                        } else {
+                        });
+                    } else {
+                        d.style("opacity", function () {
                             currentDisplay = d3.select(this).style("opacity");
                             currentDisplay = currentDisplay == "0" ? "0.1" : "1";
                             return currentDisplay;
-                        }
+                        });
+                    }
+                })
+                // .style("opacity", function () {
+                //     if (d3.select(this).child == "false") {
+                //         currentDisplay = d3.select(this).style("opacity");
+                //         currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                //         return currentDisplay;
+                //     } else {
+                //         currentDisplay = d3.select(this).style("opacity");
+                //         currentDisplay = currentDisplay == "0" ? "0.1" : "1";
+                //         return currentDisplay;
+                //     }
 
-                    });
-                d3.selectAll("text:not([group='" + d.group + "'])")
-                    .style("opacity", function () {
-                        if (d3.select(this).child == "false") {
+                // });
+                d3.selectAll("text:not([group='" + d.group + "'])").select(function (d, i) {
+                    if (d.child == "false") {
+                        d.style("opacity", function () {
+                            // if (d3.select(this).child == "false") {
                             currentDisplay = d3.select(this).style("opacity");
                             currentDisplay = currentDisplay == "1" ? "0.1" : "1";
                             return currentDisplay;
-                        } else {
+                        });
+                    } else {
+                        d.style("opacity", function () {
                             currentDisplay = d3.select(this).style("opacity");
                             currentDisplay = currentDisplay == "0" ? "0.1" : "1";
                             return currentDisplay;
-                        }
+                        });
+                    }
+                });
+                // .style("opacity", function () {
+                //     if (d3.select(this).child == "false") {
+                //         currentDisplay = d3.select(this).style("opacity");
+                //         currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                //         return currentDisplay;
+                //     } else {
+                //         currentDisplay = d3.select(this).style("opacity");
+                //         currentDisplay = currentDisplay == "0" ? "0.1" : "1";
+                //         return currentDisplay;
+                //     }
 
-                    });
+                // });
             })
             .on("mouseover", function (d) {
                 d3.select(this).style("cursor", "crosshair");
