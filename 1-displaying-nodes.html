@@ -593,6 +593,7 @@
           })
       })
       .on("mouseout", function (d) {
+        var selectedLegendId = d.id;
         d3.select(this).select("rect").style("stroke-width", 1.5);
         d3.select(this).select("rect").style("stroke", "gray");
         d3.select(this).select("text").style("font", "12px sans-serif");
