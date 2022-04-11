@@ -76,6 +76,7 @@
     <button onclick="history.back()">Go Back</button>
     <!-- <div id="container"> -->
     <div id="interaction" class="interaction">
+        <div id="placeholder" class="" placeholder></div>
         <div id="legend" class="legend"></div>
     </div>
     <!-- <div id="legend" class="legend">
@@ -185,7 +186,7 @@
         })
 
 
-        var svg = d3.select("#interaction").append("svg")
+        var svg = d3.select("#placeholder").append("svg")
             .attr("class", "svg_container")
             // .attr("style", "outline: thick solid black")
             // .attr("transform", "translate(0,0)")
