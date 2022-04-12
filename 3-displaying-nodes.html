@@ -311,7 +311,7 @@
             // }
             // return radius;
 
-            return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? radius + 10.0 : radius + 1.0
+            return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? radius * 30 + 10.0 : radius * 25 + 1.0
             // d3.selectAll(".nodes").each(function (d, i) {
             //   console.log("The radius of the nodes " + i + " is " + d3.select(this).attr("r"))
         }
