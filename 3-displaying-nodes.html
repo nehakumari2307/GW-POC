@@ -167,7 +167,14 @@
         // simulation setup with all forces
         var simulation = d3
             .forceSimulation()
-            .force('links', d3.forceLink(links).distance((link) => link.strength))
+            // .force('links', d3.forceLink(links).distance((link) => link.strength))
+            .force('link', d3.forceLink().id(function (d) {
+                return d.id
+            }))
+            .force('collide', d3.forceCollide(function (d) {
+                console.log("strength is" + d.strength);
+                return d.strength;
+            }))
             .force('charge', d3.forceManyBody().strength(-90))
             .force('center', d3.forceCenter(width / 2, height / 2))
 
