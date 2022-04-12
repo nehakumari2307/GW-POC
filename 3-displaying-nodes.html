@@ -162,7 +162,13 @@
         var linkForce = d3
             .forceLink()
             .id(function (link) { return link.id })
-            .distance(function (link) { return 50; })
+            .distance(function (link) {
+                if (link.child == "true") {
+                    return 10;
+                } else {
+                    return 15;
+                }
+            })
 
         // simulation setup with all forces
         var simulation = d3
