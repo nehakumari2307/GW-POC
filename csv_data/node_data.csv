@@ -1,69 +1,69 @@
 id,group,label,level,target,source,strength,child
-vibrant,0,Vibrant Ecologies of Research,0,vibrant,vibrant,0.7,false
-sustainability,1,Sustainability,1,vibrant,sustainability,0.7,false
-climate,1,Climate,2,sustainability,climate,0.7,false
-itoc_1_0,1,IToC,4,climate,itoc_1_0,0.5,true
-ask_1_0,1,ASK,4,climate,ask_1_0,0.5,true
-fp_1_0,1,FP,4,climate,fp_1_0,0.5,true
-projectscope,1,Project Scope,2,sustainability,projectscope,0.7,false
-emergent,1,Emergent,3,projectscope,emergent,0.7,false
-to_1_0,1,TO,4,emergent,to_1_0,0.5,true
-ask_1_1,1,ASK,4,emergent,ask_1_1,0.5,true
-fr_1_0,1,FR,4,emergent,fr_1_0,0.5,true
-durable,1,Durable,3,projectscope,durable,0.7,false
-itoc_1_1,1,IToC,4,durable,itoc_1_1,0.5,true
-vi_1_0,1,VI,4,durable,vi_1_0,0.5,true
-boundarywork,2,Boundary Work,1,vibrant,boundarywork,0.7,false
-workshop,2,Workshop,2,boundarywork,workshop,0.7,false
-fr_2_0,2,FR,4,workshop,fr_2_0,0.5,true
-itoc_2_0,2,IToC,4,workshop,itoc_2_0,0.5,true
-ask_2_0,2,ASK,4,workshop,ask_2_0,0.5,true
-vi_2_0,2,VI,4,workshop,vi_2_0,0.5,true
-collaboration,2,Collaboration,2,boundarywork,collaboration,0.7,false
-fr_2_1,2,FR,4,collaboration,fr_2_1,0.5,true
-itoc_2_1,2,IToC,4,collaboration,itoc_2_1,0.5,true
-ask_2_1,2,ASK,4,collaboration,ask_2_1,0.5,true
-vi_2_1,2,VI,4,collaboration,vi_2_1,0.5,true
-to_2_0,2,TO,4,collaboration,to_2_0,0.5,true
-policy,2,Policy,2,boundarywork,policy,0.7,false
-to_2_1,2,TO,4,policy,to_2_1,0.5,true
-collection,2,Collection,2,boundarywork,collection,0.7,false
-archive,2,Archive,3,collection,archive,0.7,false
-vi_2_2,2,VI,4,archive,vi_2_2,0.5,true
-exhibition,2,Exhibition,3,collection,exhibition,0.7,false
-ask_2_2,2,ASK,4,exhibition,ask_2_2,0.5,true
-itoc_2_2,2,IToC,4,exhibition,itoc_2_2,0.5,true
-site,3,Site,1,vibrant,site,0.7,false
-community,3,Community,2,site,community,0.7,false
-to_3_0,3,TO,4,community,to_3_0,0.5,true
-vi_3_1,3,VI,4,community,vi_3_1,0.5,true
-fr_3_1,3,FR,4,community,fr_3_1,0.5,true
-local,3,Local,2,site,local,0.7,false
-vi_3_0,3,VI,4,local,vi_3_0,0.5,true
-fr_3_0,3,FR,4,local,fr_3_0,0.5,true
-itoc_3_0,3,IToC,4,local,itoc_3_0,0.5,true
-glocal,3,Glocal,2,site,glocal,0.7,false
-ask_3_0,3,ASK,4,glocal,ask_3_0,0.5,true
-plantbased,3,Place Based,2,site,plantbased,0.7,false
-plantmaking,3,Place Making,3,plantbased,plantmaking,0.7,false
-to_3_1,3,TO,4,plantmaking,to_3_1,0.5,true
-plantinquiry,3,Place Inquiry,3,plantbased,plantinquiry,0.7,false
-itoc_3_1,3,IToC,4,plantinquiry,itoc_3_1,0.5,true
-plantlearning,3,Place Learning,3,plantbased,plantlearning,0.7,false
-ask_3_1,3,ASK,4,plantlearning,ask_3_1,0.5,true
-polydisciplinarity,4,Polydisciplinarity,1,vibrant,polydisciplinarity,0.7,false
-integration,4,Integration,2,polydisciplinarity,integration,0.7,false
-to_4_0,4,TO,4,integration,to_4_0,0.5,true
-vi_4_0,4,VI,4,integration,vi_4_0,0.5,true
-epistemologies,4,Epistemologies,2,polydisciplinarity,epistemologies,0.7,false
-vi_4_1,4,VI,4,epistemologies,vi_4_1,0.5,true
-itoc_4_0,4,IToC,4,epistemologies,itoc_4_0,0.5,true
-disciplinarity,4,Disciplinarity,2,polydisciplinarity,disciplinarity,0.7,false
-multi,4,Multi,3,disciplinarity,multi,0.7,false
-to_4_1,4,TO,4,multi,to_4_1,0.5,true
-inter,4,Inter,3,disciplinarity,inter,0.7,false
-vi_4_2,4,VI,4,inter,vi_4_2,0.5,true
-fr_4_0,4,FR,4,inter,fr_4_0,0.5,true
-itoc_4_1,4,IToC,4,inter,itoc_4_1,0.5,true
-trans,4,Trans,3,disciplinarity,trans,0.7,false
-ask_4_0,4,ASK,4,trans,ask_4_0,0.5,true
+vibrant,0,Vibrant Ecologies of Research,0,vibrant,vibrant,1,false
+sustainability,1,Sustainability,1,vibrant,sustainability,0.8,false
+climate,1,Climate,2,sustainability,climate,0.65,false
+itoc_1_0,1,IToC,4,climate,itoc_1_0,0.3,true
+ask_1_0,1,ASK,4,climate,ask_1_0,0.3,true
+fp_1_0,1,FP,4,climate,fp_1_0,0.3,true
+projectscope,1,Project Scope,2,sustainability,projectscope,0.65,false
+emergent,1,Emergent,3,projectscope,emergent,0.5,false
+to_1_0,1,TO,4,emergent,to_1_0,0.3,true
+ask_1_1,1,ASK,4,emergent,ask_1_1,0.3,true
+fr_1_0,1,FR,4,emergent,fr_1_0,0.3,true
+durable,1,Durable,3,projectscope,durable,0.5,false
+itoc_1_1,1,IToC,4,durable,itoc_1_1,0.3,true
+vi_1_0,1,VI,4,durable,vi_1_0,0.3,true
+boundarywork,2,Boundary Work,1,vibrant,boundarywork,0.8,false
+workshop,2,Workshop,2,boundarywork,workshop,0.65,false
+fr_2_0,2,FR,4,workshop,fr_2_0,0.3,true
+itoc_2_0,2,IToC,4,workshop,itoc_2_0,0.3,true
+ask_2_0,2,ASK,4,workshop,ask_2_0,0.3,true
+vi_2_0,2,VI,4,workshop,vi_2_0,0.3,true
+collaboration,2,Collaboration,2,boundarywork,collaboration,0.65,false
+fr_2_1,2,FR,4,collaboration,fr_2_1,0.3,true
+itoc_2_1,2,IToC,4,collaboration,itoc_2_1,0.3,true
+ask_2_1,2,ASK,4,collaboration,ask_2_1,0.3,true
+vi_2_1,2,VI,4,collaboration,vi_2_1,0.3,true
+to_2_0,2,TO,4,collaboration,to_2_0,0.3,true
+policy,2,Policy,2,boundarywork,policy,0.65,false
+to_2_1,2,TO,4,policy,to_2_1,0.3,true
+collection,2,Collection,2,boundarywork,collection,0.65,false
+archive,2,Archive,3,collection,archive,0.5,false
+vi_2_2,2,VI,4,archive,vi_2_2,0.3,true
+exhibition,2,Exhibition,3,collection,exhibition,0.5,false
+ask_2_2,2,ASK,4,exhibition,ask_2_2,0.3,true
+itoc_2_2,2,IToC,4,exhibition,itoc_2_2,0.3,true
+site,3,Site,1,vibrant,site,0.8,false
+community,3,Community,2,site,community,0.65,false
+to_3_0,3,TO,4,community,to_3_0,0.3,true
+vi_3_1,3,VI,4,community,vi_3_1,0.3,true
+fr_3_1,3,FR,4,community,fr_3_1,0.3,true
+local,3,Local,2,site,local,0.65,false
+vi_3_0,3,VI,4,local,vi_3_0,0.3,true
+fr_3_0,3,FR,4,local,fr_3_0,0.3,true
+itoc_3_0,3,IToC,4,local,itoc_3_0,0.3,true
+glocal,3,Glocal,2,site,glocal,0.65,false
+ask_3_0,3,ASK,4,glocal,ask_3_0,0.3,true
+plantbased,3,Place Based,2,site,plantbased,0.65,false
+plantmaking,3,Place Making,3,plantbased,plantmaking,0.5,false
+to_3_1,3,TO,4,plantmaking,to_3_1,0.3,true
+plantinquiry,3,Place Inquiry,3,plantbased,plantinquiry,0.5,false
+itoc_3_1,3,IToC,4,plantinquiry,itoc_3_1,0.3,true
+plantlearning,3,Place Learning,3,plantbased,plantlearning,0.5,false
+ask_3_1,3,ASK,4,plantlearning,ask_3_1,0.3,true
+polydisciplinarity,4,Polydisciplinarity,1,vibrant,polydisciplinarity,0.8,false
+integration,4,Integration,2,polydisciplinarity,integration,0.65,false
+to_4_0,4,TO,4,integration,to_4_0,0.3,true
+vi_4_0,4,VI,4,integration,vi_4_0,0.3,true
+epistemologies,4,Epistemologies,2,polydisciplinarity,epistemologies,0.65,false
+vi_4_1,4,VI,4,epistemologies,vi_4_1,0.3,true
+itoc_4_0,4,IToC,4,epistemologies,itoc_4_0,0.3,true
+disciplinarity,4,Disciplinarity,2,polydisciplinarity,disciplinarity,0.65,false
+multi,4,Multi,3,disciplinarity,multi,0.5,false
+to_4_1,4,TO,4,multi,to_4_1,0.3,true
+inter,4,Inter,3,disciplinarity,inter,0.5,false
+vi_4_2,4,VI,4,inter,vi_4_2,0.3,true
+fr_4_0,4,FR,4,inter,fr_4_0,0.3,true
+itoc_4_1,4,IToC,4,inter,itoc_4_1,0.3,true
+trans,4,Trans,3,disciplinarity,trans,0.5,false
+ask_4_0,4,ASK,4,trans,ask_4_0,0.3,true
