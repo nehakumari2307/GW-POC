@@ -16,23 +16,21 @@
         margin: 10px;
     }
 
+    .right_container {
+        position: absolute;
+    }
+
     .legend {
         /* display: inline-block;
         width: 10%;
         position: absolute; */
         /* border: 1px solid red; */
         display: inline-block;
-        position: absolute;
         top: 10px;
         margin-left: 25px;
     }
 
-    /* .svg-content {
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: 0;
-  } */
+    #instruction {}
 
     .node_legend {
         display: block;
@@ -78,8 +76,11 @@
     <!-- <div id="container"> -->
     <div id="interaction" class="interaction">
         <div id="placeholder" class="svg_container"></div>
-        <div id="legend" class="legend">
-            <legend>Collection Articles</legend>
+        <div class="right_container">
+            <div id="legend" class="legend">
+                <legend>Collection Articles</legend>
+            </div>
+            <div id="instruction"></div>
         </div>
     </div>
     <!-- <div id="legend" class="legend">
@@ -304,7 +305,7 @@
             //       .classed("selected", false);
             //   }
             if (node.child == "true") {
-                radius = (node.label.length) + 10.0;
+                radius = (node.label.length) + 15.0;
             }
             else {
                 radius = (node.label.length) + 20.0;
@@ -511,6 +512,7 @@
             .attr("class", "nodetext")
             .attr('alignment-baseline', 'middle')
             .attr("font-size", 10)
+            .attr("font-weight", "bold")
             .attr("id", function (d) { return d.id; })
             .style("fill", getTextColor)
             .attr("group", function (d) { return d.group; })
