@@ -145,7 +145,7 @@
         // var keys = ["ASK", "FR", "IToC", "TO", "VI"];
         // var values = ["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"];
         // var color = d3.scaleOrdinal().domain(keys).range(values);
-        var clickableNodes = ["climate", "projectscope", "community", "multi", "trans", "inter", "policy",
+        var clickableNodes = ["climate", "community", "multi", "trans", "inter", "policy",
             "collaboration", "workshop", "archive", "durable", "emergent", "exhibition",
             "glocal", "local", "integration", "epistemologies", "plantlearning", "plantinquiry", "plantmaking"];
         var activeOpacity = false;
@@ -162,13 +162,13 @@
         var linkForce = d3
             .forceLink()
             .id(function (link) { return link.id })
-            .strength(function (link) { return link.strength })
+            .strength(function (link) { return 90 })
 
         // simulation setup with all forces
         var simulation = d3
             .forceSimulation()
             .force('link', linkForce)
-            .force('charge', d3.forceManyBody().strength(-90))
+            .force('charge', d3.forceManyBody().strength(-190))
             .force('center', d3.forceCenter(width / 2, height / 2))
 
         var dragDrop = d3.drag().on('start', function (node) {
@@ -297,7 +297,7 @@
             //       .classed("selected", false);
             //   }
             if (node.child == "true") {
-                radius = (node.label.length) + 10.0;
+                radius = (node.label.length) + 15.0;
             }
             else {
                 radius = (node.label.length) + 20.0;
