@@ -12,6 +12,7 @@
         padding-bottom: 100%;
         vertical-align: top;
         overflow: hidden;
+        outline: thick solid black;
         /* text-align: center; */
         margin: 10px;
     }
@@ -210,7 +211,7 @@
 
         var svg = d3.select("#placeholder").append("svg")
             // .attr("class", "svg_container")
-            .attr("style", "outline: thick solid black")
+            // .attr("style", "outline: thick solid black")
             // .attr("transform", "translate(0,0)")
             .attr("viewBox", "0 0 " + width + " " + height)
             .attr("preserveAspectRatio", "xMidYMid meet")
