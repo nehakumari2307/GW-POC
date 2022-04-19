@@ -494,7 +494,7 @@
                     } else {
                         d3.select(this).style("display", function () {
                             currentDisplay = d3.select(this).style("display");
-                            currentDisplay = currentDisplay == "inline" && activeOpacity ? "none" : "inline";
+                            currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
                             return currentDisplay;
                         });
                     }
