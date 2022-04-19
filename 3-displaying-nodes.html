@@ -424,23 +424,77 @@
             .attr("active", function (d) {
                 if (d.child == "true") {
                     activeOpacity = true;
-                    d3.select(this).style("opacity", "0");
+                    // d3.select(this).style("opacity", "0");
+                    d3.select(this).style("display", "none");
                 }
             })
+            // .on("click", function (d) {
+            //     // This is to toggle visibility - need to do it on the nodes and links
+            //     d3.selectAll("line:not([group='" + d.group + "'])").select(function (d, i) {
+            //         if (d.child == "false") {
+            //             d3.select(this).style("opacity", function () {
+            //                 // if (d3.select(this).child == "false") {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         } else {
+            //             d3.select(this).style("opacity", function () {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         }
+            //     })
+
+            //     d3.selectAll("circle:not([group='" + d.group + "'])").select(function (d, i) {
+            //         if (d.child == "false") {
+            //             d3.select(this).style("opacity", function () {
+            //                 // if (d3.select(this).child == "false") {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         } else {
+            //             d3.select(this).style("opacity", function () {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         }
+            //     })
+            //     d3.selectAll("text:not([group='" + d.group + "'])").select(function (d, i) {
+            //         if (d.child == "false") {
+            //             d3.select(this).style("opacity", function () {
+            //                 // if (d3.select(this).child == "false") {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         } else {
+            //             d3.select(this).style("opacity", function () {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         }
+            //     });
+            // })
+
             .on("click", function (d) {
                 // This is to toggle visibility - need to do it on the nodes and links
                 d3.selectAll("line:not([group='" + d.group + "'])").select(function (d, i) {
                     if (d.child == "false") {
-                        d3.select(this).style("opacity", function () {
+                        d3.select(this).style("display", function () {
                             // if (d3.select(this).child == "false") {
-                            currentDisplay = d3.select(this).style("opacity");
-                            currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay == "inline" ? "none" : "inline";
                             return currentDisplay;
                         });
                     } else {
-                        d3.select(this).style("opacity", function () {
-                            currentDisplay = d3.select(this).style("opacity");
-                            currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+                        d3.select(this).style("display", function () {
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay == "inline" && activeOpacity ? "none" : "inline";
                             return currentDisplay;
                         });
                     }
@@ -448,32 +502,32 @@
 
                 d3.selectAll("circle:not([group='" + d.group + "'])").select(function (d, i) {
                     if (d.child == "false") {
-                        d3.select(this).style("opacity", function () {
+                        d3.select(this).style("display", function () {
                             // if (d3.select(this).child == "false") {
-                            currentDisplay = d3.select(this).style("opacity");
-                            currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay == "inline" ? "none" : "inline";
                             return currentDisplay;
                         });
                     } else {
-                        d3.select(this).style("opacity", function () {
-                            currentDisplay = d3.select(this).style("opacity");
-                            currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+                        d3.select(this).style("display", function () {
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
                             return currentDisplay;
                         });
                     }
                 })
                 d3.selectAll("text:not([group='" + d.group + "'])").select(function (d, i) {
                     if (d.child == "false") {
-                        d3.select(this).style("opacity", function () {
+                        d3.select(this).style("display", function () {
                             // if (d3.select(this).child == "false") {
-                            currentDisplay = d3.select(this).style("opacity");
-                            currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay == "inline" ? "none" : "inline";
                             return currentDisplay;
                         });
                     } else {
-                        d3.select(this).style("opacity", function () {
-                            currentDisplay = d3.select(this).style("opacity");
-                            currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+                        d3.select(this).style("display", function () {
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
                             return currentDisplay;
                         });
                     }
@@ -483,12 +537,6 @@
                 d3.select(this).style("cursor", "crosshair");
             })
             .on("mouseout", function (d) {
-                d3.select(this).style("cursor", "default");
-            })
-            .on("focusin", function (d) {
-                d3.select(this).style("cursor", "crosshair");
-            })
-            .on("focusout", function (d) {
                 d3.select(this).style("cursor", "default");
             })
 
