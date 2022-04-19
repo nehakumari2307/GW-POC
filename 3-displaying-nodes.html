@@ -416,7 +416,7 @@
                 } else {
                     console.log("Show Child node");
                     active = d.active ? false : true // toggle whether node is active
-                        , newOpacity = active && activeOpacity ? 1 : 0;
+                        , newOpacity = active && activeOpacity ? "inline" : "none";
                     // , newOpacity = active || activeOpacity ? 0 : 1;
 
                     // Extract node's name and the names of its neighbors
@@ -434,17 +434,17 @@
                         d3.select("circle#" + neighbors[i]).transition()
                             .delay(function (d, i) { return i * 0; })
                             .duration(1250)
-                            .style('display', "inline");
+                            .style('display', newOpacity);
 
                         d3.select("text#" + neighbors[i]).transition()
                             .delay(function (d, i) { return i * 0; })
                             .duration(1250)
-                            .style('display', "inline");
+                            .style('display', newOpacity);
 
                         d3.select("line#" + neighbors[i]).transition()
                             .delay(function (d, i) { return i * 0; })
                             .duration(1250)
-                            .style('display', "inline");
+                            .style('display', newOpacity);
                     }
                     // Update whether or not the node is active
                     d.active = active;
