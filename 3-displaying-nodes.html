@@ -567,7 +567,7 @@
                         d3.select(this).style("display", function () {
                             // if (d3.select(this).child == "false") {
                             currentDisplay = d3.select(this).style("display");
-                            currentDisplay = currentDisplay == "inline" ? "none" : "inline";
+                            currentDisplay = currentDisplay != "none" ? "none" : "inline";
                             return currentDisplay;
                         });
                     } else {
