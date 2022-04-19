@@ -416,6 +416,7 @@
             .selectAll("line")
             .data(links)
             .enter().append("line")
+            .attr("tabindex", "0")
             .attr("stroke-width", strokeWidth)
             .attr("stroke", "rgba(50, 50, 50, 0.5)")
             .attr("group", function (d) { return d.group; })
@@ -484,6 +485,13 @@
             .on("mouseout", function (d) {
                 d3.select(this).style("cursor", "default");
             })
+            .on("focusin", function (d) {
+                d3.select(this).style("cursor", "crosshair");
+            })
+            .on("focusout", function (d) {
+                d3.select(this).style("cursor", "default");
+            })
+
 
 
 
@@ -496,6 +504,7 @@
             .attr("stroke", fillStroke)
             .attr("stroke-width", strokeWidth)
             .attr("fill", getClickedNodeColor)
+            .attr("tabindex", "0")
             .attr("group", function (d) { return d.group; })
             .attr("id", function (d) { return d.id; })
             .attr("active", function (d) {
