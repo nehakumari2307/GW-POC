@@ -360,6 +360,52 @@
             }, 300)
         }
 
+        // function showNodes(d) {
+        //     console.log("Mouse in");
+        //     console.log("d value in showNode " + d);
+        //     t = setTimeout(function () {
+        //         console.log("clickable nodes are" + clickableNodes);
+        //         if (clickableNodes.indexOf(d.id) == -1) {
+        //             return;
+        //         } else {
+        //             console.log("Show Child node");
+        //             active = d.active ? false : true // toggle whether node is active
+        //                 , newOpacity = active && activeOpacity ? 1 : 0;
+        //             // , newOpacity = active || activeOpacity ? 0 : 1;
+
+        //             // Extract node's name and the names of its neighbors
+        //             var name = d.label;
+        //             console.log("clicked node name " + name);
+
+        //             var neighbors = getChildrenNode(d);
+        //             console.log("clicked node neighbour " + neighbors);
+        //             // Hide the neighbors and their links
+        //             for (var i = 1; i < neighbors.length; i++) {
+        //                 // d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
+        //                 // d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
+        //                 // d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
+
+        //                 d3.select("circle#" + neighbors[i]).transition()
+        //                     .delay(function (d, i) { return i * 0; })
+        //                     .duration(1250)
+        //                     .style('opacity', newOpacity);
+
+        //                 d3.select("text#" + neighbors[i]).transition()
+        //                     .delay(function (d, i) { return i * 0; })
+        //                     .duration(1250)
+        //                     .style('opacity', newOpacity);
+
+        //                 d3.select("line#" + neighbors[i]).transition()
+        //                     .delay(function (d, i) { return i * 0; })
+        //                     .duration(1250)
+        //                     .style('opacity', newOpacity);
+        //             }
+        //             // Update whether or not the node is active
+        //             d.active = active;
+        //         }
+        //     }, hoverTime);
+        // }
+
         function showNodes(d) {
             console.log("Mouse in");
             console.log("d value in showNode " + d);
@@ -388,17 +434,17 @@
                         d3.select("circle#" + neighbors[i]).transition()
                             .delay(function (d, i) { return i * 0; })
                             .duration(1250)
-                            .style('opacity', newOpacity);
+                            .style('display', "inline");
 
                         d3.select("text#" + neighbors[i]).transition()
                             .delay(function (d, i) { return i * 0; })
                             .duration(1250)
-                            .style('opacity', newOpacity);
+                            .style('display', "inline");
 
                         d3.select("line#" + neighbors[i]).transition()
                             .delay(function (d, i) { return i * 0; })
                             .duration(1250)
-                            .style('opacity', newOpacity);
+                            .style('display', "inline");
                     }
                     // Update whether or not the node is active
                     d.active = active;
@@ -558,7 +604,8 @@
             .attr("active", function (d) {
                 if (d.child == "true") {
                     activeOpacity = true;
-                    d3.select(this).style("opacity", "0");
+                    // d3.select(this).style("opacity", "0");
+                    d3.select(this).style("display", "none");
                 }
             })
             .call(dragDrop)
@@ -603,7 +650,8 @@
             .attr("active", function (d) {
                 if (d.child == "true") {
                     activeOpacity = true;
-                    d3.select(this).style("opacity", "0");
+                    // d3.select(this).style("opacity", "0");
+                    d3.select(this).style("display", "none");
                 }
             })
 
