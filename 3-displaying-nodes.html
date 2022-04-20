@@ -585,7 +585,7 @@
             .on("mouseout", function (d) {
                 d3.select(this).style("cursor", "default");
             })
-            .on("keypress", function () {
+            .on("keypress", function (d) {
                 if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
                     console.log("you pressed enter on link!")
 
