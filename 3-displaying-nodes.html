@@ -587,7 +587,57 @@
             })
             .on("keypress", function () {
                 if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
-                    console.log("Congrats, you pressed enter or space!")
+                    console.log("you pressed enter on link!")
+
+                    d3.selectAll("line:not([group='" + d.group + "'])").select(function (d, i) {
+                        if (d.child == "false") {
+                            d3.select(this).style("display", function () {
+                                // if (d3.select(this).child == "false") {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay == "inline" ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        } else {
+                            d3.select(this).style("display", function () {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        }
+                    })
+
+                    d3.selectAll("circle:not([group='" + d.group + "'])").select(function (d, i) {
+                        if (d.child == "false") {
+                            d3.select(this).style("display", function () {
+                                // if (d3.select(this).child == "false") {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay == "inline" ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        } else {
+                            d3.select(this).style("display", function () {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        }
+                    })
+                    d3.selectAll("text:not([group='" + d.group + "'])").select(function (d, i) {
+                        if (d.child == "false") {
+                            d3.select(this).style("display", function () {
+                                // if (d3.select(this).child == "false") {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay != "none" ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        } else {
+                            d3.select(this).style("display", function () {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        }
+                    });
                 }
             });
 
@@ -622,7 +672,8 @@
             .on("mouseout", hideNodes)
             .on("keypress", function () {
                 if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
-                    console.log("Congrats, you pressed enter or space on links!")
+                    console.log("you pressed enter or space on circle!");
+                    showNodes();
                 }
             });
 
