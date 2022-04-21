@@ -742,6 +742,7 @@
         var legend = svg2.selectAll(".legend")
             .data(legend_data)
             .enter().append("g")
+            .attr("tabindex", "0")
             .attr("class", "node_legend")
             .attr("transform", function (d, i) { return "translate(0," + i * 50 + ")"; })
             .on("mouseover", function (d) {
@@ -773,6 +774,65 @@
                     })
             })
             .on("mouseout", function (d) {
+                var selectedLegendId = d.id;
+                d3.select(this).select("rect").style("stroke-width", 1.5);
+                d3.select(this).select("rect").style("stroke", "gray");
+                d3.select(this).select("text").style("font", "12px sans-serif");
+                // d3.selectAll("g." + d.id + " circle").style("stroke-width", 1.5);
+                // d3.selectAll("g." + d.id + " circle").style("stroke", "gray");
+                // d3.selectAll("g." + d.id + " text").style("font", "12px sans-serif");
+                d3.selectAll("circle")
+                    .select(function (d, i) {
+                        // console.log("value of highlighted legend " + d.label);
+                        if (d.label == selectedLegendId) {
+                            var nonTerminatingNeighbors = getNonterminatingNode(d);
+                            console.log("non terminating node neighbour " + nonTerminatingNeighbors);
+                            // Hide the neighbors and their links
+                            for (var i = 1; i < nonTerminatingNeighbors.length; i++) {
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("stroke", "none");
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("fill", getClickedNodeColor);
+                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "10px sans-serif");
+                                d3.select("line#" + nonTerminatingNeighbors[i]).style("stroke", "rgba(50, 50, 50, 0.5)");
+                                console.log("value of d" + d);
+
+                                // var nonTerminatingTarget = getNextNode(nonTerminatingNeighbors[i]);
+                                // console.log("non terminating target node " + nonTerminatingTarget);
+                            }
+                        }
+                        // return d.label == selectedLegendId ? console.log("matched") : console.log("not matched");
+                    })
+            })
+            .on('focus', function (d) {
+                // add mouse in functionality
+                var selectedLegendId = d.id;
+                d3.select(this).select("rect").style("stroke-width", 6);
+                d3.select(this).select("rect").style("stroke", "lightblue");
+                d3.select(this).select("text").style("font", "15px sans-serif");
+                // d3.selectAll("g." + d.id + " circle").style("stroke-width", 6);
+                // d3.selectAll("g." + d.id + " circle").style("stroke", "orange");
+                // d3.selectAll("g." + d.id + " text").style("font", "20px sans-serif");
+                // d3.selectAll("circle:not([label='" + d.id + "'])")
+                d3.selectAll("circle")
+                    .select(function (d, i) {
+                        // console.log("value of highlighted legend " + d.label);
+                        if (d.label == selectedLegendId) {
+                            var nonTerminatingNeighbors = getNonterminatingNode(d);
+                            console.log("non terminating node neighbour " + nonTerminatingNeighbors);
+                            // Hide the neighbors and their links
+                            for (var i = 1; i < nonTerminatingNeighbors.length; i++) {
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("stroke", "grey");
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("fill", "lightblue");
+                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "15px sans-serif");
+                                d3.select("line#" + nonTerminatingNeighbors[i]).style("stroke", "stroke", "rgba(50, 50, 50, 1.0)");
+                                // var nonTerminatingTarget = getNextNode(nonTerminatingNeighbors[i]);
+                                // console.log("non terminating target node " + nonTerminatingTarget);
+                            }
+                        }
+                        // return d.label == selectedLegendId ? console.log("matched") : console.log("not matched");
+                    })
+            })
+            .on('blur', function (d) {
+                // add mouse out functionality
                 var selectedLegendId = d.id;
                 d3.select(this).select("rect").style("stroke-width", 1.5);
                 d3.select(this).select("rect").style("stroke", "gray");
