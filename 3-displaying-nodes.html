@@ -709,6 +709,24 @@
             .attr("tabindex", "0")
             .attr("group", function (d) { return d.group; })
             .attr("id", function (d) { return d.id; })
+            .attr("active", function (d) {
+                if (d.child == "true") {
+                    activeOpacity = true;
+                    // d3.select(this).style("opacity", "0");
+                    d3.select(this).style("display", "none");
+                }
+            })
+            .call(dragDrop)
+            .on("mouseover", showNodes)
+            .on("mouseout", hideNodes)
+            .on("keypress", function (d) {
+                if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
+                    console.log("you pressed enter or space on circle!");
+                    showNodes(d);
+                }
+            });
+
+
 
         const nodeRectangles = svg.append('g')
             .selectAll('rect')
@@ -722,6 +740,9 @@
             .attr('fill', getClickedNodeColor)
             .attr('stroke', fillStroke)
             .attr('stroke-width', 2)
+            .attr("tabindex", "0")
+            .attr("group", function (d) { return d.group; })
+            .call(dragDrop)
 
 
         var textElements = svg.append("g")
