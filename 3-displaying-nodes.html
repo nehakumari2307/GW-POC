@@ -642,56 +642,87 @@
             });
 
 
+        // old circle node
 
+        // var nodeElements = svg.append("g")
+        //     .attr("class", "nodes")
+        //     .selectAll("circle")
+        //     .data(nodes)
+        //     .enter().append("circle")
+        //     .attr("r", getClickedNodeSize)
+        //     .attr("stroke", fillStroke)
+        //     .attr("stroke-width", strokeWidth)
+        //     .attr("fill", getClickedNodeColor)
+        //     .attr("tabindex", "0")
+        //     .attr("group", function (d) { return d.group; })
+        //     .attr("id", function (d) { return d.id; })
+        //     .attr("active", function (d) {
+        //         if (d.child == "true") {
+        //             activeOpacity = true;
+        //             // d3.select(this).style("opacity", "0");
+        //             d3.select(this).style("display", "none");
+        //         }
+        //     })
+        //     .call(dragDrop)
+        //     // .on('click', selectNode)
+        //     // .on("mouseover", tip.show)
+        //     // .on("mouseout", tip.hide)
+        //     .attr("class", "nodes")
+        //     .on("mouseover", showNodes)
+        //     .on("mouseout", hideNodes)
+        //     .on("keypress", function (d) {
+        //         if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
+        //             console.log("you pressed enter or space on circle!");
+        //             showNodes(d);
+        //         }
+        //     });
 
-        var nodeElements = svg.append("g")
+        // nodeElements.on("dblclick.zoom", function (d) {
+        //     clearTimeout(timeout);
+
+        //     console.clear();
+        //     console.log("node was double clicked");
+        //     d3.event.stopPropagation();
+        //     var dcx = (width / 2 - d.x * 1); //assuming scale to be 1
+        //     var dcy = (height / 2 - d.y * 1); //assuming scale to be 1
+        //     console.log("width value " + dcx + "height value " + dcy);
+
+        //     svg.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + 1 + ")");
+        //     // zoom.translate([dcx, dcy]);
+        //     // // g.attr("transform", d3.event.transform)
+        //     // g.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + zoom.scale() + ")");
+        // });
+
+        // new circle node
+
+        const nodeCircles = svg.append('g')
             .attr("class", "nodes")
-            .selectAll("circle")
+            .selectAll('circle')
             .data(nodes)
-            .enter().append("circle")
-            .attr("r", getClickedNodeSize)
-            .attr("stroke", fillStroke)
-            .attr("stroke-width", strokeWidth)
-            .attr("fill", getClickedNodeColor)
+            .enter()
+            .filter(d => d.child)
+            .append('circle')
+            .attr('r', getClickedNodeSize)
+            .attr('fill', getClickedNodeColor)
+            .attr('stroke', fillStroke)
+            .attr('stroke-width', 2)
             .attr("tabindex", "0")
             .attr("group", function (d) { return d.group; })
             .attr("id", function (d) { return d.id; })
-            .attr("active", function (d) {
-                if (d.child == "true") {
-                    activeOpacity = true;
-                    // d3.select(this).style("opacity", "0");
-                    d3.select(this).style("display", "none");
-                }
-            })
-            .call(dragDrop)
-            // .on('click', selectNode)
-            // .on("mouseover", tip.show)
-            // .on("mouseout", tip.hide)
-            .attr("class", "nodes")
-            .on("mouseover", showNodes)
-            .on("mouseout", hideNodes)
-            .on("keypress", function (d) {
-                if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
-                    console.log("you pressed enter or space on circle!");
-                    showNodes(d);
-                }
-            });
 
-        nodeElements.on("dblclick.zoom", function (d) {
-            clearTimeout(timeout);
+        const nodeRectangles = svg.append('g')
+            .selectAll('rect')
+            .data(nodes)
+            .enter()
+            .filter(d => !d.child)
+            .append('rect')
+            .attr('width', 25)
+            .attr('height', 15)
+            .attr('class', 'node')
+            .attr('fill', setNodeColor)
+            .attr('stroke', fillStroke)
+            .attr('stroke-width', 2)
 
-            console.clear();
-            console.log("node was double clicked");
-            d3.event.stopPropagation();
-            var dcx = (width / 2 - d.x * 1); //assuming scale to be 1
-            var dcy = (height / 2 - d.y * 1); //assuming scale to be 1
-            console.log("width value " + dcx + "height value " + dcy);
-
-            svg.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + 1 + ")");
-            // zoom.translate([dcx, dcy]);
-            // // g.attr("transform", d3.event.transform)
-            // g.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + zoom.scale() + ")");
-        });
 
         var textElements = svg.append("g")
             .attr("class", "texts")
@@ -719,13 +750,18 @@
 
 
         simulation.nodes(nodes).on('tick', () => {
-            // nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
-            // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
-            // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
-            // var radius = (node.strength * 25) + 1.0;
-            nodeElements
-                .attr('cx', function (node) { return node.x = Math.max(radius, Math.min(width - radius, node.x)); })
-                .attr('cy', function (node) { return node.y = Math.max(radius, Math.min(height - radius, node.y)); })
+
+            // nodeElements
+            //     .attr('cx', function (node) { return node.x = Math.max(radius, Math.min(width - radius, node.x)); })
+            //     .attr('cy', function (node) { return node.y = Math.max(radius, Math.min(height - radius, node.y)); })
+
+            nodeCircles
+                .attr('cx', node => node.x)
+                .attr('cy', node => node.y)
+            nodeRectangles
+                .attr('x', node => node.x)
+                .attr('y', node => node.y)
+                .attr('transform', 'translate(-10, -7)')
 
             textElements
                 .attr('x', function (node) { return node.x })
