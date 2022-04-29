@@ -717,14 +717,7 @@
                 }
             })
             .call(dragDrop)
-            .on("mouseover", showNodes)
-            .on("mouseout", hideNodes)
-            .on("keypress", function (d) {
-                if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
-                    console.log("you pressed enter or space on circle!");
-                    showNodes(d);
-                }
-            });
+
 
 
 
@@ -734,8 +727,8 @@
             .enter()
             .filter(function (d) { return d.child != "true" })
             .append('rect')
-            .attr('width', 25)
-            .attr('height', 15)
+            .attr('width', 40)
+            .attr('height', 30)
             .attr('class', 'node')
             .attr('fill', getClickedNodeColor)
             .attr('stroke', fillStroke)
@@ -743,6 +736,14 @@
             .attr("tabindex", "0")
             .attr("group", function (d) { return d.group; })
             .call(dragDrop)
+            .on("mouseover", showNodes)
+            .on("mouseout", hideNodes)
+            .on("keypress", function (d) {
+                if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
+                    console.log("you pressed enter or space on circle!");
+                    showNodes(d);
+                }
+            });
 
 
         var textElements = svg.append("g")
