@@ -783,12 +783,12 @@
             nodeRectangles
                 .attr('x', node => node.x)
                 .attr('y', node => node.y)
-                .attr('transform', 'translate(0, 0)')
+                .attr('transform', 'translate(-10, -10)')
 
             textElements
                 .attr('x', function (node) { return node.x })
                 .attr('y', function (node) { return node.y })
-                .attr('transform', 'translate(10, -10)')
+            // .attr('transform', 'translate(10, -10)')
 
             linkElements
                 .attr('x1', function (link) { return link.source.x })
