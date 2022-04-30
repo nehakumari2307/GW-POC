@@ -721,7 +721,7 @@
 
 
 
-        const nodeRectangles = svg.append('g')
+        const nodeRectangles = svg.append('g').append('rect')
             .selectAll('rect')
             .data(nodes)
             .enter()
