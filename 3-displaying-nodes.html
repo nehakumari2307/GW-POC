@@ -144,7 +144,7 @@
         const nodes = csvToNode(data);
         const links = csvToLink(data);
         var radius = 0;
-        var rect_width = 0;
+        var rect_width;
         var opacity = 0.25;
         let t, hoverTime = 0;
         var active;
@@ -345,7 +345,7 @@
         }
 
         function getWidthSize(node) {
-            rect_width = node.strength * 10;
+            rect_width = node.strength * 100;
             return rect_width;
         }
 
