@@ -721,7 +721,7 @@
 
 
 
-        const nodeRectangles = svg.append('g').append('rect')
+        const nodeRectangles = svg.append('g')
             .selectAll('rect')
             .data(nodes)
             .enter()
@@ -746,7 +746,7 @@
             });
 
 
-        var textElements = svg.append("rect")
+        var textElements = svg.append("g")
             .attr("class", "texts")
             .selectAll("text")
             .data(nodes)
@@ -785,7 +785,7 @@
             nodeRectangles
                 .attr('x', node => node.x)
                 .attr('y', node => node.y)
-                .attr('transform', 'translate(-10, -10)')
+                .attr('transform', 'translate(-15, -10)')
 
             textElements
                 .attr('x', function (node) { return node.x })
