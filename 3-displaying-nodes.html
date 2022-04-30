@@ -784,7 +784,7 @@
             .attr("font-weight", "bold")
             .attr("dx", getTextWidthSize)
             .attr("dy", 15)
-            .call(move)
+            .call(move(data))
             .attr("id", function (d) { return d.id; })
             .style("fill", getTextColor)
             .attr("group", function (d) { return d.group; })
