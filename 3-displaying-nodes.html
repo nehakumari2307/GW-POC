@@ -144,7 +144,7 @@
         const nodes = csvToNode(data);
         const links = csvToLink(data);
         var radius = 0;
-        var width = 0;
+        var rect_width = 0;
         var opacity = 0.25;
         let t, hoverTime = 0;
         var active;
@@ -345,8 +345,8 @@
         }
 
         function getWidthSize(node) {
-            width = node.strength * 10;
-            return width;
+            rect_width = node.strength * 10;
+            return rect_width;
         }
 
 
@@ -795,12 +795,12 @@
             nodeRectangles
                 .attr('x', node => node.x)
                 .attr('y', node => node.y)
-                .attr("transform", "translate(" + width(-1) / 2 + ", -15)")
+                .attr("transform", "translate(" + rect_width(-1) / 2 + ", -15)")
 
             textElements
                 .attr('x', function (node) { return node.x })
                 .attr('y', function (node) { return node.y })
-                .attr("transform", "translate(" + width(-1) / 2 + ", -15)")
+                .attr("transform", "translate(" + rect_width(-1) / 2 + ", -15)")
 
             linkElements
                 .attr('x1', function (link) { return link.source.x })
