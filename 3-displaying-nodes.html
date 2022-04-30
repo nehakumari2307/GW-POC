@@ -374,6 +374,17 @@
             }, 300)
         }
 
+        // function move(selection, x, y) {
+        function move(node) {
+            if (node.child === "true") {
+                node.attr("transform", "translate(0,-15)");
+            } else {
+                var text_wi = getTextWidthSize(node);
+                selection.attr("transform", "translate(" + text_wi + ",-15)");
+            }
+
+        };
+
         // function showNodes(d) {
         //     console.log("Mouse in");
         //     console.log("d value in showNode " + d);
@@ -773,6 +784,7 @@
             .attr("font-weight", "bold")
             .attr("dx", getTextWidthSize)
             .attr("dy", 15)
+            .call(move)
             .attr("id", function (d) { return d.id; })
             .style("fill", getTextColor)
             .attr("group", function (d) { return d.group; })
@@ -801,7 +813,7 @@
             nodeRectangles
                 .attr('x', node => node.x)
                 .attr('y', node => node.y)
-                .attr("transform", "translate( -15, -15)")
+            // .attr("transform", "translate( -15, -15)")
             // .attr("transform", "translate(" + ((node.strength * 100) / 2) * -1 + ", -15)")
 
             textElements
