@@ -378,10 +378,10 @@
         function move(node) {
             for (var i = 0; i <= node.length; i++) {
                 if (node[i].child === "true") {
-                    node[i].attr("transform", "translate(-15,-15)");
+                    d3.select("text#" + node[i]).attr("transform", "translate(-15,-15)");
                 } else {
                     var text_wi = getTextWidthSize(node[i]);
-                    node[i].attr("transform", "translate(" + text_wi + ",-15)");
+                    d3.select("text#" + node[i]).attr("transform", "translate(" + text_wi + ",-15)");
                 }
             }
 
