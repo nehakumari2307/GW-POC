@@ -350,6 +350,11 @@
             return rect_width;
         }
 
+        function getTextWidthSize(node) {
+            var text_width = (node.strength * 100) / 2;
+            return text_width;
+        }
+
 
 
         function selectNode(selectedNode) {
@@ -766,8 +771,8 @@
             .attr('alignment-baseline', 'middle')
             .attr("font-size", 10)
             .attr("font-weight", "bold")
-            .attr("dx", getWidthSize)
-            .attr("dy", 30 / 2)
+            .attr("dx", getTextWidthSize)
+            .attr("dy", 15)
             .attr("id", function (d) { return d.id; })
             .style("fill", getTextColor)
             .attr("group", function (d) { return d.group; })
