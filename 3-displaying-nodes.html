@@ -757,6 +757,8 @@
             .attr('alignment-baseline', 'middle')
             .attr("font-size", 10)
             .attr("font-weight", "bold")
+            .attr("dx", 60 / 2)
+            .attr("dy", 30 / 2)
             .attr("id", function (d) { return d.id; })
             .style("fill", getTextColor)
             .attr("group", function (d) { return d.group; })
@@ -788,7 +790,7 @@
             textElements
                 .attr('x', function (node) { return node.x })
                 .attr('y', function (node) { return node.y })
-                .attr('transform', 'translate(10, -10)')
+                .attr('transform', 'translate(12, 7)')
 
             linkElements
                 .attr('x1', function (link) { return link.source.x })
