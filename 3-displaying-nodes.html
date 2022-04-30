@@ -788,6 +788,8 @@
             textElements
                 .attr('x', function (node) { return node.x })
                 .attr('y', function (node) { return node.y })
+                .attr('transform', 'translate(-10, -7)')
+
             linkElements
                 .attr('x1', function (link) { return link.source.x })
                 .attr('y1', function (link) { return link.source.y })
