@@ -377,11 +377,11 @@
         // function move(selection, x, y) {
         function move(node) {
             for (var i = 0; i <= node.length; i++) {
-                if (node.child === "true") {
-                    node.attr("transform", "translate(-15,-15)");
+                if (node[i].child === "true") {
+                    node[i].attr("transform", "translate(-15,-15)");
                 } else {
-                    var text_wi = getTextWidthSize(node);
-                    node.attr("transform", "translate(" + text_wi + ",-15)");
+                    var text_wi = getTextWidthSize(node[i]);
+                    node[i].attr("transform", "translate(" + text_wi + ",-15)");
                 }
             }
 
