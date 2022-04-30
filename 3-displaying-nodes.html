@@ -192,7 +192,12 @@
             .force('center', d3.forceCenter(width / 2, (height / 2) - 50))
             .force('collide', d3.forceCollide(function (d) {
                 return (d.label.length + 30);
-            }).strength(1));
+            }).strength(1))
+            .force("x", d3.forceX(function (d) {
+                return (d.strength * 100) / 2;
+
+            }).strength(0.5))
+            .force("y", d3.forceY(30).strength(0.5))
 
 
         var dragDrop = d3.drag().on('start', function (node) {
@@ -373,25 +378,6 @@
                 linkElements.attr('stroke', function (link) { return getClickedLinkColor(selectedNode, link) })
             }, 300)
         }
-
-        // function move(selection, x, y) {
-        function move(node) {
-            // for (var i = 0; i <= node.length; i++) {
-            //     if (node[i].child === "true") {
-            //         d3.select("text#" + node[i]).attr("transform", "translate(-15,-15)");
-            //     } else {
-            //         var text_wi = getTextWidthSize(node[i]);
-            //         d3.select("text#" + node[i]).attr("transform", "translate(" + text_wi + ",-15)");
-            //     }
-            // }
-            if (node.child === "true") {
-                return -15;
-            } else {
-                return ((node.strength * 100) / 2) * -1;
-            }
-
-
-        };
 
         // function showNodes(d) {
         //     console.log("Mouse in");
