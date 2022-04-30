@@ -376,12 +376,15 @@
 
         // function move(selection, x, y) {
         function move(node) {
-            if (node.child === "true") {
-                node.attr("transform", "translate(0,-15)");
-            } else {
-                var text_wi = getTextWidthSize(node);
-                node.attr("transform", "translate(" + text_wi + ",-15)");
+            for (var i = 0; i <= node.length; i++) {
+                if (node.child === "true") {
+                    node.attr("transform", "translate(-15,-15)");
+                } else {
+                    var text_wi = getTextWidthSize(node);
+                    node.attr("transform", "translate(" + text_wi + ",-15)");
+                }
             }
+
 
         };
 
