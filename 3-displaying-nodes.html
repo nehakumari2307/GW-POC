@@ -792,7 +792,7 @@
             .attr("font-weight", "bold")
             .attr("dx", getTextWidthSize)
             .attr("dy", 15)
-            .attr("transform", "translate(" + move(d) + ", -15)")
+            .attr("transform", "translate(" + move(this) + ", -15)")
             // .call(move(data))
             .attr("id", function (d) { return d.id; })
             .style("fill", getTextColor)
