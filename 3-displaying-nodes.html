@@ -376,13 +376,18 @@
 
         // function move(selection, x, y) {
         function move(node) {
-            for (var i = 0; i <= node.length; i++) {
-                if (node[i].child === "true") {
-                    d3.select("text#" + node[i]).attr("transform", "translate(-15,-15)");
-                } else {
-                    var text_wi = getTextWidthSize(node[i]);
-                    d3.select("text#" + node[i]).attr("transform", "translate(" + text_wi + ",-15)");
-                }
+            // for (var i = 0; i <= node.length; i++) {
+            //     if (node[i].child === "true") {
+            //         d3.select("text#" + node[i]).attr("transform", "translate(-15,-15)");
+            //     } else {
+            //         var text_wi = getTextWidthSize(node[i]);
+            //         d3.select("text#" + node[i]).attr("transform", "translate(" + text_wi + ",-15)");
+            //     }
+            // }
+            if (node.child === "true") {
+                return -15;
+            } else {
+                return ((node.strength * 100) / 2) * -1;
             }
 
 
@@ -787,7 +792,8 @@
             .attr("font-weight", "bold")
             .attr("dx", getTextWidthSize)
             .attr("dy", 15)
-            .call(move(data))
+            .attr("transform", "translate(" + move + ", -15)")
+            // .call(move(data))
             .attr("id", function (d) { return d.id; })
             .style("fill", getTextColor)
             .attr("group", function (d) { return d.group; })
