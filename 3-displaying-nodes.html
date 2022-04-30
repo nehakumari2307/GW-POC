@@ -144,7 +144,8 @@
         const nodes = csvToNode(data);
         const links = csvToLink(data);
         var radius = 0;
-        var rect_width;
+        var rect_width = nodes;
+        // var rect_width= nodes.strength;
         var opacity = 0.25;
         let t, hoverTime = 0;
         var active;
@@ -795,13 +796,13 @@
             nodeRectangles
                 .attr('x', node => node.x)
                 .attr('y', node => node.y)
-                .attr("transform", "translate( -40, -15)")
+                .attr("transform", "translate(" + rect_width + ", -15)")
             // .attr("transform", "translate(" + ((node.strength * 100) / 2) * -1 + ", -15)")
 
             textElements
                 .attr('x', function (node) { return node.x })
                 .attr('y', function (node) { return node.y })
-                .attr("transform", "translate( 0, -15)")
+                .attr("transform", "translate(" + rect_width + " , -15)")
             // .attr("transform", "translate(" + ((node.strength * 100) / 2) * -1 + ", -15)")
 
             linkElements
