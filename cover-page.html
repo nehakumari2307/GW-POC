@@ -16,8 +16,31 @@
         .column {
             flex: 80%;
             padding: 10px;
-            height: 300px;
-            /* Should be removed. Only for demonstration */
+        }
+
+        .title {
+            font-size: 8rem;
+            margin: 0;
+        }
+
+        .half-title {
+            font-size: 4rem;
+            margin: 0;
+        }
+
+        .left {
+            width: 25%;
+        }
+
+        .right {
+            width: 75%;
+        }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
         }
     </style>
 </head>
@@ -27,13 +50,13 @@
     <h2></h2>
 
     <div class="row">
-        <div class="column" style="background-color:#aaa;">
-            <h1>Vibrant</h1>
-            <h1>Ecologies</h1>
-            <h1>of</h1>
-            <h1>Research</h1>
+        <div class="column left">
+            <h1 class="title">Vibrant</h1>
+            <h1 class="title">Ecologies</h1>
+            <h1 class="half-title">of</h1>
+            <h1 class="title">Research</h1>
         </div>
-        <div class="column" style="background-color:#bbb;">
+        <div class="column right" style="background-color:#bbb;">
             <h2> Introduction</h2>
             <p>Some text..</p>
         </div>
