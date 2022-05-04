@@ -126,6 +126,12 @@
             background-color: #efefef;
             padding: 15px;
         }
+
+        #Table {
+            background-color: #efefef;
+            padding: 15px;
+            color: white;
+        }
     </style>
 </head>
 
@@ -145,23 +151,6 @@
             <p>Some text..</p>
         </div>
     </div>
-    <!-- <div>
-        <div class="tab">
-            <button class="tablinks" id="first" onclick="openTab(event, 'connection')" id="defaultOpen">Connection
-                Map</button>
-            <button class="tablinks" id="second" onclick="openTab(event, 'table')">Table of Contents</button>
-        </div>
-
-        <div id="connection" class="tabcontent">
-            <h3>Connection Map</h3>
-            <p>London is the capital city of England.</p>
-        </div>
-
-        <div id="table" class="tabcontent">
-            <h3>Table of content</h3>
-            <p>Paris is the capital of France.</p>
-        </div>
-    </div> -->
 
     <div class="tab">
         <button class="tablinks first" onclick="openTab(event, 'Connection')" id="defaultOpen">Connection Map</button>
@@ -184,27 +173,21 @@
     </div>
 
     <div id="Table" class="tabcontent">
-        <h3>Table of Content</h3>
-        <p></p>
+        <div>
+            <div id="Connection">
+                <h2>Forward</h2>
+                <h4>Lorem Ipsum</h4>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                    industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type
+                    and
+                    scrambled it to make a type specimen book. It has survived not only five centuries, but also the
+                    leap
+                    into electronic typesetting.</p>
+            </div>
+        </div>
     </div>
 
     <script>
-        // function openTab(evt, Name) {
-        //     var i, tabcontent, tablinks;
-        //     tabcontent = document.getElementsByClassName("tabcontent");
-        //     for (i = 0; i < tabcontent.length; i++) {
-        //         tabcontent[i].style.display = "none";
-        //     }
-        //     tablinks = document.getElementsByClassName("tablinks");
-        //     for (i = 0; i < tablinks.length; i++) {
-        //         tablinks[i].className = tablinks[i].className.replace(" active", "");
-        //     }
-        //     document.getElementById(Name).style.display = "block";
-        //     evt.currentTarget.className += " active";
-        // }
-
-        // // Get the element with id="defaultOpen" and click on it
-        // document.getElementById("defaultOpen").click();
         function openTab(evt, name) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
