@@ -66,7 +66,7 @@
         /* Style the tab */
         .tab {
             overflow: hidden;
-            border: 1px solid #000;
+            border-bottom: 1px solid #000;
             margin: 20px 20px 0px 20px;
         }
 
@@ -103,6 +103,11 @@
         .tablinks {
             width: 30%;
         }
+
+        .second {
+            background: black;
+            color: white;
+        }
     </style>
 </head>
 
@@ -123,8 +128,8 @@
         </div>
     </div>
     <div class="tab">
-        <button class="tablinks" onclick="open(event, 'Connection')" id="defaultOpen">Connection Map</button>
-        <button class="tablinks" onclick="open(event, 'Table')">Table of Contents</button>
+        <button class="tablinks" onclick="open(event, 'connection')" id="defaultOpen">Connection Map</button>
+        <button class="tablinks second" onclick="open(event, 'table')">Table of Contents</button>
         <!-- <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button> -->
     </div>
 
