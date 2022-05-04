@@ -69,10 +69,6 @@
             margin: 20px 20px 0px 20px;
         }
 
-        .first {
-            border: 1px solid #000;
-        }
-
         /* Style the buttons inside the tab */
         .tab button {
             background-color: inherit;
@@ -87,18 +83,21 @@
 
         /* Change background color of buttons on hover */
         .tab button:hover {
+            font-size: 22px;
             background-color: #ddd;
         }
 
         /* Create an active/current tablink class */
         .tab button.active {
-            background-color: #ccc;
+            font-size: 24px;
+            /* background-color: #ccc; */
         }
 
         /* Style the tab content */
         .tabcontent {
             display: none;
-            padding: 6px 12px;
+            /* padding: 6px 12px; */
+            margin: 0px 20px 0px 20px;
             border: 1px solid #ccc;
             border-top: none;
         }
@@ -110,6 +109,11 @@
         #second {
             background-color: black;
             color: white;
+        }
+
+        .first {
+            background-color: white;
+            border: 1px solid #000;
         }
     </style>
 </head>
@@ -125,7 +129,7 @@
             <h1 class="title half-title">of</h1>
             <h1 class="title">Research</h1>
         </div>
-        <div class="column right" style="background-color:#bbb;">
+        <div class="column right" style="background-color:#000; color: #fff;">
             <h2 class="top"> Introduction</h2>
             <p>Some text..</p>
         </div>
