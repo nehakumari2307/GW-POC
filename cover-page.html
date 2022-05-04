@@ -29,7 +29,7 @@
 
         @keyframes effect {
             0% {
-                background: linear-gradient(#000000, #5C5C5C);
+                background: linear-gradient(#000000, #737373);
                 -webkit-background-clip: text;
             }
 
@@ -66,8 +66,8 @@
         /* Style the tab */
         .tab {
             overflow: hidden;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
+            border: 1px solid #000;
+            margin: 20px 20px 0px 20px;
         }
 
         /* Style the buttons inside the tab */
@@ -99,6 +99,10 @@
             border: 1px solid #ccc;
             border-top: none;
         }
+
+        .tablinks {
+            width: 30%;
+        }
     </style>
 </head>
 
@@ -119,28 +123,23 @@
         </div>
     </div>
     <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">London</button>
-        <button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-        <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
+        <button class="tablinks" onclick="open(event, 'Connection')" id="defaultOpen">Connection Map</button>
+        <button class="tablinks" onclick="open(event, 'Table')">Table of Contents</button>
+        <!-- <button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button> -->
     </div>
 
-    <div id="London" class="tabcontent">
-        <h3>London</h3>
+    <div id="connection" class="tabcontent">
+        <h3>Connection Map</h3>
         <p>London is the capital city of England.</p>
     </div>
 
-    <div id="Paris" class="tabcontent">
-        <h3>Paris</h3>
+    <div id="table" class="tabcontent">
+        <h3>Table of content</h3>
         <p>Paris is the capital of France.</p>
     </div>
 
-    <div id="Tokyo" class="tabcontent">
-        <h3>Tokyo</h3>
-        <p>Tokyo is the capital of Japan.</p>
-    </div>
-
     <script>
-        function openCity(evt, cityName) {
+        function open(evt, Name) {
             var i, tabcontent, tablinks;
             tabcontent = document.getElementsByClassName("tabcontent");
             for (i = 0; i < tabcontent.length; i++) {
@@ -150,7 +149,7 @@
             for (i = 0; i < tablinks.length; i++) {
                 tablinks[i].className = tablinks[i].className.replace(" active", "");
             }
-            document.getElementById(cityName).style.display = "block";
+            document.getElementById(Name).style.display = "block";
             evt.currentTarget.className += " active";
         }
 
