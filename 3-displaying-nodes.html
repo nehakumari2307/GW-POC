@@ -185,9 +185,9 @@
             .strength(function (link) { return link.strength })
             .distance(function (link) {
                 if (link.child === "true") {
-                    return link.strength * 05;
+                    return link.strength * 10;
                 } else {
-                    return link.strength * 25;
+                    return link.strength * 30;
                 }
             })
 
@@ -195,7 +195,7 @@
         var simulation = d3
             .forceSimulation()
             .force('link', linkForce)
-            .force('charge', d3.forceManyBody().strength(0))
+            .force('charge', d3.forceManyBody().strength(-10))
             .force('center', d3.forceCenter(width / 2, (height / 2) - 50))
             .force('collide', d3.forceCollide(function (d) {
                 return (d.label.length + 50);
@@ -230,7 +230,7 @@
             .attr("viewBox", "0 0 " + width + " " + height)
             .attr("preserveAspectRatio", "xMidYMid meet")
             // .classed("svg-content", true)
-            .attr("transform", "translate(1,1)scale(1,1)")
+            .attr("transform", "translate(08,08)scale(1,1)")
             .call(d3.zoom()
                 .on("zoom", function () {
                     svg.attr("transform", d3.event.transform)
