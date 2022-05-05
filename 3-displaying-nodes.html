@@ -484,11 +484,12 @@
             .selectAll("line")
             .data(links)
             .enter().append("line")
-            .attr("tabindex", "0")
+            // .attr("tabindex", "0")
             .attr("stroke-width", strokeWidth)
             .attr("stroke", "rgba(50, 50, 50, 0.5)")
             .attr("group", function (d) { return d.group; })
             .attr("id", function (d) { return d.id; })
+            .attr("aria-label", "links")
             .attr("active", function (d) {
                 if (d.child == "true") {
                     activeOpacity = true;
@@ -729,6 +730,15 @@
             .attr('stroke', fillStroke)
             .attr('stroke-width', 2)
             .attr("tabindex", "0")
+            .attr("aria-label", function (d) {
+                if (d.id === "vibrant") {
+                    return "this is a connection graph which can be navigated through keyboard";
+                } else if (clickableNodes.indexOf(d.id) !== -1) {
+                    return "press enter to expand node";
+                } else {
+                    return "";
+                }
+            })
             .attr("group", function (d) { return d.group; })
             .attr("id", function (d) { return d.id; })
             .attr("active", function (d) {
