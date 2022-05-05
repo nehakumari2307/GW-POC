@@ -195,11 +195,11 @@
                 return (d.label.length + 30);
             }).strength(1))
             .force("x", d3.forceX(function (d) {
-                return (d.strength * 100) / 2;
+                return (d.strength * 100);
 
             }))
             // .strength(0.5))
-            .force("y", d3.forceY(15))
+            .force("y", d3.forceY(45))
         // .strength(0.5))
 
 
