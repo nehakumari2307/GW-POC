@@ -193,14 +193,12 @@
             .force('center', d3.forceCenter(width / 2, (height / 2) - 50))
             .force('collide', d3.forceCollide(function (d) {
                 return (d.label.length + 30);
-            }).strength(1))
+            }).strength(0))
             .force("x", d3.forceX(function (d) {
-                return (d.strength * 100) + 20;
+                return (d.strength * 100) / 2;
 
-            })
-                .strength(0.5))
-            .force("y", d3.forceY(45)
-                .strength(0.5))
+            }).strength(0.5))
+            .force("y", d3.forceY(15).strength(0.5))
 
 
         var dragDrop = d3.drag().on('start', function (node) {
