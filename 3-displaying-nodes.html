@@ -189,17 +189,17 @@
         var simulation = d3
             .forceSimulation()
             .force('link', linkForce)
-            .force('charge', d3.forceManyBody().strength(-90))
+            .force('charge', d3.forceManyBody().strength(0))
             .force('center', d3.forceCenter(width / 2, (height / 2) - 50))
             .force('collide', d3.forceCollide(function (d) {
-                return (d.label.length + 50);
+                return (d.label.length + 30);
             }).strength(1))
             .force("x", d3.forceX(function (d) {
                 return (d.strength * 100) / 2;
 
             }))
             // .strength(0.5))
-            .force("y", d3.forceY(35))
+            .force("y", d3.forceY(15))
         // .strength(0.5))
 
 
