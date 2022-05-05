@@ -195,12 +195,12 @@
                 return (d.label.length + 30);
             }).strength(1))
             .force("x", d3.forceX(function (d) {
-                return (d.strength * 100);
+                return (d.strength * 100) + 20;
 
-            }))
-            // .strength(0.5))
-            .force("y", d3.forceY(45))
-        // .strength(0.5))
+            })
+                .strength(0.5))
+            .force("y", d3.forceY(45)
+                .strength(0.5))
 
 
         var dragDrop = d3.drag().on('start', function (node) {
