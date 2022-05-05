@@ -182,12 +182,12 @@
         var linkForce = d3
             .forceLink()
             .id(function (link) { return link.id })
-            .strength(function (link) { return link.strength })
+            // .strength(function (link) { return link.strength })
             .distance(function (link) {
                 if (link.child === "true") {
-                    return link.strength * 10;
+                    return link.strength;
                 } else {
-                    return link.strength * 30;
+                    return link.strength;
                 }
             })
 
