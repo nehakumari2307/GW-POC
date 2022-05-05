@@ -1,5 +1,5 @@
 id,group,label,level,target,source,strength,child
-vibrant,0,Vibrant Ecologies of Research,0,vibrant,vibrant,2,false
+vibrant,0,Vibrant Ecologies of Research,0,vibrant,vibrant,1.8,false
 sustainability,1,Sustainability,1,vibrant,sustainability,1.5,false
 climate,1,Climate,2,sustainability,climate,1,false
 itoc_1_0,1,IToC,4,climate,itoc_1_0,0.3,true
