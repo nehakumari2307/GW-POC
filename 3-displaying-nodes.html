@@ -192,7 +192,7 @@
             .force('charge', d3.forceManyBody().strength(0))
             .force('center', d3.forceCenter(width / 2, (height / 2) - 50))
             .force('collide', d3.forceCollide(function (d) {
-                return (d.label.length + 45);
+                return (d.label.length + 50);
             }).strength(0.5))
             .force("x", d3.forceX(function (d) {
                 return (d.strength * 100) / 2;
@@ -793,7 +793,7 @@
                 if (d.child === "true") {
                     return "translate(-15, -15)";
                 } else {
-                    return "translate((rect_width / 2) * -1, -15)";
+                    return "translate(" + (rect_width / 2) * -1 + ", -15)";
                     // var x = ((d.strength * 100) / 2) * -1;
                     // return "translate(" + x + ", -15)";
                 }
