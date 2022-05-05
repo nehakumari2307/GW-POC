@@ -194,11 +194,11 @@
             .force('collide', d3.forceCollide(function (d) {
                 return (d.label.length + 45);
             }).strength(0.5))
-        // .force("x", d3.forceX(function (d) {
-        //     return (d.strength * 100) / 2;
+            .force("x", d3.forceX(function (d) {
+                return (d.strength * 100) / 2;
 
-        // }).strength(0.05))
-        // .force("y", d3.forceY(15).strength(0.05))
+            }).strength(0.05))
+            .force("y", d3.forceY(15).strength(0.05))
 
 
         var dragDrop = d3.drag().on('start', function (node) {
