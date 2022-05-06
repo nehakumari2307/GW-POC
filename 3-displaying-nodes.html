@@ -184,7 +184,7 @@
             .id(function (link) { return link.id })
             .strength(function (link) {
                 console.log("link strength is" + link.strength);
-                return link.strength
+                return link.strength * 50;
             })
             .distance(function (link) {
                 if (link.child === "true") {
