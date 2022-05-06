@@ -200,7 +200,7 @@
         var simulation = d3
             .forceSimulation()
             .force('link', linkForce)
-            .force('charge', d3.forceManyBody().strength(-100))
+            .force('charge', d3.forceManyBody().strength(-300))
             .force('center', d3.forceCenter((width / 2) - 70, height / 2))
             .force('collide', d3.forceCollide(function (d) {
                 if (d.child === "true") {
@@ -208,7 +208,7 @@
                     return (d.label.length + 25);
                 } else {
                     console.log("link strengt is " + (d.strength * 100) / 2);
-                    return ((d.strength * 100) / 2);
+                    return ((d.strength * 100) / 2) + 20;
                 }
 
             }).strength(0.1))
@@ -845,8 +845,8 @@
             nodeRectangles
                 // .attr('x', node => node.x)
                 // .attr('y', node => node.y)
-                .attr('x', function (node) { return node.x = Math.max(rect_width, Math.min(width - rect_width, node.x)); })
-                .attr('y', function (node) { return node.y = Math.max(rect_height, Math.min(height - rect_height - 200, node.y)); })
+                .attr('x', function (node) { return node.x = Math.max(rect_width, Math.min(width - rect_width - 20, node.x)); })
+                .attr('y', function (node) { return node.y = Math.max(rect_height, Math.min(height - rect_height - 20, node.y)); })
                 .attr("transform", "translate(" + (rect_width / 2) * -1 + ", -15)")
             // .attr("transform", "translate(" + ((node.strength * 100) / 2) * -1 + ", -15)")
 
