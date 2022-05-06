@@ -186,15 +186,15 @@
                 console.log("link strength is" + link.strength);
                 return link.strength * 0.5;
             })
-        // .distance(function (link) {
-        //     if (link.child === "true") {
-        //         console.log("link distance of child is 1");
-        //         return 1;
-        //     } else {
-        //         console.log("link distance is 3");
-        //         return 3;
-        //     }
-        // })
+            .distance(function (link) {
+                if (link.child === "true") {
+                    console.log("link distance of child is 1");
+                    return 1;
+                } else {
+                    console.log("link distance is 3");
+                    return 3;
+                }
+            })
 
         // simulation setup with all forces
         var simulation = d3
@@ -208,7 +208,7 @@
                     return (d.label.length + 20);
                 } else {
                     console.log("link strengt is " + (d.strength * 100) / 2);
-                    return ((d.strength * 80) / 2);
+                    return ((d.strength * 100) / 2);
                 }
 
             }).strength(0.1))
