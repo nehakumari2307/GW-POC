@@ -213,7 +213,7 @@
 
             }).strength(0.1))
             .force("x", d3.forceX(function (d) {
-                return ((d.strength * 100) / 2) + 50;
+                return ((d.strength * 100) / 2);
 
             }).strength(0.1))
             .force("y", d3.forceY(50).strength(0.1))
@@ -845,8 +845,8 @@
             nodeRectangles
                 // .attr('x', node => node.x)
                 // .attr('y', node => node.y)
-                .attr('x', function (node) { return node.x = Math.max(rect_width, Math.min(width - rect_width - 20, node.x)); })
-                .attr('y', function (node) { return node.y = Math.max(rect_height, Math.min(height - rect_height - 20, node.y)); })
+                .attr('x', function (node) { return node.x = Math.max(rect_width, Math.min(width - rect_width, node.x)); })
+                .attr('y', function (node) { return node.y = Math.max(rect_height, Math.min(height - rect_height, node.y)); })
                 .attr("transform", "translate(" + (rect_width / 2) * -1 + ", -15)")
             // .attr("transform", "translate(" + ((node.strength * 100) / 2) * -1 + ", -15)")
 
@@ -880,7 +880,7 @@
                 // d3.selectAll("g." + d.id + " circle").style("stroke", "orange");
                 // d3.selectAll("g." + d.id + " text").style("font", "20px sans-serif");
                 // d3.selectAll("circle:not([label='" + d.id + "'])")
-                d3.selectAll("circle")
+                d3.selectAll("rect")
                     .select(function (d, i) {
                         // console.log("value of highlighted legend " + d.label);
                         if (d.label == selectedLegendId) {
@@ -917,7 +917,7 @@
                             for (var i = 1; i < nonTerminatingNeighbors.length; i++) {
                                 d3.select("rect#" + nonTerminatingNeighbors[i]).style("stroke", "none");
                                 d3.select("rect#" + nonTerminatingNeighbors[i]).style("fill", getClickedNodeColor);
-                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "10px sans-serif");
+                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "12px sans-serif bold");
                                 d3.select("line#" + nonTerminatingNeighbors[i]).style("stroke", "rgba(50, 50, 50, 0.5)");
                                 console.log("value of d" + d);
 
@@ -938,7 +938,7 @@
                 // d3.selectAll("g." + d.id + " circle").style("stroke", "orange");
                 // d3.selectAll("g." + d.id + " text").style("font", "20px sans-serif");
                 // d3.selectAll("circle:not([label='" + d.id + "'])")
-                d3.selectAll("circle")
+                d3.selectAll("rect")
                     .select(function (d, i) {
                         // console.log("value of highlighted legend " + d.label);
                         if (d.label == selectedLegendId) {
@@ -946,9 +946,9 @@
                             console.log("non terminating node neighbour " + nonTerminatingNeighbors);
                             // Hide the neighbors and their links
                             for (var i = 1; i < nonTerminatingNeighbors.length; i++) {
-                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("stroke", "grey");
-                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("fill", "lightblue");
-                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "15px sans-serif");
+                                d3.select("rect#" + nonTerminatingNeighbors[i]).style("stroke", "grey");
+                                d3.select("rect#" + nonTerminatingNeighbors[i]).style("fill", "lightblue");
+                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "15px sans-serif bold");
                                 d3.select("line#" + nonTerminatingNeighbors[i]).style("stroke", "stroke", "rgba(50, 50, 50, 1.0)");
                                 // var nonTerminatingTarget = getNextNode(nonTerminatingNeighbors[i]);
                                 // console.log("non terminating target node " + nonTerminatingTarget);
@@ -974,9 +974,9 @@
                             console.log("non terminating node neighbour " + nonTerminatingNeighbors);
                             // Hide the neighbors and their links
                             for (var i = 1; i < nonTerminatingNeighbors.length; i++) {
-                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("stroke", "none");
-                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("fill", getClickedNodeColor);
-                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "10px sans-serif");
+                                d3.select("rect#" + nonTerminatingNeighbors[i]).style("stroke", "none");
+                                d3.select("rect#" + nonTerminatingNeighbors[i]).style("fill", getClickedNodeColor);
+                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "12px sans-serif bold");
                                 d3.select("line#" + nonTerminatingNeighbors[i]).style("stroke", "rgba(50, 50, 50, 0.5)");
                                 console.log("value of d" + d);
 
