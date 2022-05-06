@@ -205,10 +205,10 @@
             .force('collide', d3.forceCollide(function (d) {
                 if (d.child === "true") {
                     console.log("link strengt of child is " + (d.label.length + 50));
-                    return (d.label.length + 25);
+                    return (d.label.length + 20);
                 } else {
                     console.log("link strengt is " + (d.strength * 100) / 2);
-                    return ((d.strength * 100) / 2);
+                    return ((d.strength * 100) / 2) - 50;
                 }
 
             }).strength(0.1))
