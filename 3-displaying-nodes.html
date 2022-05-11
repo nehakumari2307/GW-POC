@@ -809,7 +809,7 @@
                 if (d.child === "true") {
                     return "translate(-15, -15)";
                 } else {
-                    return "translate(" + ((rect_width / 2) * -1) + 20 + ", -15)";
+                    return "translate(" + (rect_width / 1.5) * -1 + ", -15)";
                     // var x = ((d.strength * 100) / 2) * -1;
                     // return "translate(" + x + ", -15)";
                 }
@@ -845,7 +845,7 @@
                 // .attr('y', node => node.y)
                 .attr('x', function (node) { return node.x = Math.max(rect_width, Math.min(width - rect_width, node.x)); })
                 .attr('y', function (node) { return node.y = Math.max(rect_height, Math.min(height - rect_height, node.y)); })
-                .attr("transform", "translate(" + ((rect_width / 2) * -1) + 20 + ", -15)")
+                .attr("transform", "translate(" + (rect_width / 1.5) * -1 + ", -15)")
             // .attr("transform", "translate(" + ((node.strength * 100) / 2) * -1 + ", -15)")
 
             textElements
