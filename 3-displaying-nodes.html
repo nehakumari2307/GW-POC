@@ -212,18 +212,18 @@
                     return ((d.strength * 80) / 2);
                 }
             }))
-        // .force("x", d3.forceX(function (d) {
-        //     if (d.group === "1" || d.group === "3") {
-        //         return width / 3;
-        //     } else if (d.group === "2" || d.group === "4") {
-        //         return 2 * width / 3;
-        //     } else {
-        //         return width / 2;
-        //     }
-        //     // return ((d.strength * 100) / 2) + 20;
+            .force("x", d3.forceX(function (d) {
+                if (d.group === "1" || d.group === "3") {
+                    return width / 3;
+                } else if (d.group === "2" || d.group === "4") {
+                    return 2 * width / 3;
+                } else {
+                    return width / 2;
+                }
+                // return ((d.strength * 100) / 2) + 20;
 
-        // }))
-        // .force("y", d3.forceY(height / 2))
+            }))
+            .force("y", d3.forceY(height / 2))
 
 
         var dragDrop = d3.drag().on('start', function (node) {
