@@ -212,7 +212,7 @@
                 }
             }))
             .force("x", d3.forceX(function (d) {
-                return ((d.strength * 100) / 2) + 10;
+                return ((d.strength * 100) / 2) + 20;
 
             }))
             .force("y", d3.forceY(35))
@@ -241,7 +241,7 @@
             .attr("viewBox", "0 0 " + width + " " + height)
             .attr("preserveAspectRatio", "xMidYMid meet")
             // .classed("svg-content", true)
-            .attr("transform", "translate(08,08)scale(1,1)")
+            .attr("transform", "translate(08,08)scale(0.95,0.95)")
             .call(d3.zoom()
                 .on("zoom", function () {
                     svg.attr("transform", d3.event.transform)
