@@ -205,18 +205,17 @@
             .force('collide', d3.forceCollide(function (d) {
                 if (d.child === "true") {
                     console.log("link strengt of child is " + (d.label.length + 50));
-                    return (d.label.length);
+                    return (d.label.length + 20);
                 } else {
                     console.log("link strengt is " + (d.strength * 100) / 2);
                     return ((d.strength * 100) / 2);
                 }
-
             }))
             .force("x", d3.forceX(function (d) {
                 return ((d.strength * 100) / 2);
 
             }))
-            .force("y", d3.forceY(15))
+            .force("y", d3.forceY(35))
 
 
         var dragDrop = d3.drag().on('start', function (node) {
