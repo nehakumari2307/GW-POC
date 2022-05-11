@@ -786,8 +786,13 @@
             .attr('height', 30)
             .attr("rx", 8)
             .attr("ry", 8)
-            .attr("x", -(rect_width / 1.5))
-            .attr("y", -15)
+            .attr("x", function (d) {
+                return d.x - rect_width / 2;
+            })
+
+            .attr("y", function (d) {
+                return d.y - rect_height / 2;
+            })
             .attr('class', 'node')
             .attr('fill', getClickedNodeColor)
             .attr('stroke', fillStroke)
