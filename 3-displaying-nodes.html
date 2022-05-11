@@ -814,17 +814,19 @@
             .attr('alignment-baseline', 'middle')
             .attr("font-size", 12)
             .attr("font-weight", "bold")
-            .attr("dx", getTextWidthSize)
-            .attr("dy", 15)
-            .attr("transform", function (d) {
-                if (d.child === "true") {
-                    return "translate(-15, -15)";
-                } else {
-                    return "translate(" + (rect_width / 1.5) * -1 + ", -15)";
-                    // var x = ((d.strength * 100) / 2) * -1;
-                    // return "translate(" + x + ", -15)";
-                }
-            })
+            .attr("x", -(rect_width / 1.5))
+            .attr("y", -(rect_height / 2))
+            // .attr("dx", getTextWidthSize)
+            // .attr("dy", 15)
+            // // .attr("transform", function (d) {
+            //     if (d.child === "true") {
+            //         return "translate(-15, -15)";
+            //     } else {
+            //         return "translate(" + (rect_width / 1.5) * -1 + ", -15)";
+            //         // var x = ((d.strength * 100) / 2) * -1;
+            //         // return "translate(" + x + ", -15)";
+            //     }
+            // })
             // .call(move(data))
             .attr("id", function (d) { return d.id; })
             .style("fill", getTextColor)
