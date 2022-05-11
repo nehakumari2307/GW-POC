@@ -782,10 +782,8 @@
             .append('rect')
             .attr('width', getWidthSize)
             .attr('height', 30)
-            .attr("rx", 10)
-            .attr("ry", 10)
-            .attr("x", -(rect_width / 1.5))
-            .attr("y", -(rect_height / 2))
+            .attr("rx", 8)
+            .attr("ry", 8)
             .attr('class', 'node')
             .attr('fill', getClickedNodeColor)
             .attr('stroke', fillStroke)
@@ -814,19 +812,17 @@
             .attr('alignment-baseline', 'middle')
             .attr("font-size", 12)
             .attr("font-weight", "bold")
-            .attr("x", -(rect_width / 1.5))
-            .attr("y", -(rect_height / 2))
-            // .attr("dx", getTextWidthSize)
-            // .attr("dy", 15)
-            // // .attr("transform", function (d) {
-            //     if (d.child === "true") {
-            //         return "translate(-15, -15)";
-            //     } else {
-            //         return "translate(" + (rect_width / 1.5) * -1 + ", -15)";
-            //         // var x = ((d.strength * 100) / 2) * -1;
-            //         // return "translate(" + x + ", -15)";
-            //     }
-            // })
+            .attr("dx", getTextWidthSize)
+            .attr("dy", 15)
+            .attr("transform", function (d) {
+                if (d.child === "true") {
+                    return "translate(-15, -15)";
+                } else {
+                    return "translate(" + (rect_width / 1.5) * -1 + ", -15)";
+                    // var x = ((d.strength * 100) / 2) * -1;
+                    // return "translate(" + x + ", -15)";
+                }
+            })
             // .call(move(data))
             .attr("id", function (d) { return d.id; })
             .style("fill", getTextColor)
@@ -858,7 +854,7 @@
                 // .attr('y', node => node.y)
                 .attr('x', function (node) { return node.x = Math.max(rect_width, Math.min(width - rect_width, node.x)); })
                 .attr('y', function (node) { return node.y = Math.max(rect_height, Math.min(height - rect_height, node.y)); })
-            // .attr("transform", "translate(" + (rect_width / 1.5) * -1 + ", -15)")
+                .attr("transform", "translate(" + (rect_width / 1.5) * -1 + ", -15)")
             // // .attr("transform", "translate(" + ((node.strength * 100) / 2) * -1 + ", -15)")
 
             textElements
