@@ -786,6 +786,8 @@
             .attr('height', 30)
             .attr("rx", 8)
             .attr("ry", 8)
+            .attr("x", -(rect_width / 1.5))
+            .attr("y", -15)
             .attr('class', 'node')
             .attr('fill', getClickedNodeColor)
             .attr('stroke', fillStroke)
@@ -856,7 +858,7 @@
                 // .attr('y', node => node.y)
                 .attr('x', function (node) { return node.x = Math.max(rect_width, Math.min(width - rect_width, node.x)); })
                 .attr('y', function (node) { return node.y = Math.max(rect_height, Math.min(height - rect_height, node.y)); })
-                .attr("transform", "translate(" + (rect_width / 1.5) * -1 + ", -15)")
+            // .attr("transform", "translate(" + (rect_width / 1.5) * -1 + ", -15)")
             // // .attr("transform", "translate(" + ((node.strength * 100) / 2) * -1 + ", -15)")
 
             textElements
