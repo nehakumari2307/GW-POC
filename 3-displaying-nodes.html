@@ -214,7 +214,7 @@
                 return ((d.strength * 100) / 2) + 20;
 
             }))
-            .force("y", d3.forceY(35))
+            .force("y", d3.forceY(55))
 
 
         var dragDrop = d3.drag().on('start', function (node) {
@@ -840,13 +840,13 @@
                 // .attr('cy', node => node.y)
                 .attr('cx', function (node) { return node.x = Math.max(radius, Math.min(width - radius, node.x)); })
                 .attr('cy', function (node) { return node.y = Math.max(radius, Math.min(height - radius, node.y)); })
-            nodeRectangles
-                // .attr('x', node => node.x)
-                // .attr('y', node => node.y)
-                .attr('x', function (node) { return node.x = Math.max(rect_width, Math.min(width - rect_width, node.x)); })
-                .attr('y', function (node) { return node.y = Math.max(rect_height, Math.min(height - rect_height, node.y)); })
-                .attr("transform", "translate(" + (rect_width / 1.5) * -1 + ", -15)")
-            // .attr("transform", "translate(" + ((node.strength * 100) / 2) * -1 + ", -15)")
+            // nodeRectangles
+            //     // .attr('x', node => node.x)
+            //     // .attr('y', node => node.y)
+            //     .attr('x', function (node) { return node.x = Math.max(rect_width, Math.min(width - rect_width, node.x)); })
+            //     .attr('y', function (node) { return node.y = Math.max(rect_height, Math.min(height - rect_height, node.y)); })
+            //     .attr("transform", "translate(" + (rect_width / 1.5) * -1 + ", -15)")
+            // // .attr("transform", "translate(" + ((node.strength * 100) / 2) * -1 + ", -15)")
 
             textElements
                 .attr('x', function (node) { return node.x })
