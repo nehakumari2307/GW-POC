@@ -182,21 +182,21 @@
         var linkForce = d3
             .forceLink()
             .id(function (link) { return link.id })
-            // .strength(function (link) {
-            //     console.log("link strength is" + link.strength);
-            //     return link.strength * 0.5;
-            // })
-            .distance(function (link) {
-                if (link.child === "true") {
-                    console.log("link distance of child is 1");
-                    return (link.strength) * 0.3;
-                } else {
-                    if (link.group === "0")
-                        return (1 - link.strength) * 0.3;
-                    else
-                        return (link.strength * 0.5);
-                }
-            })
+        // .strength(function (link) {
+        //     console.log("link strength is" + link.strength);
+        //     return link.strength * 0.5;
+        // })
+        // .distance(function (link) {
+        //     if (link.child === "true") {
+        //         console.log("link distance of child is 1");
+        //         return (link.strength) * 0.3;
+        //     } else {
+        //         if (link.group === "0")
+        //             return (1 - link.strength) * 0.3;
+        //         else
+        //             return (link.strength * 0.5);
+        //     }
+        // })
 
         // simulation setup with all forces
         var simulation = d3
