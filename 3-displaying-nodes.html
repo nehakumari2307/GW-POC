@@ -189,10 +189,10 @@
             .distance(function (link) {
                 if (link.child === "true") {
                     console.log("link distance of child is 1");
-                    return (link.strength) * 0.5;
+                    return (link.strength) * 0.3;
                 } else {
                     console.log("link distance is 3");
-                    return (link.strength) * 0.2;
+                    return (1 - link.strength) * 0.5;
                 }
             })
 
