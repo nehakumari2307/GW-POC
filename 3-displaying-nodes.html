@@ -212,18 +212,18 @@
                     return ((d.strength * 80) / 2);
                 }
             }))
-            .force("x", d3.forceX(function (d) {
-                if (d.group === "1" || d.group === "3") {
-                    return width / 3;
-                } else if (d.group === "2" || d.group === "4") {
-                    return 2 * width / 3;
-                } else {
-                    return width / 2;
-                }
-                // return ((d.strength * 100) / 2) + 20;
+        // .force("x", d3.forceX(function (d) {
+        //     if (d.group === "1" || d.group === "3") {
+        //         return width / 3;
+        //     } else if (d.group === "2" || d.group === "4") {
+        //         return 2 * width / 3;
+        //     } else {
+        //         return width / 2;
+        //     }
+        //     // return ((d.strength * 100) / 2) + 20;
 
-            }))
-            .force("y", d3.forceY(height / 2))
+        // }))
+        // .force("y", d3.forceY(height / 2))
 
 
         var dragDrop = d3.drag().on('start', function (node) {
@@ -786,13 +786,6 @@
             .attr('height', 30)
             .attr("rx", 8)
             .attr("ry", 8)
-            .attr("x", function (d) {
-                return d.x - rect_width / 2;
-            })
-
-            .attr("y", function (d) {
-                return d.y - rect_height / 2;
-            })
             .attr('class', 'node')
             .attr('fill', getClickedNodeColor)
             .attr('stroke', fillStroke)
@@ -863,7 +856,7 @@
                 // .attr('y', node => node.y)
                 .attr('x', function (node) { return node.x = Math.max(rect_width, Math.min(width - rect_width, node.x)); })
                 .attr('y', function (node) { return node.y = Math.max(rect_height, Math.min(height - rect_height, node.y)); })
-            // .attr("transform", "translate(" + (rect_width / 1.5) * -1 + ", -15)")
+                .attr("transform", "translate(" + (rect_width / 1.5) * -1 + ", -15)")
             // // .attr("transform", "translate(" + ((node.strength * 100) / 2) * -1 + ", -15)")
 
             textElements
