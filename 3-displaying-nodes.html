@@ -211,12 +211,12 @@
                     return ((d.strength * 100) / 2) + 10;
                 }
 
-            }).strength(-0.1))
+            }).strength(0.1))
             .force("x", d3.forceX(function (d) {
                 return ((d.strength * 100) / 2);
 
             }))
-            .force("y", d3.forceY(50).strength(0.1))
+            .force("y", d3.forceY(50).strength(-0.1))
 
 
         var dragDrop = d3.drag().on('start', function (node) {
