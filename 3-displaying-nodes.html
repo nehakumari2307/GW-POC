@@ -212,7 +212,7 @@
                 }
             }))
             .force("x", d3.forceX(function (d) {
-                return ((d.strength * 100) / 2);
+                return ((d.strength * 100) / 2) + 10;
 
             }))
             .force("y", d3.forceY(35))
@@ -222,7 +222,7 @@
             node.fx = node.x
             node.fy = node.y
         }).on('drag', function (node) {
-            simulation.alphaTarget(0.7).restart()
+            simulation.alphaTarget(0.3).restart()
             node.fx = d3.event.x
             node.fy = d3.event.y
         }).on('end', function (node) {
