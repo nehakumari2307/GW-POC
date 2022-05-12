@@ -155,7 +155,7 @@
         // var width = 950;
         // var height = 500;
         var width = window.innerWidth - 500;
-        var height = window.innerHeight - 200;
+        var height = window.innerHeight - 100;
         var strokeWidth = 2;
         var timeout = null;
         // var zoom = d3.zoom().scaleExtent([1, 40]);
@@ -209,7 +209,7 @@
                     console.log("link strengt of child is " + (d.label.length + 50));
                     return (d.label.length + 20);
                 } else {
-                    return ((d.strength * 90) / 2);
+                    return ((d.strength * 80) / 2);
                 }
             }))
             .force("x", d3.forceX(function (d) {
