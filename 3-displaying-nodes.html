@@ -185,9 +185,9 @@
             .id(function (link) { return link.id })
             .strength(function (link) {
                 if (link.child === "true") {
-                    return -(link.strength * 0.5);
+                    return -(link.strength * 0.1);
                 } else
-                    return (link.strength * 0.5);
+                    return (link.strength * 0.1);
             })
             .distance(function (link) {
                 if (link.child === "true") {
