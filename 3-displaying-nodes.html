@@ -184,15 +184,13 @@
             .forceLink()
             .id(function (link) { return link.id })
             .strength(function (link) {
-                if (link.child === "true") {
-                    return (link.strength * 0.01);
-                } else
-                    return (link.strength * 0.01);
+                console.log("link strength is" + link.strength);
+                return link.strength * 0.5;
             })
             .distance(function (link) {
                 if (link.child === "true") {
                     console.log("link distance of child is 1");
-                    return (link.strength + 20);
+                    return (link.strength + 15);
                 } else {
                     if (link.level === "1" || link.level === "0")
                         return (link.strength) * 0.2;
@@ -212,26 +210,26 @@
                     console.log("link strengt of child is " + (d.label.length + 50));
                     return (d.label.length + 20);
                 } else {
-                    return (((d.strength * 90) / 2) + 3);
+                    return (((d.strength * 90) / 2) + 5);
                 }
-            }))
-        // .force("x", d3.forceX(function (d) {
-        //     if (d.group === "1") {
-        //         return width / 5;
-        //     } else if (d.group === "2") {
-        //         return 2 * (width / 5);
-        //     } else if (d.group === "3") {
-        //         return 3 * (width / 5);
-        //     } else if (d.group === "4") {
-        //         return 4 * (width / 5);
-        //     }
-        //     else {
-        //         return width / 2;
-        //     }
-        //     // return ((d.strength * 100) / 2) + 20;
+            }).strength(0.1))
+            .force("x", d3.forceX(function (d) {
+                if (d.group === "1") {
+                    return width / 5;
+                } else if (d.group === "2") {
+                    return 2 * (width / 5);
+                } else if (d.group === "3") {
+                    return 3 * (width / 5);
+                } else if (d.group === "4") {
+                    return 4 * (width / 5);
+                }
+                else {
+                    return width / 2;
+                }
+                // return ((d.strength * 100) / 2) + 20;
 
-        // }).strength(0.2))
-        // .force("y", d3.forceY(height / 2))
+            }).strength(0.2))
+            .force("y", d3.forceY(height / 2))
 
 
 
