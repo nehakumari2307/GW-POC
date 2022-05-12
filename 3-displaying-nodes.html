@@ -213,23 +213,23 @@
                     return (((d.strength * 90) / 2) + 5);
                 }
             }))
-            .force("x", d3.forceX(function (d) {
-                if (d.group === "1") {
-                    return width / 5;
-                } else if (d.group === "2") {
-                    return 2 * (width / 5);
-                } else if (d.group === "3") {
-                    return 3 * (width / 5);
-                } else if (d.group === "4") {
-                    return 4 * (width / 5);
-                }
-                else {
-                    return width / 2;
-                }
-                // return ((d.strength * 100) / 2) + 20;
+        // .force("x", d3.forceX(function (d) {
+        //     if (d.group === "1") {
+        //         return width / 5;
+        //     } else if (d.group === "2") {
+        //         return 2 * (width / 5);
+        //     } else if (d.group === "3") {
+        //         return 3 * (width / 5);
+        //     } else if (d.group === "4") {
+        //         return 4 * (width / 5);
+        //     }
+        //     else {
+        //         return width / 2;
+        //     }
+        //     // return ((d.strength * 100) / 2) + 20;
 
-            }).strength(0.2))
-            .force("y", d3.forceY(height / 2))
+        // }))
+        // .force("y", d3.forceY(height / 2))
 
 
 
