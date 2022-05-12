@@ -193,9 +193,9 @@
                     return (link.strength + 15);
                 } else {
                     if (link.level === "1" || link.level === "0")
-                        return (link.strength) * 0.4;
+                        return (link.strength) * 0.2;
                     else
-                        return (link.strength * 0.9)
+                        return (link.strength * 0.5)
                 }
             })
 
@@ -210,7 +210,7 @@
                     console.log("link strengt of child is " + (d.label.length + 50));
                     return (d.label.length + 20);
                 } else {
-                    return ((d.strength * 90) / 2 + 5);
+                    return (((d.strength * 90) / 2) + 3);
                 }
             }).strength(0.1))
             .force("x", d3.forceX(function (d) {
