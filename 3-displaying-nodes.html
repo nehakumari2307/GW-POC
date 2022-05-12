@@ -797,31 +797,31 @@
 
 
 
-        // const nodeRectangles = svg.append('g')
-        //     .selectAll('rect')
-        //     .data(nodes)
-        //     .enter()
-        //     .filter(function (d) { return d.child != "true" })
-        //     .append('rect')
-        //     .attr('width', getWidthSize)
-        //     .attr('height', 30)
-        //     .attr("rx", 8)
-        //     .attr("ry", 8)
-        //     .attr('class', 'node')
-        //     .attr('fill', getClickedNodeColor)
-        //     .attr('stroke', fillStroke)
-        //     .attr('stroke-width', 2)
-        //     .attr("tabindex", "0")
-        //     .attr("group", function (d) { return d.group; })
-        //     .call(dragDrop)
-        //     .on("click", showNodes)
-        //     // .on("mouseout", hideNodes)
-        //     .on("keypress", function (d) {
-        //         if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
-        //             console.log("you pressed enter or space on circle!");
-        //             showNodes(d);
-        //         }
-        //     });
+        const nodeRectangles = svg.append('g')
+            .selectAll('rect')
+            .data(nodes)
+            .enter()
+            .filter(function (d) { return d.child != "true" })
+            .append('rect')
+            .attr('width', getWidthSize)
+            .attr('height', 30)
+            .attr("rx", 8)
+            .attr("ry", 8)
+            .attr('class', 'node')
+            .attr('fill', getClickedNodeColor)
+            .attr('stroke', fillStroke)
+            .attr('stroke-width', 2)
+            .attr("tabindex", "0")
+            .attr("group", function (d) { return d.group; })
+            .call(dragDrop)
+            .on("click", showNodes)
+            // .on("mouseout", hideNodes)
+            .on("keypress", function (d) {
+                if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
+                    console.log("you pressed enter or space on circle!");
+                    showNodes(d);
+                }
+            });
 
 
         var textElements = svg.append("g")
