@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+<style type="text/css">
+    .interaction {
+        /* display: inline-block; */
+        /* position: relative; */
+        /* width: 100%; */
+        padding-bottom: 100%;
+        vertical-align: top;
+        overflow: hidden;
+        outline: thick solid black;
+        /* text-align: center; */
+        margin: 10px;
+    }
+
+    .right_container {
+        position: absolute;
+        display: inline-block;
+    }
+
+    .legend {
+        /* display: inline-block;
+        width: 10%;
+        position: absolute; */
+        /* border: 1px solid red; */
+        /* display: inline-block; */
+        top: 10px;
+        margin-left: 25px;
+    }
+
+    #instruction {
+        margin: 20px;
+        background: #f1f1f1;
+        padding: 10px 10px;
+    }
+
+    .node_legend {
+        display: block;
+    }
+
+    .rect_fill {
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        border: 2px solid black;
+    }
+
+    div.d3-tip {
+        line-height: 1;
+        font-weight: bold;
+        padding: 12px;
+        background: #001;
+        color: #F00;
+        border-radius: 2px;
+        pointer-events: none;
+    }
+
+    .d3-tip span {
+        color: #ff00c7;
+    }
+
+    svg {
+        background: #f1f1f1;
+        overflow: scroll;
+    }
+
+    .svg_container {
+        /* outline: thick solid black; */
+        display: inline-block;
+        width: 80%;
+    }
+</style>
+
+</html>
+
+<body>
+    <!-- <button onclick="history.back()">Go Back</button> -->
+    <!-- <div id="container"> -->
+    <div id="interaction" class="interaction">
+        <div id="placeholder" class="svg_container"></div>
+        <div class="right_container">
+            <div id="legend" class="legend">
+                <legend>Collection Articles</legend>
+            </div>
+            <div id="instruction">
+                <h4> Connection Graph Functionality </h4>
+                <ul>
+                    <li> Use mouse/track pad to Zoom-In/Zoom-Out</li>
+                    <li> Hover over end nodes to see connected articles </li>
+                    <li> Hover over 'Collection Article' table to highlight end nodes with the article </li>
+                    <li> Click on link to highlight a connection group</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- <div id="legend" class="legend">
+      <div id="tooltip"></div>
+    </div> -->
+
+    <!-- </div> -->
+</body>
+
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
+<script>
+
+    function csvToNode(str) {
+        var node_data = [];
+        for (var i = 0; i < str.length; i++) {
+            node_data.push({
+                id: str[i].id,
+                group: parseInt(str[i].group),
+                label: str[i].label,
+                level: parseInt(str[i].level),
+                strength: parseFloat(str[i].strength),
+                child: str[i].child
+            });
+        }
+        return node_data;
+    };
+
+    function csvToLink(str) {
+        var link_data = [];
+        for (var i = 0; i < str.length; i++) {
+            link_data.push({
+                id: str[i].id,
+                group: parseInt(str[i].group),
+                target: str[i].target,
+                source: str[i].source,
+                strength: parseFloat(str[i].strength),
+                child: str[i].child
+            });
+        }
+        return link_data;
+    };
+
+    d3.csv("./csv_data/node_data.csv", function (error, data) {
+
+        const nodes = csvToNode(data);
+        const links = csvToLink(data);
+        var radius = 0;
+        var opacity = 0.25;
+        let t, hoverTime = 1000;
+        var active;
+        var isNodeClicked = false;
+
+        // var width = 950;
+        // var height = 500;
+        var width = window.innerWidth - 500;
+        var height = window.innerHeight - 200;
+        var strokeWidth = 2;
+        var timeout = null;
+        // var zoom = d3.zoom().scaleExtent([1, 40]);
+        // var color = d3.scaleOrdinal()
+        //   .domain(["Selected category", "Subcategories ", "articles", "commentary"])
+        //   .range(["black", "gray", "lightgray", "lightgray"]);
+        // var keys = ["ASK", "FR", "IToC", "TO", "VI"];
+        // var values = ["ASIKXXI", "Fresh Press", "In Time of Change", "Translating Outcomes", "Viral Imaginations"];
+        // var color = d3.scaleOrdinal().domain(keys).range(values);
+        var clickableNodes = ["climate", "community", "multi", "trans", "inter", "policy",
+            "collaboration", "workshop", "archive", "durable", "emergent", "exhibition",
+            "glocal", "local", "integration", "epistemologies", "plantlearning", "plantinquiry", "plantmaking"];
+        var activeOpacity = false;
+
+        //legend data
+        const legend_data = [
+            { "key": "ASK", "location": "ASIKXXI", "id": "ASK" },
+            { "key": "FR", "location": "FreshPress", "id": "FR" },
+            { "key": "IToC", "location": "InTimeofChange", "id": "IToC" },
+            { "key": "TO", "location": "TranslatingOutcomes", "id": "TO" },
+            { "key": "VI", "location": "ViralImaginations", "id": "VI" }
+        ];
+
+        var linkForce = d3
+            .forceLink()
+            .id(function (link) { return link.id })
+            .strength(function (link) { return link.strength })
+            .distance(function (link) { return link.strength * 15 })
+
+        // simulation setup with all forces
+        var simulation = d3
+            .forceSimulation()
+            .force('link', linkForce)
+            .force('charge', d3.forceManyBody().strength(-90))
+            .force('center', d3.forceCenter(width / 2, (height / 2) - 50))
+            .force('collide', d3.forceCollide(function (d) {
+                return (d.label.length + 30);
+            }).strength(1));
+
+
+        var dragDrop = d3.drag().on('start', function (node) {
+            node.fx = node.x
+            node.fy = node.y
+        }).on('drag', function (node) {
+            simulation.alphaTarget(0.7).restart()
+            node.fx = d3.event.x
+            node.fy = d3.event.y
+        }).on('end', function (node) {
+            if (!d3.event.active) {
+                simulation.alphaTarget(0)
+            }
+            node.fx = null
+            node.fy = null
+        })
+
+
+        var svg = d3.select("#placeholder").append("svg")
+            // .attr("class", "svg_container")
+            // .attr("style", "outline: thick solid black")
+            // .attr("transform", "translate(0,0)")
+            .attr("viewBox", "0 0 " + width + " " + height)
+            .attr("preserveAspectRatio", "xMidYMid meet")
+            // .classed("svg-content", true)
+            .attr("transform", "translate(05,05)scale(1,1)")
+            .call(d3.zoom()
+                .on("zoom", function () {
+                    svg.attr("transform", d3.event.transform)
+                })
+                // .scaleExtent([0.5, 4])
+                // .translateExtent([[0, 0], [width, height]])
+            )
+            .append("g");
+
+        // second svg for legend
+        var svg2 = d3.select("#legend").append("svg")
+            .attr("width", "250")
+            .attr("height", "250");
+
+        var tip = d3.tip().attr('class', 'd3-tip')
+            .html(function (d) {
+                var x = 'hi';
+                var y = 'hello';
+                // var x = links.filter(g => g.source.name == d.name).map(t => t.target.name).toString();
+                // var y = links.filter(g => g.target.name == d.name).map(t => t.target.name).toString();
+                //return "<span>" + "inbound: " + x + "</span><br><span>" + "outbound: " + y + "</span>";
+                return "<span>" + "Dummy Text : Hi" + "</span>";
+            });
+
+        svg.call(tip);
+
+        //for hghlighting associated nodes and links when clicked on any node
+
+        function getNeighbors(node) {
+            return links.reduce(function (neighbors, link) {
+                if (link.target.id === node.id) {
+                    neighbors.push(link.source.id)
+                } else if (link.source.id === node.id) {
+                    neighbors.push(link.target.id)
+                }
+                return neighbors
+            },
+                [node.id]
+            )
+        }
+
+        function getNonterminatingNode(node) {
+            return links.reduce(function (neighbors, link) {
+                if (link.source.id === node.id) {
+                    neighbors.push(link.target.id)
+                }
+                return neighbors
+            },
+                [node.id]
+            )
+        }
+
+        function getChildrenNode(node) {
+            return links.reduce(function (neighbors, link) {
+                if (link.target.id === node.id) {
+                    neighbors.push(link.source.id)
+                }
+                return neighbors
+            },
+                [node.id]
+            )
+        }
+
+        function isNeighborLink(node, link) {
+            return link.target.id === node.id || link.source.id === node.id
+        }
+
+        function getClickedNodeColor(node, neighbors) {
+            if (Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1) {
+                return 'lightblue'
+            }
+            else if (node.group === 0) {
+                return 'black';
+            } else if (node.group === 1) {
+                return '#6f6f70';
+            } else if (node.group === 2) {
+                return '#C5C6D0';
+            } else if (node.group === 3) {
+                return '#b6bec8';
+            } else if (node.group === 4) {
+                return '#7b7c7c';
+                // '#6f6f70';
+            } else {
+                return 'lightgray';
+            }
+        }
+
+        function fillStroke(node) {
+            if (node.group === 0) {
+                return 'white'
+            } else if (node.child == "true") {
+                return 'black'
+            } else {
+                return 'none'
+            }
+        }
+
+        function getClickedLinkColor(node, link) {
+            return isNeighborLink(node, link) ? 'gray' : 'black'
+        }
+
+        function getClickedNodeSize(node, neighbors) {
+            // neighbors is a array of all nodes connected the the clicked node. Check if the incoming node is present in the neighbour array.
+            // if present, increase the radius size of it and add the class "selected" to the node, if not present keep the default radius size
+            // if (!d3.select(this).classed("selected")) {
+            //     d3.select(this)
+            //       .classed("selected", true)
+            //   } else {
+            //     d3.select(this)
+            //       .style('stroke', 'white')
+            //       .classed("selected", false);
+            //   }
+            if (node.child == "true") {
+                radius = (node.label.length) + 15.0;
+            }
+            else {
+                radius = (node.label.length) + 20.0;
+            }
+            return radius;
+            // return Array.isArray(neighbors) && neighbors.indexOf(node.id) > -1 ? radius + 20.0 : radius + 15.0
+        }
+
+        function getTextColor(node) {
+            return node.level === 0 ? 'white' : 'black'
+        }
+
+        function selectNode(selectedNode) {
+            clearTimeout(timeout);
+            timeout = setTimeout(function () {
+                console.clear();
+                console.log("node was single clicked");
+                var neighbors = getNeighbors(selectedNode)
+
+                console.log("selected neighbours are" + neighbors);
+
+                // modify the styles to highlight selected nodes
+                nodeElements.attr('fill', function (node) { return getClickedNodeColor(node, neighbors) })
+                nodeElements.attr('r', function (node) { return getClickedNodeSize(node, neighbors) })
+                // textElements.attr('fill', function (node) { return getTextColor(node, neighbors) })
+                linkElements.attr('stroke', function (link) { return getClickedLinkColor(selectedNode, link) })
+            }, 300)
+        }
+
+        // function showNodes(d) {
+        //     console.log("Mouse in");
+        //     console.log("d value in showNode " + d);
+        //     t = setTimeout(function () {
+        //         console.log("clickable nodes are" + clickableNodes);
+        //         if (clickableNodes.indexOf(d.id) == -1) {
+        //             return;
+        //         } else {
+        //             console.log("Show Child node");
+        //             active = d.active ? false : true // toggle whether node is active
+        //                 , newOpacity = active && activeOpacity ? 1 : 0;
+        //             // , newOpacity = active || activeOpacity ? 0 : 1;
+
+        //             // Extract node's name and the names of its neighbors
+        //             var name = d.label;
+        //             console.log("clicked node name " + name);
+
+        //             var neighbors = getChildrenNode(d);
+        //             console.log("clicked node neighbour " + neighbors);
+        //             // Hide the neighbors and their links
+        //             for (var i = 1; i < neighbors.length; i++) {
+        //                 // d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
+        //                 // d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
+        //                 // d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
+
+        //                 d3.select("circle#" + neighbors[i]).transition()
+        //                     .delay(function (d, i) { return i * 0; })
+        //                     .duration(1250)
+        //                     .style('opacity', newOpacity);
+
+        //                 d3.select("text#" + neighbors[i]).transition()
+        //                     .delay(function (d, i) { return i * 0; })
+        //                     .duration(1250)
+        //                     .style('opacity', newOpacity);
+
+        //                 d3.select("line#" + neighbors[i]).transition()
+        //                     .delay(function (d, i) { return i * 0; })
+        //                     .duration(1250)
+        //                     .style('opacity', newOpacity);
+        //             }
+        //             // Update whether or not the node is active
+        //             d.active = active;
+        //         }
+        //     }, hoverTime);
+        // }
+
+        function showNodes(d) {
+            console.log("Mouse in");
+            console.log("d value in showNode " + d);
+            t = setTimeout(function () {
+                console.log("clickable nodes are" + clickableNodes);
+                if (clickableNodes.indexOf(d.id) == -1) {
+                    return;
+                } else {
+                    console.log("Show Child node");
+                    active = d.active ? false : true // toggle whether node is active
+                        , newOpacity = active && activeOpacity ? "inline" : "none";
+                    // , newOpacity = active || activeOpacity ? 0 : 1;
+
+                    // Extract node's name and the names of its neighbors
+                    var name = d.label;
+                    console.log("clicked node name " + name);
+
+                    var neighbors = getChildrenNode(d);
+                    console.log("clicked node neighbour " + neighbors);
+                    // Hide the neighbors and their links
+                    for (var i = 1; i < neighbors.length; i++) {
+                        // d3.select("circle#" + neighbors[i]).style("opacity", newOpacity);
+                        // d3.select("text#" + neighbors[i]).style("opacity", newOpacity);
+                        // d3.select("line#" + neighbors[i]).style("opacity", newOpacity);
+
+                        d3.select("circle#" + neighbors[i]).transition()
+                            .delay(function (d, i) { return i * 0; })
+                            .duration(1250)
+                            .style('display', newOpacity);
+
+                        d3.select("text#" + neighbors[i]).transition()
+                            .delay(function (d, i) { return i * 0; })
+                            .duration(1250)
+                            .style('display', newOpacity);
+
+                        d3.select("line#" + neighbors[i]).transition()
+                            .delay(function (d, i) { return i * 0; })
+                            .duration(1250)
+                            .style('display', newOpacity);
+                    }
+                    // Update whether or not the node is active
+                    d.active = active;
+                }
+            }, hoverTime);
+        }
+
+        function hideNodes() {
+            // donot do anything as the node opacity needs to be on 1, until mouseover is done again
+            console.log("Mouse out");
+        }
+
+        var linkElements = svg.append("g")
+            .attr("class", "links")
+            .selectAll("line")
+            .data(links)
+            .enter().append("line")
+            .attr("tabindex", "0")
+            .attr("stroke-width", strokeWidth)
+            .attr("stroke", "rgba(50, 50, 50, 0.5)")
+            .attr("group", function (d) { return d.group; })
+            .attr("id", function (d) { return d.id; })
+            .attr("active", function (d) {
+                if (d.child == "true") {
+                    activeOpacity = true;
+                    // d3.select(this).style("opacity", "0");
+                    d3.select(this).style("display", "none");
+                }
+            })
+            // .on("click", function (d) {
+            //     // This is to toggle visibility - need to do it on the nodes and links
+            //     d3.selectAll("line:not([group='" + d.group + "'])").select(function (d, i) {
+            //         if (d.child == "false") {
+            //             d3.select(this).style("opacity", function () {
+            //                 // if (d3.select(this).child == "false") {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         } else {
+            //             d3.select(this).style("opacity", function () {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         }
+            //     })
+
+            //     d3.selectAll("circle:not([group='" + d.group + "'])").select(function (d, i) {
+            //         if (d.child == "false") {
+            //             d3.select(this).style("opacity", function () {
+            //                 // if (d3.select(this).child == "false") {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         } else {
+            //             d3.select(this).style("opacity", function () {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         }
+            //     })
+            //     d3.selectAll("text:not([group='" + d.group + "'])").select(function (d, i) {
+            //         if (d.child == "false") {
+            //             d3.select(this).style("opacity", function () {
+            //                 // if (d3.select(this).child == "false") {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "1" ? "0.1" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         } else {
+            //             d3.select(this).style("opacity", function () {
+            //                 currentDisplay = d3.select(this).style("opacity");
+            //                 currentDisplay = currentDisplay == "0" && activeOpacity ? "0" : "1";
+            //                 return currentDisplay;
+            //             });
+            //         }
+            //     });
+            // })
+
+            .on("click", function (d) {
+                // This is to toggle visibility - need to do it on the nodes and links
+                d3.selectAll("line:not([group='" + d.group + "'])").select(function (d, i) {
+                    if (d.child == "false") {
+                        d3.select(this).style("display", function () {
+                            // if (d3.select(this).child == "false") {
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay == "inline" ? "none" : "inline";
+                            return currentDisplay;
+                        });
+                    } else {
+                        d3.select(this).style("display", function () {
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
+                            return currentDisplay;
+                        });
+                    }
+                })
+
+                d3.selectAll("circle:not([group='" + d.group + "'])").select(function (d, i) {
+                    if (d.child == "false") {
+                        d3.select(this).style("display", function () {
+                            // if (d3.select(this).child == "false") {
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay == "inline" ? "none" : "inline";
+                            return currentDisplay;
+                        });
+                    } else {
+                        d3.select(this).style("display", function () {
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
+                            return currentDisplay;
+                        });
+                    }
+                })
+                d3.selectAll("text:not([group='" + d.group + "'])").select(function (d, i) {
+                    if (d.child == "false") {
+                        d3.select(this).style("display", function () {
+                            // if (d3.select(this).child == "false") {
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay != "none" ? "none" : "inline";
+                            return currentDisplay;
+                        });
+                    } else {
+                        d3.select(this).style("display", function () {
+                            currentDisplay = d3.select(this).style("display");
+                            currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
+                            return currentDisplay;
+                        });
+                    }
+                });
+            })
+            .on("mouseover", function (d) {
+                d3.select(this).style("cursor", "crosshair");
+            })
+            .on("mouseout", function (d) {
+                d3.select(this).style("cursor", "default");
+            })
+            .on("keypress", function (d) {
+                if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
+                    console.log("you pressed enter on link!")
+
+                    d3.selectAll("line:not([group='" + d.group + "'])").select(function (d, i) {
+                        if (d.child == "false") {
+                            d3.select(this).style("display", function () {
+                                // if (d3.select(this).child == "false") {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay == "inline" ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        } else {
+                            d3.select(this).style("display", function () {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        }
+                    })
+
+                    d3.selectAll("circle:not([group='" + d.group + "'])").select(function (d, i) {
+                        if (d.child == "false") {
+                            d3.select(this).style("display", function () {
+                                // if (d3.select(this).child == "false") {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay == "inline" ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        } else {
+                            d3.select(this).style("display", function () {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        }
+                    })
+                    d3.selectAll("text:not([group='" + d.group + "'])").select(function (d, i) {
+                        if (d.child == "false") {
+                            d3.select(this).style("display", function () {
+                                // if (d3.select(this).child == "false") {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay != "none" ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        } else {
+                            d3.select(this).style("display", function () {
+                                currentDisplay = d3.select(this).style("display");
+                                currentDisplay = currentDisplay == "none" && activeOpacity ? "none" : "inline";
+                                return currentDisplay;
+                            });
+                        }
+                    });
+                }
+            });
+
+
+
+
+        var nodeElements = svg.append("g")
+            .attr("class", "nodes")
+            .selectAll("circle")
+            .data(nodes)
+            .enter().append("circle")
+            .attr("r", getClickedNodeSize)
+            .attr("stroke", fillStroke)
+            .attr("stroke-width", strokeWidth)
+            .attr("fill", getClickedNodeColor)
+            .attr("tabindex", "0")
+            .attr("group", function (d) { return d.group; })
+            .attr("id", function (d) { return d.id; })
+            .attr("active", function (d) {
+                if (d.child == "true") {
+                    activeOpacity = true;
+                    // d3.select(this).style("opacity", "0");
+                    d3.select(this).style("display", "none");
+                }
+            })
+            .call(dragDrop)
+            // .on('click', selectNode)
+            // .on("mouseover", tip.show)
+            // .on("mouseout", tip.hide)
+            .attr("class", "nodes")
+            .on("mouseover", showNodes)
+            .on("mouseout", hideNodes)
+            .on("keypress", function (d) {
+                if (d3.event.keyCode === 32 || d3.event.keyCode === 13) {
+                    console.log("you pressed enter or space on circle!");
+                    showNodes(d);
+                }
+            });
+
+        nodeElements.on("dblclick.zoom", function (d) {
+            clearTimeout(timeout);
+
+            console.clear();
+            console.log("node was double clicked");
+            d3.event.stopPropagation();
+            var dcx = (width / 2 - d.x * 1); //assuming scale to be 1
+            var dcy = (height / 2 - d.y * 1); //assuming scale to be 1
+            console.log("width value " + dcx + "height value " + dcy);
+
+            svg.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + 1 + ")");
+            // zoom.translate([dcx, dcy]);
+            // // g.attr("transform", d3.event.transform)
+            // g.attr("transform", "translate(" + dcx + "," + dcy + ")scale(" + zoom.scale() + ")");
+        });
+
+        var textElements = svg.append("g")
+            .attr("class", "texts")
+            .selectAll("text")
+            .data(nodes)
+            .enter().append("text")
+            .attr("text-anchor", "middle")
+            .attr("font", "ariel")
+            .attr("class", "nodetext")
+            .attr('alignment-baseline', 'middle')
+            .attr("font-size", 10)
+            .attr("font-weight", "bold")
+            .attr("id", function (d) { return d.id; })
+            .style("fill", getTextColor)
+            .attr("group", function (d) { return d.group; })
+            .text(function (node) { return node.label })
+            .attr("active", function (d) {
+                if (d.child == "true") {
+                    activeOpacity = true;
+                    // d3.select(this).style("opacity", "0");
+                    d3.select(this).style("display", "none");
+                }
+            })
+
+
+
+        simulation.nodes(nodes).on('tick', () => {
+            // nodeElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+            // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+            // textElements.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+            // var radius = (node.strength * 25) + 1.0;
+            nodeElements
+                .attr('cx', function (node) { return node.x = Math.max(radius, Math.min(width - radius, node.x)); })
+                .attr('cy', function (node) { return node.y = Math.max(radius, Math.min(height - radius, node.y)); })
+
+            textElements
+                .attr('x', function (node) { return node.x })
+                .attr('y', function (node) { return node.y })
+            linkElements
+                .attr('x1', function (link) { return link.source.x })
+                .attr('y1', function (link) { return link.source.y })
+                .attr('x2', function (link) { return link.target.x })
+                .attr('y2', function (link) { return link.target.y })
+        })
+        simulation.force("link").links(links)
+
+        //legends
+        var legend = svg2.selectAll(".legend")
+            .data(legend_data)
+            .enter().append("g")
+            .attr("tabindex", "0")
+            .attr("class", "node_legend")
+            .attr("transform", function (d, i) { return "translate(0," + i * 50 + ")"; })
+            .on("mouseover", function (d) {
+                var selectedLegendId = d.id;
+                d3.select(this).select("rect").style("stroke-width", 6);
+                d3.select(this).select("rect").style("stroke", "lightblue");
+                d3.select(this).select("text").style("font", "15px sans-serif");
+                // d3.selectAll("g." + d.id + " circle").style("stroke-width", 6);
+                // d3.selectAll("g." + d.id + " circle").style("stroke", "orange");
+                // d3.selectAll("g." + d.id + " text").style("font", "20px sans-serif");
+                // d3.selectAll("circle:not([label='" + d.id + "'])")
+                d3.selectAll("circle")
+                    .select(function (d, i) {
+                        // console.log("value of highlighted legend " + d.label);
+                        if (d.label == selectedLegendId) {
+                            var nonTerminatingNeighbors = getNonterminatingNode(d);
+                            console.log("non terminating node neighbour " + nonTerminatingNeighbors);
+                            // Hide the neighbors and their links
+                            for (var i = 1; i < nonTerminatingNeighbors.length; i++) {
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("stroke", "grey");
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("fill", "lightblue");
+                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "15px sans-serif");
+                                d3.select("line#" + nonTerminatingNeighbors[i]).style("stroke", "stroke", "rgba(50, 50, 50, 1.0)");
+                                // var nonTerminatingTarget = getNextNode(nonTerminatingNeighbors[i]);
+                                // console.log("non terminating target node " + nonTerminatingTarget);
+                            }
+                        }
+                        // return d.label == selectedLegendId ? console.log("matched") : console.log("not matched");
+                    })
+            })
+            .on("mouseout", function (d) {
+                var selectedLegendId = d.id;
+                d3.select(this).select("rect").style("stroke-width", 1.5);
+                d3.select(this).select("rect").style("stroke", "gray");
+                d3.select(this).select("text").style("font", "12px sans-serif");
+                // d3.selectAll("g." + d.id + " circle").style("stroke-width", 1.5);
+                // d3.selectAll("g." + d.id + " circle").style("stroke", "gray");
+                // d3.selectAll("g." + d.id + " text").style("font", "12px sans-serif");
+                d3.selectAll("circle")
+                    .select(function (d, i) {
+                        // console.log("value of highlighted legend " + d.label);
+                        if (d.label == selectedLegendId) {
+                            var nonTerminatingNeighbors = getNonterminatingNode(d);
+                            console.log("non terminating node neighbour " + nonTerminatingNeighbors);
+                            // Hide the neighbors and their links
+                            for (var i = 1; i < nonTerminatingNeighbors.length; i++) {
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("stroke", "none");
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("fill", getClickedNodeColor);
+                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "10px sans-serif");
+                                d3.select("line#" + nonTerminatingNeighbors[i]).style("stroke", "rgba(50, 50, 50, 0.5)");
+                                console.log("value of d" + d);
+
+                                // var nonTerminatingTarget = getNextNode(nonTerminatingNeighbors[i]);
+                                // console.log("non terminating target node " + nonTerminatingTarget);
+                            }
+                        }
+                        // return d.label == selectedLegendId ? console.log("matched") : console.log("not matched");
+                    })
+            })
+            .on('focus', function (d) {
+                // add mouse in functionality
+                var selectedLegendId = d.id;
+                d3.select(this).select("rect").style("stroke-width", 6);
+                d3.select(this).select("rect").style("stroke", "lightblue");
+                d3.select(this).select("text").style("font", "15px sans-serif");
+                // d3.selectAll("g." + d.id + " circle").style("stroke-width", 6);
+                // d3.selectAll("g." + d.id + " circle").style("stroke", "orange");
+                // d3.selectAll("g." + d.id + " text").style("font", "20px sans-serif");
+                // d3.selectAll("circle:not([label='" + d.id + "'])")
+                d3.selectAll("circle")
+                    .select(function (d, i) {
+                        // console.log("value of highlighted legend " + d.label);
+                        if (d.label == selectedLegendId) {
+                            var nonTerminatingNeighbors = getNonterminatingNode(d);
+                            console.log("non terminating node neighbour " + nonTerminatingNeighbors);
+                            // Hide the neighbors and their links
+                            for (var i = 1; i < nonTerminatingNeighbors.length; i++) {
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("stroke", "grey");
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("fill", "lightblue");
+                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "15px sans-serif");
+                                d3.select("line#" + nonTerminatingNeighbors[i]).style("stroke", "stroke", "rgba(50, 50, 50, 1.0)");
+                                // var nonTerminatingTarget = getNextNode(nonTerminatingNeighbors[i]);
+                                // console.log("non terminating target node " + nonTerminatingTarget);
+                            }
+                        }
+                        // return d.label == selectedLegendId ? console.log("matched") : console.log("not matched");
+                    })
+            })
+            .on('blur', function (d) {
+                // add mouse out functionality
+                var selectedLegendId = d.id;
+                d3.select(this).select("rect").style("stroke-width", 1.5);
+                d3.select(this).select("rect").style("stroke", "gray");
+                d3.select(this).select("text").style("font", "12px sans-serif");
+                // d3.selectAll("g." + d.id + " circle").style("stroke-width", 1.5);
+                // d3.selectAll("g." + d.id + " circle").style("stroke", "gray");
+                // d3.selectAll("g." + d.id + " text").style("font", "12px sans-serif");
+                d3.selectAll("circle")
+                    .select(function (d, i) {
+                        // console.log("value of highlighted legend " + d.label);
+                        if (d.label == selectedLegendId) {
+                            var nonTerminatingNeighbors = getNonterminatingNode(d);
+                            console.log("non terminating node neighbour " + nonTerminatingNeighbors);
+                            // Hide the neighbors and their links
+                            for (var i = 1; i < nonTerminatingNeighbors.length; i++) {
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("stroke", "none");
+                                d3.select("circle#" + nonTerminatingNeighbors[i]).style("fill", getClickedNodeColor);
+                                d3.select("text#" + nonTerminatingNeighbors[i]).style("font", "10px sans-serif");
+                                d3.select("line#" + nonTerminatingNeighbors[i]).style("stroke", "rgba(50, 50, 50, 0.5)");
+                                console.log("value of d" + d);
+
+                                // var nonTerminatingTarget = getNextNode(nonTerminatingNeighbors[i]);
+                                // console.log("non terminating target node " + nonTerminatingTarget);
+                            }
+                        }
+                        // return d.label == selectedLegendId ? console.log("matched") : console.log("not matched");
+                    })
+            });
+
+        legend.append("rect")
+            .attr("x", 10)
+            .attr("y", 9)
+            .attr("height", 30)
+            .attr("width", 200)
+            // .data(legend_data)
+            // .attr("stroke-width", "1.5")
+            // .attr("stroke", "gray")
+            // .attr("class", function (d) { return d.location; })
+            .attr("fill", "lightgray");
+
+        legend.append("text")
+            .attr("x", 25)
+            .attr("y", 30)
+            // .attr("class", "texts")
+            // .data(legend_data)
+            // .selectAll("text")
+            .attr("class", function (d) { return d.location; })
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "12px")
+            .style("fill", "black")
+            .text(function (d) {
+                return d.key + " : " + d.location;
+            });
+    })
+</script>
