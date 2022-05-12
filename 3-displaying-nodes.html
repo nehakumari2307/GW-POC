@@ -211,7 +211,7 @@
                 } else {
                     return ((d.strength * 90) / 2);
                 }
-            }).iteration(10))
+            }))
             .force("x", d3.forceX(function (d) {
                 if (d.group === "1") {
                     return width / 5;
