@@ -185,7 +185,7 @@
             .id(function (link) { return link.id })
             .strength(function (link) {
                 if (link.child === "true") {
-                    return -(link.strength * 0.1);
+                    return (link.strength * 0.01);
                 } else
                     return (link.strength * 0.1);
             })
