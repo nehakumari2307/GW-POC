@@ -208,9 +208,9 @@
             .force('collide', d3.forceCollide(function (d) {
                 if (d.child === "true") {
                     console.log("link strengt of child is " + (d.label.length + 50));
-                    return (d.label.length + 30);
+                    return (d.label.length + 20);
                 } else {
-                    return ((d.strength * 90) / 2 + 20);
+                    return ((d.strength * 90) / 2 + 5);
                 }
             }).strength(0.1))
             .force("x", d3.forceX(function (d) {
