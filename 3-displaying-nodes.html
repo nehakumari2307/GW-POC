@@ -190,7 +190,7 @@
             .distance(function (link) {
                 if (link.child === "true") {
                     console.log("link distance of child is 1");
-                    return (link.strength + 10);
+                    return (link.strength + 15);
                 } else {
                     if (link.level === "1")
                         return (link.strength) * 0.6;
@@ -210,9 +210,9 @@
                     console.log("link strengt of child is " + (d.label.length + 50));
                     return (d.label.length + 20);
                 } else {
-                    return ((d.strength * 90) / 2);
+                    return ((d.strength * 100) / 2);
                 }
-            }).strength(0.1))
+            }).strength(0.2))
             .force("x", d3.forceX(function (d) {
                 if (d.group === "1") {
                     return width / 5;
