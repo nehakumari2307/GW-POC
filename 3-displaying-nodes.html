@@ -184,13 +184,15 @@
             .forceLink()
             .id(function (link) { return link.id })
             .strength(function (link) {
-                console.log("link strength is" + link.strength);
-                return link.strength * 0.5;
+                if (link.child === "true") {
+                    return -(link.strength * 0.5);
+                } else
+                    return (link.strength * 0.5);
             })
             .distance(function (link) {
                 if (link.child === "true") {
                     console.log("link distance of child is 1");
-                    return (link.strength + 10);
+                    return (link.strength + 20);
                 } else {
                     if (link.level === "1" || link.level === "0")
                         return (link.strength) * 0.2;
