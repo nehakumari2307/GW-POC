@@ -132,6 +132,7 @@
                 group: parseInt(str[i].group),
                 target: str[i].target,
                 source: str[i].source,
+                level: parseInt(str[i].level),
                 strength: parseFloat(str[i].strength),
                 child: str[i].child
             });
@@ -191,10 +192,10 @@
                     console.log("link distance of child is 1");
                     return (link.strength);
                 } else {
-                    if (link.group === "0")
-                        return (1 - link.strength) * 0.3;
+                    if (link.level === "1")
+                        return (link.strength) * 0.5;
                     else
-                        return (link.strength * 0.5)
+                        return (link.strength * 0.7)
                 }
             })
 
@@ -227,7 +228,7 @@
                 }
                 // return ((d.strength * 100) / 2) + 20;
 
-            }))
+            }).strength(0.1))
             .force("y", d3.forceY(height / 2))
 
 
