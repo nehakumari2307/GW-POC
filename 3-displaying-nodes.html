@@ -228,17 +228,7 @@
                 // return ((d.strength * 100) / 2) + 20;
 
             }))
-            .force("y", d3.forceY(function (d) {
-                if (d.group === "1") {
-                    return height / 5;
-                } else if (d.group === "2") {
-                    return 2 * (height / 5);
-                } else if (d.group === "3") {
-                    return 3 * (height / 5);
-                } else if (d.group === "4") {
-                    return 4 * (height / 5);
-                }
-            }))
+            .force("y", d3.forceY(height / 2))
 
 
         var dragDrop = d3.drag().on('start', function (node) {
